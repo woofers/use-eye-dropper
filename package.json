@@ -1,0 +1,44 @@
+{
+  "name": "use-eye-dropper",
+  "version": "0.1.0",
+  "description": "Color picker eye dropper hook for React",
+  "main": "lib/index.js",
+  "module": "lib/index.module.js",
+  "sideEffects": false,
+  "src": "src/index.js"
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib",
+    "LICENSE",
+    "package.json",
+    "README.md"
+  ],
+  "repository": "https://github.com/woofers/use-eye-dropper",
+  "keywords": [
+    "react",
+    "reactjs",
+    "eyedropper",
+    "colorpicker",
+    "color",
+    "picker"
+  ],
+  "author": "Jaxson Van Doorn <jaxson.vandoorn@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/woofers/use-eye-dropper/issues"
+  },
+  "homepage": "https://github.com/woofers/use-eye-dropper#readme",
+  "peerDependencies": {
+    "react": "^0.13.0 || ^0.14.0 || >=15"
+  },
+  "dependencies": {
+    "prop-types": "^15.7.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/preset-env": "^7.16.4",
+    "@babel/preset-react": "^7.16.0",
+    "microbundle": "^0.14.2",
+    "rimraf": "^3.0.2"
+  }
+}
