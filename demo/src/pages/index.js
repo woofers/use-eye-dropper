@@ -1,16 +1,20 @@
+import { useState } from 'react'
 import Head from 'next/head'
 import Image from 'next/image'
 import { styled } from 'stitches'
 import { Box, Flex } from 'components/box'
 import Typography from 'components/typography'
 import { BsDropletFill, BsEyedropper } from 'react-icons/bs'
+import chroma from 'chroma-js'
+import useEyeDropper from 'use-eye-dropper'
 
-const makeColor = value => `hsl(350, 89%, ${value}%, 1)`
+const makeColor = (color, scale) => `hsl(${!isNaN(color.h) ? color.h : 0}, ${color.s * 100 * scale}%, ${color.l * 100}%, 1)`
 
-const Container = styled(Box, {
-  color: makeColor(60),
-  $$outline: makeColor(30),
-})
+const toHsl = color => {
+  const values = chroma(color).hsl()
+  const [h, s, l, a] = values
+  return { h, s, l, a}
+}
 
 const IconContainer = styled(Box, {
   fontSize: '240px'
@@ -24,16 +28,20 @@ const Drop = () => (
 )
 
 const Home = () => {
+  const [color, setValue] = useState(toHsl('rgb(244, 62, 92)'))
+  const { open } = useEyeDropper()
+  const setColor = value => setValue(toHsl(value))
   return (
-    <Container>
+    <Box css={{ color: makeColor(color, 1), $$outline: makeColor(color, 0.5) }}>
       <Flex direction="column" justify="center" align="center" css={{ height: '100vh', gap: '$10 0' }}>
         <IconContainer>
           <Box css={{ pl: '100px' }}><Drop /></Box>
           <Box css={{ fontSize: '180px', mt: '-28px', pr: '150px' }}><BsDropletFill /></Box>
         </IconContainer>
         <Typography type="h1" css={{ letterSpacing: '-5px', fontWeight: '900' }}>useEyeDropper</Typography>
+        <button onClick={() => open().then(color => setColor(color?.sRGBHex?.substring(0, color?.sRGBHex.length - 0)))}>Open</button>
       </Flex>
-    </Container>
+    </Box>
   )
 }
 
