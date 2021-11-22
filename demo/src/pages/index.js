@@ -5,9 +5,11 @@ import { Box, Flex } from 'components/box'
 import Typography from 'components/typography'
 import { BsDropletFill, BsEyedropper } from 'react-icons/bs'
 
+const makeColor = value => `hsl(350, 89%, ${value}%, 1)`
+
 const Container = styled(Box, {
-  color: '$rose500',
-  $$outline: '$colors$rose900',
+  color: makeColor(60),
+  $$outline: makeColor(30),
 })
 
 const IconContainer = styled(Box, {
