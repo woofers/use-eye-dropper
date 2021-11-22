@@ -6,8 +6,8 @@ import Typography from 'components/typography'
 import { BsDropletFill, BsEyedropper } from 'react-icons/bs'
 
 const Container = styled(Box, {
-  color: '#ef9086',
-  $$outline: '$colors$gray900',
+  color: '$rose500',
+  $$outline: '$colors$rose900',
 })
 
 const IconContainer = styled(Box, {
