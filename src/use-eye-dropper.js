@@ -23,21 +23,21 @@ const isSupported = () => typeof window !== 'undefined' && 'EyeDropper' in windo
 
 const noop = () => {}
 
-const createInstance = () => isSupported() ? new EyeDropper() : {}
+const createInstance = options => isSupported() ? new EyeDropper(options) : {}
 
 const bindFunc = (key, instance) => {
   if (!isSupported()) return noop
   return EyeDropper.prototype[key].bind(instance)
 }
 
-const createHelpers = () => {
-  const dropper = createInstance()
+const createHelpers = options => {
+  const dropper = createInstance(options)
   const open = bindFunc('open', dropper)
   return { open, isSupported }
 }
 
-export const useEyeDropper = () => {
-  const { open: openPicker, isSupported } = useMemo(createHelpers, [])
+export const useEyeDropper = options => {
+  const { open: openPicker, isSupported } = useMemo(() => createHelpers(options), [])
   const controller = useRef()
   const hasController = () => typeof controller.current !== 'undefined'
   const close = useCallback(() => {
