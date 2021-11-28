@@ -27,19 +27,22 @@ const Drop = () => (
   </svg>
 )
 
+
+const darken = value => chroma(value).desaturate(1.5).darken(1.7).hex()
+
 const Home = () => {
-  const [color, setValue] = useState(toHsl('rgb(244, 62, 92)'))
+  const [color, setValue] = useState('rgb(244, 62, 92)')
   const { open } = useEyeDropper()
-  const setColor = value => setValue(toHsl(value))
+  const setColor = value => setValue(value.replace('0)', '1)'))
   return (
-    <Box css={{ color: makeColor(color, 1), $$outline: makeColor(color, 0.5) }}>
+    <Box css={{ color: color, $$outline: darken(color) }}>
       <Flex direction="column" justify="center" align="center" css={{ height: '100vh', gap: '$10 0' }}>
         <IconContainer>
           <Box css={{ pl: '100px' }}><Drop /></Box>
           <Box css={{ fontSize: '180px', mt: '-28px', pr: '150px' }}><BsDropletFill /></Box>
         </IconContainer>
         <Typography type="h1" css={{ letterSpacing: '-5px', fontWeight: '900' }}>useEyeDropper</Typography>
-        <button onClick={() => open().then(color => setColor(color?.sRGBHex?.substring(0, color?.sRGBHex.length - 0)))}>Open</button>
+        <button onClick={() => open().then(color => setColor(color?.sRGBHex))}>Open</button>
       </Flex>
     </Box>
   )
