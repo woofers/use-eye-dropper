@@ -61,9 +61,9 @@ const getBackground = colors => {
   if (isBad) {
     const contrastBoundary = dir > 0 ? (colors.length - 1) : 0
     const contrastOffset = -1 * highContrast * dir
-    return colors[contrastOffset + contrastBoundary]
+    return [colors[contrastOffset + contrastBoundary], false]
   }
-  return colors[boundary + offset]
+  return [colors[boundary + offset], true]
 }
 
 const Home = () => {
@@ -71,17 +71,21 @@ const Home = () => {
   const { open } = useEyeDropper()
   const setColor = value => setValue(value.replace('0)', '1)'))
   const colors = scale(color)
+  const [backgroundColor, swap] = getBackground(colors)
+  const accent = getAccent(colors)
+  const lightText = swap ? color : accent
+  const text = !swap ? color : accent
   return (
     <>
-      <Box css={{ color: color, $$outline: getAccent(colors), backgroundColor: getBackground(colors) }}>
+      <Box css={{ color: color, $$outline: accent, backgroundColor, $$lightText: lightText, $$text: text  }}>
         <Flex direction="column" justify="center" align="center" css={{ height: '100vh', gap: '$10 0' }}>
           <IconContainer>
             <Box css={{ pl: '100px' }}><Drop /></Box>
             <Box css={{ fontSize: '180px', mt: '-28px', pr: '150px' }}><BsDropletFill /></Box>
           </IconContainer>
           <Typography type="h1" css={{ letterSpacing: '-5px', fontWeight: '900' }}>
-            <Inline css={{ color: '$$outline'}}>use</Inline>
-            <Inline>EyeDropper</Inline>
+            <Inline css={{ color: '$$lightText'}}>use</Inline>
+            <Inline css={{ color: '$$text'}}>EyeDropper</Inline>
           </Typography>
           <button onClick={() => open().then(color => setColor(color?.sRGBHex))}>Open</button>
         </Flex>
