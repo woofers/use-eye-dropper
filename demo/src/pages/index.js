@@ -20,6 +20,17 @@ const IconContainer = styled(Box, {
   fontSize: '240px'
 })
 
+const Button = styled('button', {
+  border: 'none',
+  background: '$gray100',
+  color: '$gray900',
+  cursor: 'pointer',
+  padding: '$4 $8',
+  br: '$pill',
+  display: 'inline-flex',
+  alignItems: 'center'
+})
+
 const Drop = () => (
   <svg xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="var(---outline)" strokeWidth="0" height="1em" width="1em" viewBox="0 0 16 16">
     <path stroke="currentColor" style={{ transform: 'translate(-1px, 1px)', clipPath: 'inset(2px 0px 0px 0px)' }} fill="none" strokeWidth="1.619" d="M2.413 13.334l8.184-8.183.261.261-8.183 8.184z" />
@@ -87,7 +98,9 @@ const Home = () => {
             <Inline css={{ color: '$$lightText'}}>use</Inline>
             <Inline css={{ color: '$$text'}}>EyeDropper</Inline>
           </Typography>
-          <button onClick={() => open().then(color => setColor(color?.sRGBHex))}>Open</button>
+          <Button onClick={() => open().then(color => setColor(color?.sRGBHex))}>
+            <Typography noMargin type="button"><BsEyedropper /> Use EyeDropper</Typography>
+           </Button>
         </Flex>
       </Box>
     </>
