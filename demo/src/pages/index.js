@@ -22,13 +22,15 @@ const IconContainer = styled(Box, {
 
 const Button = styled('button', {
   border: 'none',
-  background: '$gray100',
-  color: '$gray900',
+  background: '$$text',
+  color: '$$background',
   cursor: 'pointer',
   padding: '$4 $8',
   br: '$pill',
   display: 'inline-flex',
-  alignItems: 'center'
+  alignItems: 'center',
+  fontSize: '$button',
+  gap: '$0 $2'
 })
 
 const Drop = () => (
@@ -88,18 +90,21 @@ const Home = () => {
   const text = !swap ? color : accent
   return (
     <>
-      <Box css={{ color: color, $$outline: accent, backgroundColor, $$lightText: lightText, $$text: text  }}>
+      <Box css={{ color: color, $$outline: accent, $$background: backgroundColor, backgroundColor: '$$background', $$lightText: lightText, $$text: text  }}>
         <Flex direction="column" justify="center" align="center" css={{ height: '100vh', gap: '$10 0' }}>
           <IconContainer>
             <Box css={{ pl: '100px' }}><Drop /></Box>
             <Box css={{ fontSize: '180px', mt: '-28px', pr: '150px' }}><BsDropletFill /></Box>
+            <Typography type="h3" css={{ color: '$$lightText', textTransform: 'lowercase' }}>
+               {chroma(color).hex()}
+             </Typography>
           </IconContainer>
           <Typography type="h1" css={{ letterSpacing: '-5px', fontWeight: '900' }}>
             <Inline css={{ color: '$$lightText'}}>use</Inline>
             <Inline css={{ color: '$$text'}}>EyeDropper</Inline>
           </Typography>
           <Button onClick={() => open().then(color => setColor(color?.sRGBHex))}>
-            <Typography noMargin type="button"><BsEyedropper /> Use EyeDropper</Typography>
+            <BsEyedropper /> <Typography noMargin type="button"> Pick color</Typography>
            </Button>
         </Flex>
       </Box>
