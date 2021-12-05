@@ -6,23 +6,14 @@ import { Box, Inline, Flex } from 'components/box'
 import Typography from 'components/typography'
 import { HiBan } from 'react-icons/hi'
 import { BsDropletFill, BsEyedropper } from 'react-icons/bs'
-import { FiExternalLink } from 'react-icons/fi'
+import { FiCopy, FiExternalLink } from 'react-icons/fi'
 import chroma from 'chroma-js'
 import useEyeDropper from 'use-eye-dropper'
 import Button from 'components/button'
 
-const makeColor = (color, scale) => `hsl(${!isNaN(color.h) ? color.h : 0}, ${color.s * 100 * scale}%, ${color.l * 100}%, 1)`
-
-const toHsl = color => {
-  const values = chroma(color).hsl()
-  const [h, s, l, a] = values
-  return { h, s, l, a}
-}
-
 const IconContainer = styled(Box, {
   fontSize: '240px'
 })
-
 
 const Drop = () => (
   <svg xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="var(---outline)" strokeWidth="0" height="1em" width="1em" viewBox="0 0 16 16">
@@ -31,6 +22,11 @@ const Drop = () => (
   </svg>
 )
 
+const hasClipboard = () => typeof window !== 'undefined' && 'clipboard' in navigator
+
+const copyToClipboard = value => () => {
+  navigator.clipboard.writeText(value)
+}
 
 const scale = (color, steps = 31) => chroma.scale(['#fff', color, '#000']).mode('lch').colors(steps)
 
@@ -79,6 +75,7 @@ const Home = () => {
   const accent = getAccent(colors)
   const lightText = swap ? color : accent
   const text = !swap ? color : accent
+  const colorText = chroma(color).hex()
   return (
     <>
       <Box css={{ color: color, $$outline: accent, $$background: backgroundColor, backgroundColor: '$$background', $$lightText: lightText, $$text: text  }}>
@@ -86,9 +83,12 @@ const Home = () => {
           <IconContainer>
             <Box css={{ pl: '100px' }}><Drop /></Box>
             <Box css={{ fontSize: '180px', mt: '-28px', pr: '150px' }}><BsDropletFill /></Box>
-            <Typography type="h3" css={{ color: '$$lightText', textTransform: 'lowercase' }}>
-               {chroma(color).hex()}
-             </Typography>
+            <Button type="minimal" onClick={copyToClipboard(colorText)}>
+              <Typography type="h3" as="div" noMargin css={{ textTransform: 'lowercase' }}>
+                {colorText}
+              </Typography>
+              <FiCopy />
+            </Button>
           </IconContainer>
           <Typography type="h1" css={{ letterSpacing: '-5px', fontWeight: '900' }}>
             <Inline css={{ color: '$$lightText'}}>use</Inline>
