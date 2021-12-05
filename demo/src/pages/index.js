@@ -9,7 +9,9 @@ import { BsDropletFill, BsEyedropper } from 'react-icons/bs'
 import { FiCopy, FiExternalLink } from 'react-icons/fi'
 import chroma from 'chroma-js'
 import useEyeDropper from 'use-eye-dropper'
-import Button from 'components/button'
+import dynamic from 'next/dynamic'
+
+const Button = dynamic(() => import('components/button'), { ssr: false })
 
 const IconContainer = styled(Box, {
   fontSize: '240px'

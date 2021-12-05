@@ -5,13 +5,9 @@ const App = ({ Component, pageProps }) => {
   return (
     <>
       <GoogleFonts
-        fonts={[
-          'Cabin:wght@400;700',
-          'Mulish:wght@500;900',
-          'Montserrat:wght@500'
-        ]}
+        fonts={['Cabin:wght@400;700']}
       >
-        <link href="/fonts/albertsans/font.css" rel="stylesheet" />
+        <link href="/use-eye-dropper/fonts/albertsans/font.css" rel="stylesheet" />
       </GoogleFonts>
       <Global />
       <Component {...pageProps} />

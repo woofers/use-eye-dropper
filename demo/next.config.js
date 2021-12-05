@@ -6,6 +6,10 @@ module.exports = {
   swcMinify: true,
   webpack5: true,
   reactStrictMode: true,
+  images: {
+    loader: 'imgix',
+    path: 'https://example.com/myaccount/',
+  },
   webpack(config, { isServer }) {
     config.plugins.push(new ESLintPlugin())
     config.module.rules.push({
@@ -26,5 +30,7 @@ module.exports = {
     })
     return config
   },
+  basePath: '/use-eye-dropper',
+  assetPrefix: '/use-eye-dropper/',
   trailingSlash: true
 }
