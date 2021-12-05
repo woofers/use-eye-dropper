@@ -4,9 +4,12 @@ import Image from 'next/image'
 import { styled } from 'stitches'
 import { Box, Inline, Flex } from 'components/box'
 import Typography from 'components/typography'
+import { HiBan } from 'react-icons/hi'
 import { BsDropletFill, BsEyedropper } from 'react-icons/bs'
+import { FiExternalLink } from 'react-icons/fi'
 import chroma from 'chroma-js'
 import useEyeDropper from 'use-eye-dropper'
+import Button from 'components/button'
 
 const makeColor = (color, scale) => `hsl(${!isNaN(color.h) ? color.h : 0}, ${color.s * 100 * scale}%, ${color.l * 100}%, 1)`
 
@@ -20,18 +23,6 @@ const IconContainer = styled(Box, {
   fontSize: '240px'
 })
 
-const Button = styled('button', {
-  border: 'none',
-  background: '$$text',
-  color: '$$background',
-  cursor: 'pointer',
-  padding: '$4 $8',
-  br: '$pill',
-  display: 'inline-flex',
-  alignItems: 'center',
-  fontSize: '$button',
-  gap: '$0 $2'
-})
 
 const Drop = () => (
   <svg xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="var(---outline)" strokeWidth="0" height="1em" width="1em" viewBox="0 0 16 16">
@@ -81,7 +72,7 @@ const getBackground = colors => {
 
 const Home = () => {
   const [color, setValue] = useState('rgb(244, 62, 92)')
-  const { open } = useEyeDropper()
+  const { open, isSupported } = useEyeDropper()
   const setColor = value => setValue(value.replace('0)', '1)'))
   const colors = scale(color)
   const [backgroundColor, swap] = getBackground(colors)
@@ -103,9 +94,19 @@ const Home = () => {
             <Inline css={{ color: '$$lightText'}}>use</Inline>
             <Inline css={{ color: '$$text'}}>EyeDropper</Inline>
           </Typography>
-          <Button onClick={() => open().then(color => setColor(color?.sRGBHex))}>
-            <BsEyedropper /> <Typography noMargin type="button"> Pick color</Typography>
-           </Button>
+            {isSupported() ? (
+               <Button onClick={() => open().then(color => setColor(color?.sRGBHex))}>
+                 <BsEyedropper aria-hidden />
+                 <Typography noMargin type="button">Pick color</Typography>
+               </Button>
+            ) : (
+                <Button as="a" href="https://developer.mozilla.org/en-US/docs/Web/API/EyeDropper#browser_compatibility" target="_blank" and rel="noopener noreferrer">
+                  <HiBan aria-hidden />
+                  <Typography noMargin type="button">Browser not supported</Typography>
+                  <FiExternalLink aria-label="External link" strokeWidth="2.5px" />
+                </Button>
+              )
+            }
         </Flex>
       </Box>
     </>
