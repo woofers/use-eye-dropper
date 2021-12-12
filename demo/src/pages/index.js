@@ -68,6 +68,18 @@ const getBackground = colors => {
   return [colors[boundary + offset], true]
 }
 
+const Link = styled('a', {
+  color: '$$lightText',
+  fontWeight: 700,
+  textDecoration: 'none'
+})
+
+const Spacer = styled('span', {
+  mr: '$2'
+})
+
+const Li = ({ children }) => <Typography type="body1" as="li"><Spacer aria-hidden>-</Spacer>{children}</Typography>
+
 const Home = () => {
   const [color, setValue] = useState('rgb(244, 62, 92)')
   const { open, isSupported } = useEyeDropper()
@@ -80,8 +92,8 @@ const Home = () => {
   const colorText = chroma(color).hex()
   return (
     <>
-      <Box css={{ color: color, $$outline: accent, $$background: backgroundColor, backgroundColor: '$$background', $$lightText: lightText, $$text: text  }}>
-        <Flex direction="column" justify="center" align="center" css={{ height: '100vh', gap: '$10 0' }}>
+      <Box css={{ color: color, $$outline: accent, $$background: backgroundColor, backgroundColor: '$$background', $$lightText: lightText, $$text: text, minHeight: '100vh' }}>
+        <Flex direction="column" align="center" css={{ pt: '12vh', gap: '$10 0' }}>
           <IconContainer>
             <Box css={{ pl: '100px' }}><Drop /></Box>
             <Box css={{ fontSize: '180px', mt: '-28px', pr: '150px' }}><BsDropletFill /></Box>
@@ -110,6 +122,20 @@ const Home = () => {
               )
             }
         </Flex>
+        <Box css={{ maxWidth: '720px', mx: 'auto', color: '$$text', pt: '$10', display: 'flex', flexDirection: 'column', gap: '$4 0' }}>
+          <Typography type="h3" as="h2">Documentation</Typography>
+          <Typography type="body1">
+            Implements the <Link target="_blank" and rel="noopener noreferrer" href="https://github.com/WICG/eyedropper-api">EyeDropper API</Link> (currently only available in Chrome)
+            into easy-to-use React hook.
+          </Typography>
+          <Typography type="h4" as="h3">Features</Typography>
+          <ul>
+            <Li>Supports Server-Side rendering</Li>
+            <Li>Safely detect and fallback on unsupported browsers using `isSupported` method.</Li>
+            <Li>Closes eye dropper when corresponding component is unmounted. </Li>
+            <Li>Provides explicit `close` method to cancel eye dropper (signals can still be used).</Li>
+          </ul>
+        </Box>
       </Box>
     </>
   )
