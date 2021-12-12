@@ -6,7 +6,8 @@
     "dev": "node server.js",
     "build": "next build && next export",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "echo \"No tests \" && exit 0"
   },
   "dependencies": {
     "@stitches/react": "^1.2.5",
