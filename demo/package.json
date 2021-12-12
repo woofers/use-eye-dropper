@@ -3,7 +3,7 @@
   "version": "1.1.0",
   "homepage": "http://woofers.github.io/use-eye-dropper",
   "scripts": {
-    "dev": "next dev",
+    "dev": "node server.js",
     "build": "next build && next export",
     "start": "next start",
     "lint": "next lint"
