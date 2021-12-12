@@ -7,6 +7,7 @@ import Typography from 'components/typography'
 import { HiBan } from 'react-icons/hi'
 import { BsDropletFill, BsEyedropper } from 'react-icons/bs'
 import { FiCopy, FiExternalLink } from 'react-icons/fi'
+import CodeBlock from 'components/code-block'
 import chroma from 'chroma-js'
 import useEyeDropper from 'use-eye-dropper'
 import dynamic from 'next/dynamic'
@@ -81,7 +82,7 @@ const Spacer = styled('span', {
 const Li = ({ children }) => <Typography type="body1" as="li"><Spacer aria-hidden>-</Spacer>{children}</Typography>
 
 const Home = () => {
-  const [color, setValue] = useState('rgb(244, 62, 92)')
+  const [color, setValue] = useState('rgb(216, 61, 61)')
   const { open, isSupported } = useEyeDropper()
   const setColor = value => setValue(value.replace('0)', '1)'))
   const colors = scale(color)
@@ -135,6 +136,29 @@ const Home = () => {
             <Li>Closes eye dropper when corresponding component is unmounted. </Li>
             <Li>Provides explicit `close` method to cancel eye dropper (signals can still be used).</Li>
           </ul>
+          <Typography type="h4" as="h3">Usage</Typography>
+          <CodeBlock>
+{`import React, { useState } from 'react'
+import useEyeDropper from 'use-eye-dropper'
+
+const App = () => {
+  const { open, close, isSupported } = useEyeDropper()
+  const [color, setColor] = useState('#fff')
+  // useEyeDropper will cancel/cleanup the open() promise on unmount,
+  // so setState never fires when the component is unmounted.
+  const pickColor = () =>
+    open().then(color => setColor(color.sRGBHex).catch(() => setColor('#fff'))
+  return (
+    <>
+      <div style={{ padding: '64px', background: color }}>Selected color</div>
+      {isSupported() ?
+          <button onClick={pickColor}>Pick color</button>
+        : <span>EyeDropper API not supported in this browser</span>
+      }
+    </>
+  )
+}`}
+          </CodeBlock>
         </Box>
       </Box>
     </>

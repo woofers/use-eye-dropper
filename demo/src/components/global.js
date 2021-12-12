@@ -25,6 +25,30 @@ const useGlobalStyles = globalCss({
   },
   li: {
     display: 'inline-block'
+  },
+  pre: {
+    overflowX: 'hidden',
+    margin: 0,
+    padding: '24px',
+    br: '$3',
+    fontSize: '14px',
+    lineHeight: '1.5',
+    color: '$$text'
+  },
+  '.hljs-comment': {
+    color: '$$lightText'
+  },
+  '.hljs-bullet': {
+    color: '$$lightText'
+  },
+  '.hljs-string, .hljs-name': {
+    color: '$$lightText'
+  },
+  '.hljs-keyword, .hljs-link': {
+    color: '$$lightText'
+  },
+  '.hljs-attr': {
+    color: '$$text'
   }
 })
 
