@@ -101,7 +101,7 @@ const Link = styled('a', {
 })
 
 const Spacer = styled('span', {
-  mr: '$2',
+  mr: '$2'
 })
 
 const Li = ({ children }) => (
@@ -159,6 +159,7 @@ const Home = () => {
   const lightText = swap ? color : accent
   const text = !swap ? color : accent
   const colorText = chroma(color).hex()
+  console.log(color)
   return (
     <>
       <Box
@@ -296,6 +297,24 @@ const App = () => {
   )
 }`}
           </CodeBlock>
+          <AnchorHeading id="methods" type="h4" as="h3">
+            Methods
+          </AnchorHeading>
+          <ul>
+            <Li>
+              <code>{'open({ signal?: AbortSignal })'}{' => Promise<{ sRGBHex: string }>'}</code>
+              {' -'} Opens the EyeDropper API in supported browsers and returns a promise which resolves
+      with the selected color, or rejects if the user cancels the operation, for instance by hitting escape.  Additionally if the browser does not support the API, the promise is rejected.  While the spec currently indicates that a 6-digit HEX value is returned, the current Chrome implementation returns a <code>rgba</code> value.
+            </Li>
+            <Li><code>{'close()'}</code> {' => void'}
+            {' -'} This method closes the EyeDropper API selector if it is open and rejects the promise from <code>open</code>.
+            Otherwise this performs a no-op.
+            </Li>
+          <Li>
+            <code>{'isSupported()'}{' => boolean'}</code>
+            {' -'}Determines if the EyeDropper API is supported in the current browser.
+          </Li>
+          </ul>
         </Box>
       </Box>
     </>

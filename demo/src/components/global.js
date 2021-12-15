@@ -24,7 +24,7 @@ const useGlobalStyles = globalCss({
     padding: 0,
   },
   li: {
-    display: 'inline-block',
+    display: 'block',
   },
   pre: {
     overflowX: 'hidden',
