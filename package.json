@@ -39,7 +39,7 @@
   "bugs": {
     "url": "https://github.com/woofers/use-eye-dropper/issues"
   },
-  "homepage": "https://github.com/woofers/use-eye-dropper#readme",
+  "homepage": "https://jaxs.onl/use-eye-dropper/",
   "peerDependencies": {
     "react": "^0.13.0 || ^0.14.0 || >=15"
   },
