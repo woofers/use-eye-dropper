@@ -22,6 +22,7 @@ const Button = styled('button', {
         $$buttonColor: '$$text',
         fontSize: '$button',
         br: '$pill',
+        height: '48px',
       },
       minimal: {
         $$buttonText: 'currentColor',

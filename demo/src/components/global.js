@@ -31,9 +31,12 @@ const useGlobalStyles = globalCss({
     margin: 0,
     padding: '4px 0',
     br: '$3',
-    fontSize: '14px',
+    fontSize: '16px',
     lineHeight: '1.5',
     color: '$$text',
+  },
+  code: {
+    fontFamily: "'Red Hat Mono', monospace",
   },
   '.hljs-comment': {
     color: '$$lightText',
@@ -49,6 +52,10 @@ const useGlobalStyles = globalCss({
   },
   '.hljs-attr': {
     color: '$$text',
+  },
+  '::selection': {
+    backgroundColor: '$$lightText',
+    color: '$$background',
   },
 })
 

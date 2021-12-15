@@ -101,50 +101,59 @@ const Link = styled('a', {
 })
 
 const Spacer = styled('span', {
-  mr: '$2'
+  mr: '$2',
+  color: '$$lightText',
+  fontWeight: '900',
 })
 
-const Li = ({ children }) => (
+const Li = ({ children, showDivider = true }) => (
   <Typography type="body1" as="li">
-    <Spacer aria-hidden>-</Spacer>
+    <Spacer aria-hidden>{showDivider ? '-' : ''}</Spacer>
     {children}
   </Typography>
 )
+
+const InnerList = styled(Box, {
+  my: '$2',
+  pl: '$4',
+})
 
 const PlainLink = styled('a', {
   position: 'relative',
   textDecoration: 'none',
   color: 'currentColor',
   borderBottom: '4px solid $$lightText',
-  pb: '$1',
+  pb: '5px',
   transition: 'color 0.2s 0.0s ease-in-out, border-width 0.1s 0.0s ease-in-out',
-  'svg': {
+  svg: {
     transform: 'translate(0, -50%)',
     top: '50%',
     left: '0',
     position: 'absolute',
     fontSize: '0.7em',
     opacity: 0,
-    transition: 'opacity 0.2s 0.05s ease-in-out, transform 0.2s 0.05s ease-in-out'
+    transition:
+      'opacity 0.2s 0.05s ease-in-out, transform 0.2s 0.05s ease-in-out',
   },
   '&:hover, &:focus': {
     borderWidth: '0px',
     color: '$$lightText',
-    'svg': {
+    svg: {
       transform: 'translate(calc(-0.7em - 0.64em), -50%)',
-      opacity: 1
-    }
+      opacity: 1,
+    },
   },
   span: {
     fontWeight: 900,
-    color: '$$lightText'
-  }
+    color: '$$lightText',
+  },
 })
 
 const AnchorHeading = ({ type, as, id, children, ...rest }) => (
   <Typography id={id} as={as} type={type}>
     <PlainLink href={`#${id}`} {...rest}>
-      <FiPaperclip aria-hidden /> <span>{children.substring(0, 1)}</span>{children.substring(1)}
+      <FiPaperclip aria-hidden /> <span>{children.substring(0, 1)}</span>
+      {children.substring(1)}
     </PlainLink>
   </Typography>
 )
@@ -185,7 +194,12 @@ const Home = () => {
             <Box css={{ fontSize: '180px', mt: '-28px', pr: '150px' }}>
               <BsDropletFill />
             </Box>
-            <Button type="minimal" onClick={copyToClipboard(colorText)}>
+            <Button
+              type="minimal"
+              onClick={copyToClipboard(colorText)}
+              title="Copy to clipboard"
+              aria-label="Copy to HEX color code to clipboard"
+            >
               <Typography
                 type="h3"
                 as="div"
@@ -231,7 +245,7 @@ const Home = () => {
         </Flex>
         <Box
           css={{
-            maxWidth: '720px',
+            maxWidth: '820px',
             mx: 'auto',
             color: '$$text',
             pt: '$10',
@@ -261,15 +275,15 @@ const Home = () => {
           <ul>
             <Li>Supports Server-Side rendering</Li>
             <Li>
-              Safely detect and fallback on unsupported browsers using
-              `isSupported` method.
+              Safely detect and fallback on unsupported browsers using{' '}
+              <code>isSupported</code> method.
             </Li>
             <Li>
               Closes eye dropper when corresponding component is unmounted.{' '}
             </Li>
             <Li>
-              Provides explicit `close` method to cancel eye dropper (signals
-              can still be used).
+              Provides explicit <code>close</code> method to cancel eye dropper
+              (signals can still be used).
             </Li>
           </ul>
           <AnchorHeading id="usage" type="h4" as="h3">
@@ -302,18 +316,38 @@ const App = () => {
           </AnchorHeading>
           <ul>
             <Li>
-              <code>{'open({ signal?: AbortSignal })'}{' => Promise<{ sRGBHex: string }>'}</code>
-              {' -'} Opens the EyeDropper API in supported browsers and returns a promise which resolves
-      with the selected color, or rejects if the user cancels the operation, for instance by hitting escape.  Additionally if the browser does not support the API, the promise is rejected.  While the spec currently indicates that a 6-digit HEX value is returned, the current Chrome implementation returns a <code>rgba</code> value.
+              <code>
+                {'open({ signal?: AbortSignal })'}
+                {' => Promise<{ sRGBHex: string }>'}
+              </code>
+              <InnerList>
+                Opens the EyeDropper API in supported browsers and returns a
+                promise which resolves with the selected color, or rejects if
+                the user cancels the operation, for instance by hitting escape.
+                Additionally if the browser does not support the API, the
+                promise is rejected. While the spec currently indicates that a
+                6-digit HEX value is returned, the current Chrome implementation
+                returns a <code>rgba</code> value.
+              </InnerList>
             </Li>
-            <Li><code>{'close()'}</code> {' => void'}
-            {' -'} This method closes the EyeDropper API selector if it is open and rejects the promise from <code>open</code>.
-            Otherwise this performs a no-op.
+            <Li>
+              <code>{'close()'}</code> {' => void'}
+              <InnerList>
+                This method closes the EyeDropper API selector if it is open and
+                rejects the promise from <code>open</code>. Otherwise this
+                performs a no-op.
+              </InnerList>
             </Li>
-          <Li>
-            <code>{'isSupported()'}{' => boolean'}</code>
-            {' -'}Determines if the EyeDropper API is supported in the current browser.
-          </Li>
+            <Li>
+              <code>
+                {'isSupported()'}
+                {' => boolean'}
+              </code>
+              <InnerList>
+                Determines if the EyeDropper API is supported in the current
+                browser.
+              </InnerList>
+            </Li>
           </ul>
         </Box>
       </Box>

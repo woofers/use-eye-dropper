@@ -304,7 +304,7 @@ export const {
       body2: '16px',
       subtitle2: '16px',
       button: '24px',
-      body1: '20px',
+      body1: '28px',
       subtitle1: '24px',
       h6: '28px',
       h5: '32px',

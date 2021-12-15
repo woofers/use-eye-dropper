@@ -171,12 +171,12 @@ const Body1 = styled(Body, {
   mb: '$2',
   '&::before': {
     content: "''",
-    marginBottom: '-0.2333em',
+    marginBottom: '-0.4667em',
     display: 'table',
   },
   '&::after': {
     content: "''",
-    marginTop: '-0.2333em',
+    marginTop: '-0.4667em',
     display: 'table',
   },
 })
