@@ -22,9 +22,10 @@ const useGlobalStyles = globalCss({
   },
   ul: {
     padding: 0,
+    listStyleType: 'none',
   },
   li: {
-    display: 'block',
+    py: '$1'
   },
   pre: {
     overflowX: 'hidden',
