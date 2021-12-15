@@ -29,7 +29,7 @@ const useGlobalStyles = globalCss({
   pre: {
     overflowX: 'hidden',
     margin: 0,
-    padding: '24px',
+    padding: '4px 0',
     br: '$3',
     fontSize: '14px',
     lineHeight: '1.5',

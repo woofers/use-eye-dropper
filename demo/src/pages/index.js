@@ -6,7 +6,7 @@ import { Box, Inline, Flex } from 'components/box'
 import Typography from 'components/typography'
 import { HiBan } from 'react-icons/hi'
 import { BsDropletFill, BsEyedropper } from 'react-icons/bs'
-import { FiCopy, FiExternalLink } from 'react-icons/fi'
+import { FiCopy, FiPaperclip, FiExternalLink } from 'react-icons/fi'
 import CodeBlock from 'components/code-block'
 import chroma from 'chroma-js'
 import useEyeDropper from 'use-eye-dropper'
@@ -112,14 +112,39 @@ const Li = ({ children }) => (
 )
 
 const PlainLink = styled('a', {
+  position: 'relative',
   textDecoration: 'none',
   color: 'currentColor',
+  borderBottom: '4px solid $$lightText',
+  pb: '$1',
+  transition: 'color 0.2s 0.0s ease-in-out, border-width 0.1s 0.0s ease-in-out',
+  'svg': {
+    transform: 'translate(0, -50%)',
+    top: '50%',
+    left: '0',
+    position: 'absolute',
+    fontSize: '0.7em',
+    opacity: 0,
+    transition: 'opacity 0.2s 0.05s ease-in-out, transform 0.2s 0.05s ease-in-out'
+  },
+  '&:hover, &:focus': {
+    borderWidth: '0px',
+    color: '$$lightText',
+    'svg': {
+      transform: 'translate(calc(-0.7em - 0.64em), -50%)',
+      opacity: 1
+    }
+  },
+  span: {
+    fontWeight: 900,
+    color: '$$lightText'
+  }
 })
 
 const AnchorHeading = ({ type, as, id, children, ...rest }) => (
   <Typography id={id} as={as} type={type}>
     <PlainLink href={`#${id}`} {...rest}>
-      {children}
+      <FiPaperclip aria-hidden /> <span>{children.substring(0, 1)}</span>{children.substring(1)}
     </PlainLink>
   </Typography>
 )
