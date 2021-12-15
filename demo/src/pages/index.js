@@ -248,7 +248,7 @@ const Home = () => {
             maxWidth: '820px',
             mx: 'auto',
             color: '$$text',
-            pt: '$10',
+            py: '$10',
             display: 'flex',
             flexDirection: 'column',
             gap: '$4 0',
@@ -258,6 +258,9 @@ const Home = () => {
             Documentation
           </AnchorHeading>
           <Typography type="body1">
+            Browser color picker hook for React.
+          </Typography>
+          <Typography type="body1">
             Implements the{' '}
             <Link
               target="_blank"
@@ -265,15 +268,15 @@ const Home = () => {
               rel="noopener noreferrer"
               href="https://github.com/WICG/eyedropper-api"
             >
-              EyeDropper API
+              EyeDropper API <FiExternalLink aria-label="External link" strokeWidth="2.5px" />
             </Link>{' '}
-            (currently only available in Chrome) into easy-to-use React hook.
+            into an easy-to-use React hook.  This API is currently only available in Chromium based browsers.
           </Typography>
           <AnchorHeading id="features" type="h4" as="h3">
             Features
           </AnchorHeading>
           <ul>
-            <Li>Supports Server-Side rendering</Li>
+            <Li>Supports Server-Side rendering.</Li>
             <Li>
               Safely detect and fallback on unsupported browsers using{' '}
               <code>isSupported</code> method.
@@ -282,7 +285,7 @@ const Home = () => {
               Closes eye dropper when corresponding component is unmounted.{' '}
             </Li>
             <Li>
-              Provides explicit <code>close</code> method to cancel eye dropper
+              Provides an explicit <code>close</code> method to cancel eye dropper
               (signals can still be used).
             </Li>
           </ul>
@@ -322,7 +325,7 @@ const App = () => {
               </code>
               <InnerList>
                 Opens the EyeDropper API in supported browsers and returns a
-                promise which resolves with the selected color, or rejects if
+                promise which will resolve with the selected color.  Alternatively the promise will be rejected if
                 the user cancels the operation, for instance by hitting escape.
                 Additionally if the browser does not support the API, the
                 promise is rejected. While the spec currently indicates that a
