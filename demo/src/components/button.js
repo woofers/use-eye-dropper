@@ -13,7 +13,7 @@ const Button = styled('button', {
   justifyContent: 'center',
   minWidth: '188px',
   '&:disabled': {
-    cursor: 'not-allowed'
+    cursor: 'not-allowed',
   },
   variants: {
     type: {
@@ -21,7 +21,7 @@ const Button = styled('button', {
         $$buttonText: '$$background',
         $$buttonColor: '$$text',
         fontSize: '$button',
-        br: '$pill'
+        br: '$pill',
       },
       minimal: {
         $$buttonText: 'currentColor',
@@ -29,13 +29,13 @@ const Button = styled('button', {
         fontSize: '$h3',
         display: 'flex',
         br: '$3',
-        px: '$1'
-      }
-    }
+        px: '$1',
+      },
+    },
   },
   defaultVariants: {
-    type: 'primary'
-  }
+    type: 'primary',
+  },
 })
 
 export default Button

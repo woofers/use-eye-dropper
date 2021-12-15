@@ -7,10 +7,10 @@ const Base = styled('div', {
   variants: {
     noMargin: {
       true: {
-        mb: '0'
-      }
-    }
-  }
+        mb: '0',
+      },
+    },
+  },
 })
 
 const Heading = styled(Base, {})
@@ -24,13 +24,13 @@ const Heading1 = styled(Heading, {
   '&::before': {
     content: "''",
     marginBottom: '-0.175em',
-    display: 'table'
+    display: 'table',
   },
   '&::after': {
     content: "''",
     marginTop: '-0.175em',
-    display: 'table'
-  }
+    display: 'table',
+  },
 })
 
 const Heading2 = styled(Heading, {
@@ -42,13 +42,13 @@ const Heading2 = styled(Heading, {
   '&::before': {
     content: "''",
     marginBottom: '-0.1909em',
-    display: 'table'
+    display: 'table',
   },
   '&::after': {
     content: "''",
     marginTop: '-0.1909em',
-    display: 'table'
-  }
+    display: 'table',
+  },
 })
 
 const Heading3 = styled(Heading, {
@@ -60,13 +60,13 @@ const Heading3 = styled(Heading, {
   '&::before': {
     content: "''",
     marginBottom: '-0.2188em',
-    display: 'table'
+    display: 'table',
   },
   '&::after': {
     content: "''",
     marginTop: '-0.2188em',
-    display: 'table'
-  }
+    display: 'table',
+  },
 })
 
 const Heading4 = styled(Heading, {
@@ -78,13 +78,13 @@ const Heading4 = styled(Heading, {
   '&::before': {
     content: "''",
     marginBottom: '-0.2917em',
-    display: 'table'
+    display: 'table',
   },
   '&::after': {
     content: "''",
     marginTop: '-0.2917em',
-    display: 'table'
-  }
+    display: 'table',
+  },
 })
 
 const Heading5 = styled(Heading, {
@@ -96,13 +96,13 @@ const Heading5 = styled(Heading, {
   '&::before': {
     content: "''",
     marginBottom: '-0.21em',
-    display: 'table'
+    display: 'table',
   },
   '&::after': {
     content: "''",
     marginTop: '-0.21em',
-    display: 'table'
-  }
+    display: 'table',
+  },
 })
 
 const Heading6 = styled(Heading, {
@@ -114,13 +114,13 @@ const Heading6 = styled(Heading, {
   '&::before': {
     content: "''",
     marginBottom: '-0.2625em',
-    display: 'table'
+    display: 'table',
   },
   '&::after': {
     content: "''",
     marginTop: '-0.2625em',
-    display: 'table'
-  }
+    display: 'table',
+  },
 })
 
 const Subtitle = styled(Base, {})
@@ -134,13 +134,13 @@ const Subtitle1 = styled(Subtitle, {
   '&::before': {
     content: "''",
     marginBottom: '-0.35em',
-    display: 'table'
+    display: 'table',
   },
   '&::after': {
     content: "''",
     marginTop: '-0.35em',
-    display: 'table'
-  }
+    display: 'table',
+  },
 })
 
 const Subtitle2 = styled(Subtitle, {
@@ -152,13 +152,13 @@ const Subtitle2 = styled(Subtitle, {
   '&::before': {
     content: "''",
     marginBottom: '-0.35em',
-    display: 'table'
+    display: 'table',
   },
   '&::after': {
     content: "''",
     marginTop: '-0.35em',
-    display: 'table'
-  }
+    display: 'table',
+  },
 })
 
 const Body = styled(Base, {})
@@ -172,13 +172,13 @@ const Body1 = styled(Body, {
   '&::before': {
     content: "''",
     marginBottom: '-0.2333em',
-    display: 'table'
+    display: 'table',
   },
   '&::after': {
     content: "''",
     marginTop: '-0.2333em',
-    display: 'table'
-  }
+    display: 'table',
+  },
 })
 
 const Body2 = styled(Body, {
@@ -190,13 +190,13 @@ const Body2 = styled(Body, {
   '&::before': {
     content: "''",
     marginBottom: '-0.35em',
-    display: 'table'
+    display: 'table',
   },
   '&::after': {
     content: "''",
     marginTop: '-0.35em',
-    display: 'table'
-  }
+    display: 'table',
+  },
 })
 
 const Button = styled(Base, {
@@ -209,13 +209,13 @@ const Button = styled(Base, {
   '&::before': {
     content: "''",
     marginBottom: '-0.35em',
-    display: 'table'
+    display: 'table',
   },
   '&::after': {
     content: "''",
     marginTop: '-0.35em',
-    display: 'table'
-  }
+    display: 'table',
+  },
 })
 
 const Overline = styled(Base, {
@@ -228,13 +228,13 @@ const Overline = styled(Base, {
   '&::before': {
     content: "''",
     marginBottom: '-0.2333em',
-    display: 'table'
+    display: 'table',
   },
   '&::after': {
     content: "''",
     marginTop: '-0.2333em',
-    display: 'table'
-  }
+    display: 'table',
+  },
 })
 
 const variants = {
@@ -249,7 +249,7 @@ const variants = {
   body1: 'p',
   body2: 'p',
   button: 'span',
-  overline: 'p'
+  overline: 'p',
 }
 
 const Components = {
@@ -264,7 +264,7 @@ const Components = {
   body1: Body1,
   body2: Body2,
   button: Button,
-  overline: Overline
+  overline: Overline,
 }
 
 const Typography = ({ type, as, ...rest }) => {

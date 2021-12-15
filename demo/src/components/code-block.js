@@ -3,18 +3,14 @@ import { styled } from 'stitches'
 import { lowlight } from 'lowlight'
 import { toHtml } from 'hast-util-to-html'
 
-const Element = styled('div', {
-})
+const Element = styled('div', {})
 
 const Content = ({ html, as = 'div', ...rest }) => (
   <Element {...rest} as={as} dangerouslySetInnerHTML={{ __html: html }} />
 )
 
 const CodeBlock = ({ children, lang = 'language-jsx', ...rest }) => {
-  const shortLang = lang.replace(
-    /language-/g,
-    ''
-  )
+  const shortLang = lang.replace(/language-/g, '')
   const [id, setId] = useState()
   useEffect(() => {
     setId(true)

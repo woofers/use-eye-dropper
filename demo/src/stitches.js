@@ -6,5 +6,5 @@ export {
   theme,
   createTheme,
   getCssText,
-  config
+  config,
 } from '../stitches.config.js'

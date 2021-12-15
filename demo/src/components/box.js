@@ -3,11 +3,11 @@ import { styled } from 'stitches'
 export const Box = styled('div', {
   boxSizing: 'border-box',
   margin: 0,
-  minWidth: 0
+  minWidth: 0,
 })
 
 export const Inline = styled(Box, {
-  display: 'inline'
+  display: 'inline',
 })
 
 export const Flex = styled(Box, {
@@ -15,61 +15,61 @@ export const Flex = styled(Box, {
   variants: {
     direction: {
       column: {
-        flexDirection: 'column'
+        flexDirection: 'column',
       },
       row: {
-        flexDirection: 'row'
-      }
+        flexDirection: 'row',
+      },
     },
     justify: {
       start: {
-        justifyContent: 'flex-start'
+        justifyContent: 'flex-start',
       },
       between: {
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
       },
       around: {
-        justifyContent: 'space-around'
+        justifyContent: 'space-around',
       },
       evenly: {
-        justifyContent: 'space-evenly'
+        justifyContent: 'space-evenly',
       },
       center: {
-        justifyContent: 'center'
+        justifyContent: 'center',
       },
       end: {
-        justifyContent: 'flex-end'
-      }
+        justifyContent: 'flex-end',
+      },
     },
     align: {
       start: {
-        alignItems: 'flex-start'
+        alignItems: 'flex-start',
       },
       baseline: {
-        alignItems: 'baseline'
+        alignItems: 'baseline',
       },
       center: {
-        alignItems: 'center'
+        alignItems: 'center',
       },
       end: {
-        alignItems: 'flex-end'
+        alignItems: 'flex-end',
       },
       normal: {
-        alignItems: 'normal'
-      }
-    }
+        alignItems: 'normal',
+      },
+    },
   },
   defaultVariants: {
     direction: 'row',
     justify: 'start',
-    align: 'normal'
-  }
+    align: 'normal',
+  },
 })
 
 export const Stack = styled(Box, {
   $$space: '0',
   verticalAlign: 'baseline',
   '> *': {
-    pt: '$$space'
-  }
+    pt: '$$space',
+  },
 })

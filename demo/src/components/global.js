@@ -3,28 +3,28 @@ import { globalCss } from 'stitches'
 const useGlobalStyles = globalCss({
   '*, *::before, *::after ': { boxSizing: 'border-box' },
   '*': {
-    margin: 0
+    margin: 0,
   },
   'html, body': {
-    height: '100%'
+    height: '100%',
   },
   body: {
-    '-webkit-font-smoothing': 'antialiased'
+    '-webkit-font-smoothing': 'antialiased',
   },
   'input, button, textarea, select': {
-    font: 'inherit'
+    font: 'inherit',
   },
   'p, h1, h2, h3, h4, h5, h6': {
-    overflowWrap: 'break-word'
+    overflowWrap: 'break-word',
   },
   '#root, #__next': {
-    isolation: 'isolate'
+    isolation: 'isolate',
   },
   ul: {
-    padding: 0
+    padding: 0,
   },
   li: {
-    display: 'inline-block'
+    display: 'inline-block',
   },
   pre: {
     overflowX: 'hidden',
@@ -33,23 +33,23 @@ const useGlobalStyles = globalCss({
     br: '$3',
     fontSize: '14px',
     lineHeight: '1.5',
-    color: '$$text'
+    color: '$$text',
   },
   '.hljs-comment': {
-    color: '$$lightText'
+    color: '$$lightText',
   },
   '.hljs-bullet': {
-    color: '$$lightText'
+    color: '$$lightText',
   },
   '.hljs-string, .hljs-name': {
-    color: '$$lightText'
+    color: '$$lightText',
   },
   '.hljs-keyword, .hljs-link': {
-    color: '$$lightText'
+    color: '$$lightText',
   },
   '.hljs-attr': {
-    color: '$$text'
-  }
+    color: '$$text',
+  },
 })
 
 const Global = ({ children }) => {

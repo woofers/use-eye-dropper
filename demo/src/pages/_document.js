@@ -13,7 +13,7 @@ class MyDocument extends Document {
           <script
             type="text/javascript"
             dangerouslySetInnerHTML={{
-              __html: `document.documentElement.className = 'js'`
+              __html: `document.documentElement.className = 'js'`,
             }}
           ></script>
           <style

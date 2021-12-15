@@ -6,7 +6,10 @@ const App = ({ Component, pageProps }) => {
     <>
       <Head>
         <title>use-eye-dropper</title>
-        <link href="/use-eye-dropper/fonts/albertsans/font.css" rel="stylesheet" />
+        <link
+          href="/use-eye-dropper/fonts/albertsans/font.css"
+          rel="stylesheet"
+        />
         <link rel="icon" href="/use-eye-dropper/favicon.ico" />
       </Head>
       <Global />
