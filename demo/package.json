@@ -14,6 +14,7 @@
   "dependencies": {
     "@stitches/react": "^1.2.6",
     "chroma-js": "^2.1.2",
+    "framer-motion": "^5.5.5",
     "hast-util-to-html": "^8.0.3",
     "lowlight": "^2.4.1",
     "next": "^12.0.7",

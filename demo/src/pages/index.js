@@ -11,6 +11,7 @@ import CodeBlock from 'components/code-block'
 import chroma from 'chroma-js'
 import useEyeDropper from 'use-eye-dropper'
 import dynamic from 'next/dynamic'
+import { motion, useTransform, useViewportScroll, useMotionTemplate } from 'framer-motion'
 
 const Button = dynamic(() => import('components/button'), { ssr: false })
 
@@ -168,7 +169,13 @@ const Home = () => {
   const lightText = swap ? color : accent
   const text = !swap ? color : accent
   const colorText = chroma(color).hex()
-  console.log(color)
+  const { scrollYProgress } = useViewportScroll()
+  const opacity = useTransform(scrollYProgress, value => Math.max(1 - (value * 2), 0.45))
+  const blurValue = useTransform(scrollYProgress, value => (value * 2) * 10)
+  const blur = useMotionTemplate`blur(${blurValue}px)`
+  const scaleValue = useTransform(scrollYProgress, value => Math.max(1 * (1 - value), 0.67))
+  const translateValue = useTransform(scrollYProgress, value => -200 * value)
+  const transform = useMotionTemplate`scale(${scaleValue}px)`
   return (
     <>
       <Box
@@ -185,7 +192,9 @@ const Home = () => {
         <Flex
           direction="column"
           align="center"
-          css={{ pt: '12vh', gap: '$10 0' }}
+          css={{ pt: '12vh', gap: '$10 0', position: 'sticky', top: 0 }}
+          as={motion.div}
+          style={{ opacity, filter: blur, scale: scaleValue, translateY: translateValue }}
         >
           <IconContainer>
             <Box css={{ pl: '100px' }}>
