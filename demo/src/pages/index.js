@@ -11,7 +11,12 @@ import CodeBlock from 'components/code-block'
 import chroma from 'chroma-js'
 import useEyeDropper from 'use-eye-dropper'
 import dynamic from 'next/dynamic'
-import { motion, useTransform, useViewportScroll, useMotionTemplate } from 'framer-motion'
+import {
+  motion,
+  useTransform,
+  useViewportScroll,
+  useMotionTemplate,
+} from 'framer-motion'
 import { IoLogoNpm } from 'react-icons/io'
 import { GoMarkGithub, GoLogoGithub } from 'react-icons/go'
 
@@ -149,11 +154,15 @@ const PlainLink = styled('a', {
 const Npm = styled(IoLogoNpm, {
   width: '62px',
   height: '100%',
-  color: '$$text'
+  color: '$$text',
 })
 
 const TocHeading = ({ id, children, ...rest }) => (
-  <Typography type="h5" as="span" css={{ textTransform: 'lowercase', letterSpacing: '-0.5px' }}>
+  <Typography
+    type="h5"
+    as="span"
+    css={{ textTransform: 'lowercase', letterSpacing: '-0.5px' }}
+  >
     <PlainLink href={`#${id}`}>{children}</PlainLink>
   </Typography>
 )
@@ -178,15 +187,24 @@ const Home = () => {
   const text = !swap ? color : accent
   const colorText = chroma(color).hex()
   const { scrollYProgress } = useViewportScroll()
-  const opacity = useTransform(scrollYProgress, value => (1 - Math.pow((value), 0.5)))
-  const opacityDocs = useTransform(scrollYProgress, value => Math.max(value * 2, 0))
-  const blurValue = useTransform(scrollYProgress, value => (value * 2) * 10)
+  const opacity = useTransform(
+    scrollYProgress,
+    value => 1 - Math.pow(value, 0.5)
+  )
+  const opacityDocs = useTransform(scrollYProgress, value =>
+    Math.max(value * 2, 0)
+  )
+  const blurValue = useTransform(scrollYProgress, value => value * 2 * 10)
   const blur = useMotionTemplate`blur(${blurValue}px)`
-  const scaleValue = useTransform(scrollYProgress, value => Math.max(1 * (1 - value), 0.67))
+  const scaleValue = useTransform(scrollYProgress, value =>
+    Math.max(1 * (1 - value), 0.67)
+  )
   const nav = useTransform(scrollYProgress, value => value * 500)
   const translateValue = useTransform(scrollYProgress, value => -200 * value)
   const transform = useMotionTemplate`scale(${scaleValue}px)`
-  const events = useTransform(scrollYProgress, value => value === 0 ? 'all' : 'none')
+  const events = useTransform(scrollYProgress, value =>
+    value === 0 ? 'all' : 'none'
+  )
   return (
     <>
       <Box
@@ -200,10 +218,29 @@ const Home = () => {
           minHeight: '100vh',
         }}
       >
-        <Flex css={{ fontSize: '92px', width: 'max-content', ml: 'auto', pt: '$5', pr: '$5', gap: '$2 0', zIndex: 20, position: 'fixed', top: 0, right: 0, color: '$$text' }} direction="column"
+        <Flex
+          css={{
+            fontSize: '92px',
+            width: 'max-content',
+            ml: 'auto',
+            pt: '$5',
+            pr: '$5',
+            gap: '$2 0',
+            zIndex: 20,
+            position: 'fixed',
+            top: 0,
+            right: 0,
+            color: '$$text',
+          }}
+          direction="column"
           as={motion.div}
-          style={{ opacity, filter: blur, pointerEvents: events, translateX: nav }}
-          >
+          style={{
+            opacity,
+            filter: blur,
+            pointerEvents: events,
+            translateX: nav,
+          }}
+        >
           <TocHeading id="documentation">Documentation</TocHeading>
           <TocHeading id="features">Features</TocHeading>
           <TocHeading id="usage">Usage</TocHeading>
@@ -214,7 +251,13 @@ const Home = () => {
           align="center"
           css={{ pt: '12vh', gap: '$10 0', position: 'sticky', top: 0 }}
           as={motion.div}
-          style={{ opacity, filter: blur, scale: scaleValue, translateY: translateValue, pointerEvents: events }}
+          style={{
+            opacity,
+            filter: blur,
+            scale: scaleValue,
+            translateY: translateValue,
+            pointerEvents: events,
+          }}
         >
           <IconContainer>
             <Box css={{ pl: '100px' }}>
@@ -271,15 +314,34 @@ const Home = () => {
               <FiExternalLink aria-label="External link" strokeWidth="2.5px" />
             </Button>
           )}
-          <Flex css={{ background: '$$text', width: '500px', height: '48px', br: '$3' }}>
-          <Flex justify="center" css={{ background: '$$lightText', width: '84px', height: '48px', br: '$3' }}>
-          <Npm />
-          </Flex>
-          <Flex css={{ flex: '1 1 auto', color: '$$background' }} justify="center" align="center">
-            <Typography noMargin type="button">
-              npm i use-eye-dropper
-            </Typography>
-          </Flex>
+          <Flex
+            css={{
+              background: '$$text',
+              width: '500px',
+              height: '48px',
+              br: '$3',
+            }}
+          >
+            <Flex
+              justify="center"
+              css={{
+                background: '$$lightText',
+                width: '84px',
+                height: '48px',
+                br: '$3',
+              }}
+            >
+              <Npm />
+            </Flex>
+            <Flex
+              css={{ flex: '1 1 auto', color: '$$background' }}
+              justify="center"
+              align="center"
+            >
+              <Typography noMargin type="button">
+                npm i use-eye-dropper
+              </Typography>
+            </Flex>
           </Flex>
         </Flex>
         <Box
@@ -309,9 +371,11 @@ const Home = () => {
               rel="noopener noreferrer"
               href="https://github.com/WICG/eyedropper-api"
             >
-              EyeDropper API <FiExternalLink aria-label="External link" strokeWidth="2.5px" />
+              EyeDropper API{' '}
+              <FiExternalLink aria-label="External link" strokeWidth="2.5px" />
             </Link>{' '}
-            into an easy-to-use React hook.  This API is currently only available in Chromium based browsers.
+            into an easy-to-use React hook. This API is currently only available
+            in Chromium based browsers.
           </Typography>
           <AnchorHeading id="features" type="h4" as="h3">
             Features
@@ -326,8 +390,8 @@ const Home = () => {
               Closes eye dropper when corresponding component is unmounted.{' '}
             </Li>
             <Li>
-              Provides an explicit <code>close</code> method to cancel eye dropper
-              (signals can still be used).
+              Provides an explicit <code>close</code> method to cancel eye
+              dropper (signals can still be used).
             </Li>
           </ul>
           <AnchorHeading id="usage" type="h4" as="h3">
@@ -366,12 +430,13 @@ const App = () => {
               </code>
               <InnerList>
                 Opens the EyeDropper API in supported browsers and returns a
-                promise which will resolve with the selected color.  Alternatively the promise will be rejected if
-                the user cancels the operation, for instance by hitting escape.
-                Additionally if the browser does not support the API, the
-                promise is rejected. While the spec currently indicates that a
-                6-digit HEX value is returned, the current Chrome implementation
-                returns a <code>rgba</code> value.
+                promise which will resolve with the selected color.
+                Alternatively the promise will be rejected if the user cancels
+                the operation, for instance by hitting escape. Additionally if
+                the browser does not support the API, the promise is rejected.
+                While the spec currently indicates that a 6-digit HEX value is
+                returned, the current Chrome implementation returns a{' '}
+                <code>rgba</code> value.
               </InnerList>
             </Li>
             <Li>

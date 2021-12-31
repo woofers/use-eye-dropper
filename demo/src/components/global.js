@@ -7,7 +7,7 @@ const useGlobalStyles = globalCss({
   },
   html: {
     scrollBehavior: 'smooth',
-    overflowX: 'hidden'
+    overflowX: 'hidden',
   },
   body: {
     '-webkit-font-smoothing': 'antialiased',
@@ -26,7 +26,7 @@ const useGlobalStyles = globalCss({
     listStyleType: 'none',
   },
   li: {
-    py: '$1'
+    py: '$1',
   },
   pre: {
     overflowX: 'hidden',
