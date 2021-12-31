@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { styled } from 'stitches'
 import { Box, Inline, Flex } from 'components/box'
 import Typography from 'components/typography'
+import HoverLink from 'components/hover-link'
 import { HiBan } from 'react-icons/hi'
 import { BsDropletFill, BsEyedropper } from 'react-icons/bs'
 import { FiCopy, FiPaperclip, FiExternalLink } from 'react-icons/fi'
@@ -127,6 +128,25 @@ const InnerList = styled(Box, {
   pl: '$4',
 })
 
+const ClipLink = styled(HoverLink, {
+  svg: {
+    transform: 'translate(0, -50%)',
+    top: '50%',
+    left: '0',
+    position: 'absolute',
+    fontSize: '0.7em',
+    opacity: 0,
+    transition:
+      'opacity 0.2s 0.05s ease-in-out, transform 0.2s 0.05s ease-in-out',
+  },
+  '&:hover, &:focus': {
+    svg: {
+      transform: 'translate(calc(-0.7em - 0.64em), -50%)',
+      opacity: 1,
+    },
+  },
+})
+
 const PlainLink = styled('a', {
   position: 'relative',
   textDecoration: 'none',
@@ -158,16 +178,16 @@ const TocHeading = ({ id, children, ...rest }) => (
     as="span"
     css={{ textTransform: 'lowercase', letterSpacing: '-0.5px' }}
   >
-    <PlainLink href={`#${id}`}>{children}</PlainLink>
+    <HoverLink href={`#${id}`}>{children}</HoverLink>
   </Typography>
 )
 
 const AnchorHeading = ({ type, as, id, children, ...rest }) => (
   <Typography id={id} as={as} type={type}>
-    <PlainLink href={`#${id}`} {...rest}>
+    <ClipLink href={`#${id}`} {...rest}>
       <FiPaperclip aria-hidden /> <span>{children.substring(0, 1)}</span>
       {children.substring(1)}
-    </PlainLink>
+    </ClipLink>
   </Typography>
 )
 
