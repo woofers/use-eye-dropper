@@ -146,6 +146,12 @@ const PlainLink = styled('a', {
   },
 })
 
+const Npm = styled(IoLogoNpm, {
+  width: '62px',
+  height: '100%',
+  color: '$$text'
+})
+
 const TocHeading = ({ id, children, ...rest }) => (
   <Typography type="h5" as="span" css={{ textTransform: 'lowercase', letterSpacing: '-0.5px' }}>
     <PlainLink href={`#${id}`}>{children}</PlainLink>
@@ -265,6 +271,16 @@ const Home = () => {
               <FiExternalLink aria-label="External link" strokeWidth="2.5px" />
             </Button>
           )}
+          <Flex css={{ background: '$$text', width: '500px', height: '48px', br: '$3' }}>
+          <Flex justify="center" css={{ background: '$$lightText', width: '84px', height: '48px', br: '$3' }}>
+          <Npm />
+          </Flex>
+          <Flex css={{ flex: '1 1 auto', color: '$$background' }} justify="center" align="center">
+            <Typography noMargin type="button">
+              npm i use-eye-dropper
+            </Typography>
+          </Flex>
+          </Flex>
         </Flex>
         <Box
           as={motion.div}
