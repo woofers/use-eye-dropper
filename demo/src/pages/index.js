@@ -164,7 +164,7 @@ const Home = () => {
   const text = !swap ? color : accent
   const colorText = chroma(color).hex()
   const { scrollYProgress } = useViewportScroll()
-  const opacity = useTransform(scrollYProgress, value => Math.max(1 - (value * 2), 0.45))
+  const opacity = useTransform(scrollYProgress, value => (1 - Math.pow((value), 0.5)))
   const opacityDocs = useTransform(scrollYProgress, value => Math.max(value * 2, 0))
   const blurValue = useTransform(scrollYProgress, value => (value * 2) * 10)
   const blur = useMotionTemplate`blur(${blurValue}px)`
