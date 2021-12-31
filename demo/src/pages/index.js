@@ -12,6 +12,8 @@ import chroma from 'chroma-js'
 import useEyeDropper from 'use-eye-dropper'
 import dynamic from 'next/dynamic'
 import { motion, useTransform, useViewportScroll, useMotionTemplate } from 'framer-motion'
+import { IoLogoNpm } from 'react-icons/io'
+import { GoMarkGithub, GoLogoGithub } from 'react-icons/go'
 
 const Button = dynamic(() => import('components/button'), { ssr: false })
 
@@ -144,6 +146,12 @@ const PlainLink = styled('a', {
   },
 })
 
+const TocHeading = ({ id, children, ...rest }) => (
+  <Typography type="h5" as="span" css={{ textTransform: 'lowercase', letterSpacing: '-0.5px' }}>
+    <PlainLink href={`#${id}`}>{children}</PlainLink>
+  </Typography>
+)
+
 const AnchorHeading = ({ type, as, id, children, ...rest }) => (
   <Typography id={id} as={as} type={type}>
     <PlainLink href={`#${id}`} {...rest}>
@@ -171,6 +179,7 @@ const Home = () => {
   const scaleValue = useTransform(scrollYProgress, value => Math.max(1 * (1 - value), 0.67))
   const translateValue = useTransform(scrollYProgress, value => -200 * value)
   const transform = useMotionTemplate`scale(${scaleValue}px)`
+  const events = useTransform(scrollYProgress, value => value === 0 ? 'all' : 'none')
   return (
     <>
       <Box
@@ -184,12 +193,18 @@ const Home = () => {
           minHeight: '100vh',
         }}
       >
+        <Flex css={{ fontSize: '92px', width: 'max-content', ml: 'auto', pt: '$5', pr: '$5', gap: '$2 0', zIndex: 20, position: 'sticky', top: 0, right: 0, color: '$$outline' }} direction="column">
+          <TocHeading id="documentation">Documentation</TocHeading>
+          <TocHeading id="features">Features</TocHeading>
+          <TocHeading id="usage">Usage</TocHeading>
+          <TocHeading id="methods">Methods</TocHeading>
+        </Flex>
         <Flex
           direction="column"
           align="center"
           css={{ pt: '12vh', gap: '$10 0', position: 'sticky', top: 0 }}
           as={motion.div}
-          style={{ opacity, filter: blur, scale: scaleValue, translateY: translateValue }}
+          style={{ opacity, filter: blur, scale: scaleValue, translateY: translateValue, pointerEvents: events }}
         >
           <IconContainer>
             <Box css={{ pl: '100px' }}>
@@ -340,7 +355,7 @@ const App = () => {
               </InnerList>
             </Li>
             <Li>
-              <code>{'close()'}</code> {' => void'}
+              <code>{'close()  => void'}</code>
               <InnerList>
                 This method closes the EyeDropper API selector if it is open and
                 rejects the promise from <code>open</code>. Otherwise this

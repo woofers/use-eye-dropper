@@ -5,6 +5,9 @@ const useGlobalStyles = globalCss({
   '*': {
     margin: 0,
   },
+  html: {
+    scrollBehavior: 'smooth'
+  },
   body: {
     '-webkit-font-smoothing': 'antialiased',
   },
