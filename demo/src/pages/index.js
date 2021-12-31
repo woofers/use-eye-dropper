@@ -123,7 +123,6 @@ const PlainLink = styled('a', {
   position: 'relative',
   textDecoration: 'none',
   color: 'currentColor',
-  borderBottom: '4px solid $$lightText',
   pb: '5px',
   transition: 'color 0.2s 0.0s ease-in-out, border-width 0.1s 0.0s ease-in-out',
   svg: {
@@ -137,16 +136,11 @@ const PlainLink = styled('a', {
       'opacity 0.2s 0.05s ease-in-out, transform 0.2s 0.05s ease-in-out',
   },
   '&:hover, &:focus': {
-    borderWidth: '0px',
     color: '$$lightText',
     svg: {
       transform: 'translate(calc(-0.7em - 0.64em), -50%)',
       opacity: 1,
     },
-  },
-  span: {
-    fontWeight: 900,
-    color: '$$lightText',
   },
 })
 
