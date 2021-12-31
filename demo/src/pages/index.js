@@ -160,7 +160,7 @@ const AnchorHeading = ({ type, as, id, children, ...rest }) => (
 )
 
 const Home = () => {
-  const [color, setValue] = useState('rgb(216, 61, 61)')
+  const [color, setValue] = useState('rgb(0, 116, 224)')
   const { open, isSupported } = useEyeDropper()
   const setColor = value => setValue(value.replace('0)', '1)'))
   const colors = scale(color)
@@ -171,6 +171,7 @@ const Home = () => {
   const colorText = chroma(color).hex()
   const { scrollYProgress } = useViewportScroll()
   const opacity = useTransform(scrollYProgress, value => Math.max(1 - (value * 2), 0.45))
+  const opacityDocs = useTransform(scrollYProgress, value => Math.max(value * 2, 0))
   const blurValue = useTransform(scrollYProgress, value => (value * 2) * 10)
   const blur = useMotionTemplate`blur(${blurValue}px)`
   const scaleValue = useTransform(scrollYProgress, value => Math.max(1 * (1 - value), 0.67))
@@ -253,6 +254,8 @@ const Home = () => {
           )}
         </Flex>
         <Box
+          as={motion.div}
+          style={{ opacity: opacityDocs }}
           css={{
             maxWidth: '820px',
             mx: 'auto',
