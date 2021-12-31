@@ -177,6 +177,7 @@ const Home = () => {
   const blurValue = useTransform(scrollYProgress, value => (value * 2) * 10)
   const blur = useMotionTemplate`blur(${blurValue}px)`
   const scaleValue = useTransform(scrollYProgress, value => Math.max(1 * (1 - value), 0.67))
+  const nav = useTransform(scrollYProgress, value => value * 500)
   const translateValue = useTransform(scrollYProgress, value => -200 * value)
   const transform = useMotionTemplate`scale(${scaleValue}px)`
   const events = useTransform(scrollYProgress, value => value === 0 ? 'all' : 'none')
@@ -193,7 +194,10 @@ const Home = () => {
           minHeight: '100vh',
         }}
       >
-        <Flex css={{ fontSize: '92px', width: 'max-content', ml: 'auto', pt: '$5', pr: '$5', gap: '$2 0', zIndex: 20, position: 'sticky', top: 0, right: 0, color: '$$outline' }} direction="column">
+        <Flex css={{ fontSize: '92px', width: 'max-content', ml: 'auto', pt: '$5', pr: '$5', gap: '$2 0', zIndex: 20, position: 'fixed', top: 0, right: 0, color: '$$text' }} direction="column"
+          as={motion.div}
+          style={{ opacity, filter: blur, pointerEvents: events, translateX: nav }}
+          >
           <TocHeading id="documentation">Documentation</TocHeading>
           <TocHeading id="features">Features</TocHeading>
           <TocHeading id="usage">Usage</TocHeading>

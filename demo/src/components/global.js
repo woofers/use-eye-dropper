@@ -6,7 +6,8 @@ const useGlobalStyles = globalCss({
     margin: 0,
   },
   html: {
-    scrollBehavior: 'smooth'
+    scrollBehavior: 'smooth',
+    overflowX: 'hidden'
   },
   body: {
     '-webkit-font-smoothing': 'antialiased',
