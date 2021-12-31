@@ -8,6 +8,7 @@ import { HiBan } from 'react-icons/hi'
 import { BsDropletFill, BsEyedropper } from 'react-icons/bs'
 import { FiCopy, FiPaperclip, FiExternalLink } from 'react-icons/fi'
 import CodeBlock from 'components/code-block'
+import InstallBlock from 'components/install-block'
 import chroma from 'chroma-js'
 import useEyeDropper from 'use-eye-dropper'
 import dynamic from 'next/dynamic'
@@ -149,12 +150,6 @@ const PlainLink = styled('a', {
       opacity: 1,
     },
   },
-})
-
-const Npm = styled(IoLogoNpm, {
-  width: '62px',
-  height: '100%',
-  color: '$$text',
 })
 
 const TocHeading = ({ id, children, ...rest }) => (
@@ -314,35 +309,6 @@ const Home = () => {
               <FiExternalLink aria-label="External link" strokeWidth="2.5px" />
             </Button>
           )}
-          <Flex
-            css={{
-              background: '$$text',
-              width: '500px',
-              height: '48px',
-              br: '$3',
-            }}
-          >
-            <Flex
-              justify="center"
-              css={{
-                background: '$$lightText',
-                width: '84px',
-                height: '48px',
-                br: '$3',
-              }}
-            >
-              <Npm />
-            </Flex>
-            <Flex
-              css={{ flex: '1 1 auto', color: '$$background' }}
-              justify="center"
-              align="center"
-            >
-              <Typography noMargin type="button">
-                npm i use-eye-dropper
-              </Typography>
-            </Flex>
-          </Flex>
         </Flex>
         <Box
           as={motion.div}
@@ -377,6 +343,8 @@ const Home = () => {
             into an easy-to-use React hook. This API is currently only available
             in Chromium based browsers.
           </Typography>
+          <InstallBlock type="npm">npm i use-eye-dropper</InstallBlock>
+          <InstallBlock type="yarn">yarn add use-eye-dropper</InstallBlock>
           <AnchorHeading id="features" type="h4" as="h3">
             Features
           </AnchorHeading>
