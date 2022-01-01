@@ -6,6 +6,7 @@ import { IoLogoNpm } from 'react-icons/io'
 import { FaYarn } from 'react-icons/fa'
 import { FiCopy } from 'react-icons/fi'
 import HoverLink from 'components/hover-link'
+import { copyToClipboard } from 'utils'
 
 const Yarn = styled(FaYarn, {
   width: '30px',
@@ -27,6 +28,7 @@ const InstallBlock = ({ type, children }) => {
   return (
     <HoverLink
       as="button"
+      onClick={copyToClipboard(children)}
       css={{
         width: 'max-content',
 

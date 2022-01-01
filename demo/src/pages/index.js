@@ -12,6 +12,7 @@ import CodeBlock from 'components/code-block'
 import InstallBlock from 'components/install-block'
 import chroma from 'chroma-js'
 import useEyeDropper from 'use-eye-dropper'
+import { copyToClipboard } from 'utils'
 import dynamic from 'next/dynamic'
 import {
   motion,
@@ -54,13 +55,6 @@ const Drop = () => (
     />
   </svg>
 )
-
-const hasClipboard = () =>
-  typeof window !== 'undefined' && 'clipboard' in navigator
-
-const copyToClipboard = value => () => {
-  navigator.clipboard.writeText(value)
-}
 
 const scale = (color, steps = 31) =>
   chroma.scale(['#fff', color, '#000']).mode('lch').colors(steps)
