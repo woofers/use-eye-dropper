@@ -415,10 +415,10 @@ import useEyeDropper from 'use-eye-dropper'
 const App = () => {
   const { open, close, isSupported } = useEyeDropper()
   const [color, setColor] = useState('#fff')
-  // useEyeDropper will cancel/cleanup the open() promise on unmount,
+  // useEyeDropper will reject/cleanup the open() promise on unmount,
   // so setState never fires when the component is unmounted.
   const pickColor = () =>
-    open().then(color => setColor(color.sRGBHex).catch(() => setColor('#fff'))
+    open().then(color => setColor(color.sRGBHex).catch(err => console.log(err))
   return (
     <>
       <div style={{ padding: '64px', background: color }}>Selected color</div>
