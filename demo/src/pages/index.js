@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import Head from 'next/head'
 import Image from 'next/image'
-import { styled } from 'stitches'
+import { styled, useMediaQuery } from 'stitches'
 import { Box, Inline, Flex } from 'components/box'
+import Logo from 'components/logo'
 import Typography from 'components/typography'
 import HoverLink from 'components/hover-link'
 import { HiBan } from 'react-icons/hi'
@@ -22,6 +23,7 @@ import {
 } from 'framer-motion'
 import { IoLogoNpm } from 'react-icons/io'
 import { GoMarkGithub, GoLogoGithub } from 'react-icons/go'
+import { useTheme } from 'components/theme-provider'
 
 const Button = dynamic(() => import('components/button'), { ssr: false })
 
@@ -185,7 +187,14 @@ const AnchorHeading = ({ type, as, id, children, ...rest }) => (
   </Typography>
 )
 
+const scrollToTop = () => {
+  if (typeof window === 'undefined') return
+  window.scrollTo(0, 0)
+}
+
 const Home = () => {
+  const theme = useTheme()
+  const isDesktop = useMediaQuery(theme.media.sm.value)
   const [color, setValue] = useState('rgb(0, 116, 224)')
   const { open, isSupported } = useEyeDropper()
   const setColor = value => setValue(value.replace('0)', '1)'))
@@ -208,7 +217,7 @@ const Home = () => {
   const scaleValue = useTransform(scrollYProgress, value =>
     Math.max(1 * (1 - value), 0.67)
   )
-  const nav = useTransform(scrollYProgress, value => value * 500)
+  const nav = useTransform(scrollYProgress, value => Math.min(value * 500, 300))
   const translateValue = useTransform(scrollYProgress, value => -200 * value)
   const transform = useMotionTemplate`scale(${scaleValue}px)`
   const events = useTransform(scrollYProgress, value =>
@@ -221,6 +230,7 @@ const Home = () => {
           color: color,
           $$outline: accent,
           $$background: backgroundColor,
+          $$background88: chroma(backgroundColor).alpha(0.88),
           backgroundColor: '$$background',
           $$lightText: lightText,
           $$text: text,
@@ -228,32 +238,57 @@ const Home = () => {
         }}
       >
         <Flex
+          justify="between"
           css={{
             fontSize: '92px',
-            width: 'max-content',
+            width: 'calc(100% + 300px)',
             ml: 'auto',
-            pt: '$5',
-            pr: '$5',
-            gap: '$2 0',
-            zIndex: 20,
+            zIndex: 50,
+            height: '120px',
+            background:
+              'linear-gradient(180deg, $$background 0%, $$background88 34%, rgba(0,0,0,0) 100%, rgba(0,0,0,0) 100%)',
             position: 'fixed',
             top: 0,
             right: 0,
             color: '$$text',
           }}
-          direction="column"
           as={motion.div}
           style={{
-            opacity,
-            filter: blur,
-            pointerEvents: events,
             translateX: nav,
+            pointerEvents: events,
           }}
         >
-          <TocHeading id="documentation">Documentation</TocHeading>
-          <TocHeading id="features">Features</TocHeading>
-          <TocHeading id="usage">Usage</TocHeading>
-          <TocHeading id="methods">Methods</TocHeading>
+          <Flex
+            css={{
+              pt: '$5',
+              pb: '$2',
+              px: '$5',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              height: 'max-content',
+              pointerEvents: 'all',
+            }}
+            as="button"
+            onClick={scrollToTop}
+            aria-label="Scroll to top"
+          >
+            <Logo size="small" />
+          </Flex>
+          <Flex
+            direction="column"
+            css={{ gap: '$2 0', pt: '$5', pr: '$5' }}
+            as={motion.div}
+            style={{
+              opacity,
+              filter: blur,
+            }}
+          >
+            <TocHeading id="documentation">Documentation</TocHeading>
+            <TocHeading id="features">Features</TocHeading>
+            <TocHeading id="usage">Usage</TocHeading>
+            <TocHeading id="methods">Methods</TocHeading>
+          </Flex>
         </Flex>
         <Flex
           direction="column"
@@ -292,13 +327,7 @@ const Home = () => {
               <FiCopy />
             </Button>
           </IconContainer>
-          <Typography
-            type="h1"
-            css={{ letterSpacing: '-5px', fontWeight: '900' }}
-          >
-            <Inline css={{ color: '$$lightText' }}>use</Inline>
-            <Inline css={{ color: '$$text' }}>EyeDropper</Inline>
-          </Typography>
+          <Logo size={isDesktop ? 'normal' : 'small'} />
           {isSupported() ? (
             <Button
               onClick={() => open().then(color => setColor(color?.sRGBHex))}
@@ -328,7 +357,8 @@ const Home = () => {
           as={motion.div}
           style={{ opacity: opacityDocs }}
           css={{
-            maxWidth: '820px',
+            px: '$3',
+            maxWidth: '844px',
             mx: 'auto',
             color: '$$text',
             py: '$10',
@@ -356,7 +386,7 @@ const Home = () => {
             into an easy-to-use React hook. This API is currently only available
             in Chromium based browsers.
           </Typography>
-          <InstallBlock type="npm">npm i use-eye-dropper</InstallBlock>
+          <InstallBlock type="npm">npm install use-eye-dropper</InstallBlock>
           <InstallBlock type="yarn">yarn add use-eye-dropper</InstallBlock>
           <AnchorHeading id="features" type="h4" as="h3">
             Features

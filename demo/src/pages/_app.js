@@ -1,10 +1,11 @@
 import Global from 'components/global'
 import Head from 'next/head'
 import Fonts from 'components/google-fonts'
+import { ThemeProvider } from 'components/theme-provider'
 
 const App = ({ Component, pageProps }) => {
   return (
-    <>
+    <ThemeProvider>
       <Fonts fonts={['Red+Hat+Mono']}>
         <title>use-eye-dropper</title>
         <link
@@ -15,7 +16,7 @@ const App = ({ Component, pageProps }) => {
       </Fonts>
       <Global />
       <Component {...pageProps} />
-    </>
+    </ThemeProvider>
   )
 }
 
