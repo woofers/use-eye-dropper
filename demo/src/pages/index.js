@@ -345,15 +345,14 @@ const Home = () => {
           </Typography>
           <Typography type="body1">
             Implements the{' '}
-            <Link
+            <HoverLink
+              type="primary"
               target="_blank"
-              and
               rel="noopener noreferrer"
               href="https://github.com/WICG/eyedropper-api"
             >
               EyeDropper API{' '}
-              <FiExternalLink aria-label="External link" strokeWidth="2.5px" />
-            </Link>{' '}
+            </HoverLink>{' '}
             into an easy-to-use React hook. This API is currently only available
             in Chromium based browsers.
           </Typography>
