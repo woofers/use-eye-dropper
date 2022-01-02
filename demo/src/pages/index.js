@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Head from 'next/head'
 import Image from 'next/image'
-import { styled, useMediaQuery } from 'stitches'
+import { styled } from 'stitches'
 import { Box, Inline, Flex } from 'components/box'
 import Logo from 'components/logo'
 import Typography from 'components/typography'
@@ -23,7 +23,6 @@ import {
 } from 'framer-motion'
 import { IoLogoNpm } from 'react-icons/io'
 import { GoMarkGithub, GoLogoGithub } from 'react-icons/go'
-import { useTheme } from 'components/theme-provider'
 
 const Button = dynamic(() => import('components/button'), { ssr: false })
 
@@ -193,8 +192,6 @@ const scrollToTop = () => {
 }
 
 const Home = () => {
-  const theme = useTheme()
-  const isDesktop = useMediaQuery(theme.media.sm.value)
   const [color, setValue] = useState('rgb(0, 116, 224)')
   const { open, isSupported } = useEyeDropper()
   const setColor = value => setValue(value.replace('0)', '1)'))
@@ -273,7 +270,7 @@ const Home = () => {
             onClick={scrollToTop}
             aria-label="Scroll to top"
           >
-            <Logo size="small" />
+            <Logo size="small" as="div" />
           </Flex>
           <Flex
             direction="column"
@@ -327,13 +324,13 @@ const Home = () => {
               <FiCopy />
             </Button>
           </IconContainer>
-          <Logo size={isDesktop ? 'normal' : 'small'} />
+          <Logo size={{ '@initial': 'small', '@sm': 'normal' }} />
           {isSupported() ? (
             <Button
               onClick={() => open().then(color => setColor(color?.sRGBHex))}
             >
               <BsEyedropper aria-hidden />
-              <Typography noMargin type="button">
+              <Typography noMargin type="button" as="span">
                 Pick color
               </Typography>
             </Button>
@@ -346,7 +343,7 @@ const Home = () => {
               rel="noopener noreferrer"
             >
               <HiBan aria-hidden />
-              <Typography noMargin type="button">
+              <Typography noMargin type="button" as="span">
                 Browser not supported
               </Typography>
               <FiExternalLink aria-label="External link" strokeWidth="2.5px" />
