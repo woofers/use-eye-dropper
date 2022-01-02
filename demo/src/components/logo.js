@@ -31,7 +31,6 @@ const getType = size => {
   if (typeof size !== 'object') return size
   const arr = Object.entries(size)
   const transform = arr.reduce((acc, [key, value]) => {
-    console.log(key, value, sizes[value])
     acc[key] = sizes[value] || sizes['normal']
     return acc
   }, {})

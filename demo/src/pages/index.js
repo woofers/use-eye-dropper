@@ -290,7 +290,7 @@ const Home = () => {
         <Flex
           direction="column"
           align="center"
-          css={{ pt: '12vh', gap: '$10 0', position: 'sticky', top: 0 }}
+          css={{ pt: '0', gap: '$10 0', position: 'sticky', top: 0, '@sm': { pt: '12vh' } }}
           as={motion.div}
           style={{
             opacity,
@@ -300,7 +300,7 @@ const Home = () => {
             pointerEvents: events,
           }}
         >
-          <IconContainer>
+          <IconContainer css={{ transform: 'scale(calc(1 / 1.5)) translate(40px, 230px)', '@sm': { transform: 'none' },  }}>
             <Box css={{ pl: '100px' }}>
               <Drop />
             </Box>

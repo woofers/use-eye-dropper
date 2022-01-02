@@ -5,6 +5,10 @@ import { toHtml } from 'hast-util-to-html'
 
 const Element = styled('div', {})
 
+const Pre = styled('pre', {
+  //overflowX: 'auto'
+})
+
 const Content = ({ html, as = 'div', ...rest }) => (
   <Element {...rest} as={as} dangerouslySetInnerHTML={{ __html: html }} />
 )
@@ -16,13 +20,13 @@ const CodeBlock = ({ children, lang = 'language-jsx', ...rest }) => {
     setId(true)
   }, [setId])
   return (
-    <pre>
+    <Pre>
       <Content
         className={`hljs language-${shortLang}`}
         as="code"
         html={toHtml(lowlight.highlight(id ? shortLang : 'c', children))}
       />
-    </pre>
+    </Pre>
   )
 }
 

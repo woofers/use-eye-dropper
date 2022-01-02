@@ -13,6 +13,10 @@ const App = ({ Component, pageProps }) => {
           rel="stylesheet"
         />
         <link rel="icon" href="/use-eye-dropper/favicon.ico" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, viewport-fit=cover"
+        />
       </Fonts>
       <Global />
       <Component {...pageProps} />

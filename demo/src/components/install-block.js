@@ -31,10 +31,10 @@ const InstallBlock = ({ type, children }) => {
       onClick={copyToClipboard(children)}
       css={{
         width: 'max-content',
-
         background: 'none',
         border: 'none',
         cursor: 'pointer',
+        padding: '0'
       }}
     >
       <Flex
