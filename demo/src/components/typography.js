@@ -16,8 +16,8 @@ const Typography = styled('p', {
           content: "''",
           marginBottom: '-0.175em',
           display: 'table',
-        '&::after': {
         },
+        '&::after': {
           content: "''",
           marginTop: '-0.175em',
           display: 'table',
@@ -91,7 +91,7 @@ const Typography = styled('p', {
           display: 'table',
         },
       },
-      h6 : {
+      h6: {
         fontSize: '$h6',
         fontWeight: '$semiBold',
         lineHeight: '$h6',

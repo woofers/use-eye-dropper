@@ -228,6 +228,7 @@ const Home = () => {
           $$outline: accent,
           $$background: backgroundColor,
           $$background88: chroma(backgroundColor).alpha(0.88),
+          $$background0: chroma(backgroundColor).alpha(0),
           backgroundColor: '$$background',
           $$lightText: lightText,
           $$text: text,
@@ -243,7 +244,7 @@ const Home = () => {
             zIndex: 50,
             height: '120px',
             background:
-              'linear-gradient(180deg, $$background 0%, $$background88 34%, rgba(0,0,0,0) 100%, rgba(0,0,0,0) 100%)',
+              'linear-gradient(180deg, $$background 0%, $$background88 34%, $$background0 100%)',
             position: 'fixed',
             top: 0,
             right: 0,
@@ -290,7 +291,13 @@ const Home = () => {
         <Flex
           direction="column"
           align="center"
-          css={{ pt: '0', gap: '$10 0', position: 'sticky', top: 0, '@sm': { pt: '12vh' } }}
+          css={{
+            pt: '0',
+            gap: '$10 0',
+            position: 'sticky',
+            top: 0,
+            '@sm': { pt: '12vh' },
+          }}
           as={motion.div}
           style={{
             opacity,
@@ -300,7 +307,13 @@ const Home = () => {
             pointerEvents: events,
           }}
         >
-          <IconContainer css={{ transform: 'scale(calc(1 / 1.5)) translate(40px, 230px)', '@sm': { transform: 'none' },  }}>
+          <IconContainer
+            css={{
+              mt: '-68px',
+              transform: 'scale(calc(1 / 1.5)) translate(40px, 230px)',
+              '@sm': { mt: '0px', transform: 'none' },
+            }}
+          >
             <Box css={{ pl: '100px' }}>
               <Drop />
             </Box>
@@ -327,6 +340,7 @@ const Home = () => {
           <Logo size={{ '@initial': 'small', '@sm': 'normal' }} />
           {isSupported() ? (
             <Button
+              css={{ mt: '-76px', '@sm': { mt: '0px' } }}
               onClick={() => open().then(color => setColor(color?.sRGBHex))}
             >
               <BsEyedropper aria-hidden />
@@ -336,6 +350,7 @@ const Home = () => {
             </Button>
           ) : (
             <Button
+              css={{ mt: '-76px', '@sm': { mt: '0px' } }}
               as="a"
               href="https://developer.mozilla.org/en-US/docs/Web/API/EyeDropper#browser_compatibility"
               target="_blank"

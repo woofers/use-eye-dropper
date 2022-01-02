@@ -34,7 +34,7 @@ const InstallBlock = ({ type, children }) => {
         background: 'none',
         border: 'none',
         cursor: 'pointer',
-        padding: '0'
+        padding: '0',
       }}
     >
       <Flex

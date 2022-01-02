@@ -10,7 +10,7 @@ const BoldText = styled(Typography, {
         letterSpacing: '-5px !important',
       },
       small: {
-        letterSpacing: '-1.8px !important'
+        letterSpacing: '-1.8px !important',
       },
     },
   },
@@ -20,8 +20,8 @@ const BoldText = styled(Typography, {
 })
 
 const sizes = {
-  'normal': 'h1',
-  'small': 'h4'
+  normal: 'h1',
+  small: 'h4',
 }
 
 const getType = size => {

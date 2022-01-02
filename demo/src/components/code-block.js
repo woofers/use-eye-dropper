@@ -6,7 +6,7 @@ import { toHtml } from 'hast-util-to-html'
 const Element = styled('div', {})
 
 const Pre = styled('pre', {
-  //overflowX: 'auto'
+  overflowX: 'auto',
 })
 
 const Content = ({ html, as = 'div', ...rest }) => (
