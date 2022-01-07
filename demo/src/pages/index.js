@@ -169,7 +169,7 @@ const PlainLink = styled('a', {
 
 const TocHeading = ({ id, children, ...rest }) => (
   <Typography
-    type="h5"
+    type={{ '@initial': 'h6', '@sm': 'h5' }}
     as="span"
     css={{ textTransform: 'lowercase', letterSpacing: '-0.5px' }}
   >
@@ -275,7 +275,7 @@ const Home = () => {
           </Flex>
           <Flex
             direction="column"
-            css={{ gap: '$2 0', pt: '$5', pr: '$5' }}
+            css={{ gap: '$1 0', pt: '$5', pr: '$5', '@sm': { gap: '$2 0' } }}
             as={motion.div}
             style={{
               opacity,
@@ -309,7 +309,7 @@ const Home = () => {
         >
           <IconContainer
             css={{
-              mt: '-68px',
+              mt: '-108px',
               transform: 'scale(calc(1 / 1.5)) translate(40px, 230px)',
               '@sm': { mt: '0px', transform: 'none' },
             }}
@@ -325,6 +325,7 @@ const Home = () => {
               onClick={copyToClipboard(colorText)}
               title="Copy to clipboard"
               aria-label="Copy to HEX color code to clipboard"
+              css={{ mt: '-24px', '@sm': { mt: '0px' } }}
             >
               <Typography
                 type="h3"
@@ -337,10 +338,10 @@ const Home = () => {
               <FiCopy />
             </Button>
           </IconContainer>
-          <Logo size={{ '@initial': 'small', '@sm': 'normal' }} />
+          <Logo size={{ '@initial': 'small', '@sm': 'normal' }}               css={{ mt: '-8px', '@sm': { mt: '0px' } }} />
           {isSupported() ? (
             <Button
-              css={{ mt: '-76px', '@sm': { mt: '0px' } }}
+              css={{ mt: '-64px', '@sm': { mt: '0px' } }}
               onClick={() => open().then(color => setColor(color?.sRGBHex))}
             >
               <BsEyedropper aria-hidden />
@@ -350,7 +351,7 @@ const Home = () => {
             </Button>
           ) : (
             <Button
-              css={{ mt: '-76px', '@sm': { mt: '0px' } }}
+              css={{ mt: '-64px', '@sm': { mt: '0px' } }}
               as="a"
               href="https://developer.mozilla.org/en-US/docs/Web/API/EyeDropper#browser_compatibility"
               target="_blank"

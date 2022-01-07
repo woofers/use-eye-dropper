@@ -93,7 +93,7 @@ const Typography = styled('p', {
       },
       h6: {
         fontSize: '$h6',
-        fontWeight: '$semiBold',
+        fontWeight: '$medium',
         lineHeight: '$h6',
         letterSpacing: '$h6',
         mb: '$2',

@@ -39,7 +39,7 @@ const getType = size => {
 
 const Logo = ({ size, as = 'h1', css, ...rest }) => {
   return (
-    <BoldText type={getType(size)} as={as} size={size} {...rest}>
+    <BoldText type={getType(size)} as={as} size={size} css={css} {...rest}>
       <Inline css={{ color: '$$lightText' }}>use</Inline>
       <Inline css={{ color: '$$text' }}>EyeDropper</Inline>
     </BoldText>
