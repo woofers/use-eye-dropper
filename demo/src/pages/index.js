@@ -220,8 +220,15 @@ const Home = () => {
   const events = useTransform(scrollYProgress, value =>
     value === 0 ? 'all' : 'none'
   )
+  const apple = () => chroma.contrast('#FFF', backgroundColor) > 1.6 ? 'black-translucent' : 'default'
   return (
     <>
+      <Head>
+        <meta name="theme-color" content={backgroundColor} />
+        <meta name="msapplication-navbutton-color" content={backgroundColor} />
+        <meta name="apple-mobile-web-app-status-bar-style" content={apple()} />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+      </Head>
       <Box
         css={{
           color: color,
