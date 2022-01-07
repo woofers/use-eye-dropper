@@ -11,6 +11,7 @@ const useGlobalStyles = globalCss({
   },
   body: {
     '-webkit-font-smoothing': 'antialiased',
+    backgroundColor: 'var(--body-background, rgb(0, 116, 224))',
   },
   'input, button, textarea, select': {
     font: 'inherit',

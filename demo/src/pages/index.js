@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import Head from 'next/head'
 import Image from 'next/image'
-import { styled } from 'stitches'
+import { styled, globalCss } from 'stitches'
 import { Box, Inline, Flex } from 'components/box'
 import Logo from 'components/logo'
 import Typography from 'components/typography'
@@ -191,10 +191,19 @@ const scrollToTop = () => {
   window.scrollTo(0, 0)
 }
 
+const setBodyBackground = color => {
+  if (typeof window === 'undefined') return
+  document.body.style.setProperty('--body-background', color)
+}
+
 const Home = () => {
   const [color, setValue] = useState('rgb(0, 116, 224)')
   const { open, isSupported } = useEyeDropper()
-  const setColor = value => setValue(value.replace('0)', '1)'))
+  const setColor = value => {
+    const color = value.replace('0)', '1)')
+    setValue(color)
+    setBodyBackground(color)
+  }
   const colors = scale(color)
   const [backgroundColor, swap] = getBackground(colors)
   const accent = getAccent(colors)
