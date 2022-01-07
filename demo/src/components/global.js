@@ -34,8 +34,6 @@ const useGlobalStyles = globalCss({
     margin: 0,
     padding: '4px 0',
     br: '$3',
-    fontSize: '16px',
-    lineHeight: '1.5',
     color: '$$text',
   },
   code: {

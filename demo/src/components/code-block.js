@@ -7,6 +7,11 @@ const Element = styled('div', {})
 
 const Pre = styled('pre', {
   overflowX: 'auto',
+  fontSize: '12px',
+  '@sm': {
+    fontSize: '16px',
+    lineHeight: '1.5',
+  }
 })
 
 const Content = ({ html, as = 'div', ...rest }) => (

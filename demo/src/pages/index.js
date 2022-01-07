@@ -386,7 +386,7 @@ const Home = () => {
           as={motion.div}
           style={{ opacity: opacityDocs }}
           css={{
-            px: '$3',
+            px: '14px',
             maxWidth: '844px',
             mx: 'auto',
             color: '$$text',
@@ -394,6 +394,9 @@ const Home = () => {
             display: 'flex',
             flexDirection: 'column',
             gap: '$4 0',
+            '@sm': {
+              px: '$3'
+            }
           }}
         >
           <AnchorHeading id="documentation" type="h3" as="h2">
