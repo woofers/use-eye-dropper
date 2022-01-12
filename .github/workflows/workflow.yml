@@ -23,6 +23,8 @@ jobs:
       run: yarn build
     - name: Test
       run: yarn test
+    - name: Install Production
+      run: yarn install --prod
     - name: Install Demo
       run: yarn --cwd demo install
     - name: Build Demo
