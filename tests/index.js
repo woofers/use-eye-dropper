@@ -71,4 +71,12 @@ describe('useEyeDropper', () => {
     fireEvent.click(screen.getByText('None'))
     await waitFor(() => expect(screen.getByText("Color selection aborted.")).toBeInTheDocument(), { timeout: 4000 })
   })
+  it('isSupported() is truthy when supported', async () => {
+    const Hint = () => {
+      const { isSupported } = useEyeDropper()
+      return isSupported() ? 'EyeDropper API is supported' : 'EyeDropper API unavailable'
+    }
+    render(<Hint />)
+    expect(screen.getByText('EyeDropper API is supported'))
+  })
 })
