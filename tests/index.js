@@ -25,4 +25,50 @@ describe('useEyeDropper', () => {
     fireEvent.click(button)
     await waitFor(() => expect(screen.getByText('rgba(255, 255, 255, 0)')).toBeInTheDocument())
   })
+  it('open() does not resolve when called with an aborted signal', async () => {
+    const Button = () => {
+      const [color, setColor] = useState('None')
+      const { open } = useEyeDropper()
+      const onClick = () => {
+        const openPicker = async () => {
+          const controller = new AbortController()
+          controller.abort()
+          const { signal } = controller
+          let result
+          try {
+            result = await open({ signal })
+          }
+          catch (e) {
+            setColor(e.message)
+            return
+          }
+          setColor(result.sRGBHex)
+        }
+        openPicker()
+      }
+      return <button onClick={onClick}>{color}</button>
+    }
+    render(<Button />)
+    fireEvent.click(screen.getByText('None'))
+    await waitFor(() => expect(screen.getByText("Failed to execute 'open' on 'EyeDropper': Color selection aborted.")).toBeInTheDocument())
+  })
+  it('open() does not resolve when called with an aborted signal while open', async () => {
+    const Button = () => {
+      const [color, setColor] = useState('None')
+      const { open } = useEyeDropper()
+      const onClick = () => {
+        const openPicker = async () => {
+          const controller = new AbortController()
+          const { signal } = controller
+          open({ signal }).then(result => setColor(result.sRGBHex)).catch(e => setColor(e.message))
+          controller.abort()
+        }
+        openPicker()
+      }
+      return <button onClick={onClick}>{color}</button>
+    }
+    render(<Button />)
+    fireEvent.click(screen.getByText('None'))
+    await waitFor(() => expect(screen.getByText("Color selection aborted.")).toBeInTheDocument(), { timeout: 4000 })
+  })
 })
