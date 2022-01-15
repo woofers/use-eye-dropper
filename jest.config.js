@@ -6,7 +6,7 @@ module.exports = {
     "\\.[jt]sx?$": "./jest-transformer.js"
   },
   setupFilesAfterEnv: [
-    './tests/mocks/eye-dropper.js'
+    './tests/setup/index.js'
   ],
   globals: {
     __DEV__: true

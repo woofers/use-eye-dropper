@@ -1,4 +1,3 @@
-import '@testing-library/jest-dom'
 
 class DOMException extends Error {
   constructor(message) {
@@ -43,7 +42,4 @@ class EyeDropper {
   }
 }
 
-const window = {
-  EyeDropper
-}
-global.window.EyeDropper = EyeDropper
+export default EyeDropper
