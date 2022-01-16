@@ -1,11 +1,12 @@
 import { jest } from '@jest/globals'
-import React, { useState } from 'react'
-import { render, fireEvent, waitFor, screen } from '@testing-library/react'
+import React, { useRef, useEffect, useState } from 'react'
+import { act, render, fireEvent, waitFor, screen } from '@testing-library/react'
 import { EyeDropper } from './mocks'
 import useEyeDropper from '../src'
 
 beforeEach(() => {
   global.window.EyeDropper = EyeDropper
+  global.window.EyeDropper.isOpen = false
 })
 
 afterEach(() => {
@@ -25,6 +26,12 @@ describe('useEyeDropper', () => {
     const Button = ({ onPick }) => {
       const [color, setColor] = useState('None')
       const { open } = useEyeDropper()
+      const isSubscribed = useRef(true)
+      useEffect(() => {
+        return () => {
+          isSubscribed.current = false
+        }
+      }, [])
       const onClick = () => {
         const openPicker = async () => {
           const controller = new AbortController()
@@ -34,6 +41,7 @@ describe('useEyeDropper', () => {
             result = await onPick(open, controller)
           }
           catch (e) {
+            if (!isSubscribed.current) return
             setColor(e.message)
             return
           }
@@ -71,6 +79,19 @@ describe('useEyeDropper', () => {
       render(<Button onPick={onPick} />)
       fireEvent.click(screen.getByText('None'))
       await waitFor(() => expect(screen.getByText("Color selection aborted.")).toBeInTheDocument())
+    })
+    it('open() is canceled on unmount', async () => {
+      let promise
+      const onPick = open => {
+        promise = open()
+        return promise
+      }
+      const { unmount } = render(<Button onPick={onPick} />)
+      fireEvent.click(screen.getByText('None'))
+      expect(window.EyeDropper.isOpen).toBe(true)
+      unmount()
+      await expect(promise).rejects.toThrow('Color selection aborted.')
+      expect(window.EyeDropper.isOpen).toBe(false)
     })
   })
   describe('isSupported()', () => {

@@ -15,16 +15,31 @@ const abortSignal = () => {
 const abortSignalDuring = () => {
   return new DOMException('Color selection aborted.')
 }
+const abortAlreadyOpen = () => {
+  return new DOMException('EyeDropper is not available.')
+}
 
 class EyeDropper {
   constructor() {
-
+  }
+  _getColor() {
+    return 'rgba(255, 255, 255, 0)'
+  }
+  _setOpen() {
+    EyeDropper.isOpen = true
+  }
+  _setClosed() {
+    EyeDropper.isOpen = false
+  }
+  _getTimeout() {
+    return 300
   }
   open(options) {
     return new Promise((resolve, reject) => {
       const signal = options?.signal
       const onAbortDuring = () => {
         clearTimeout(resolveTimeout)
+        this._setClosed()
         reject(abortSignalDuring())
       }
       if (signal) {
@@ -34,10 +49,12 @@ class EyeDropper {
         }
         signal.addEventListener('abort', onAbortDuring)
       }
+      this._setOpen()
       const resolveTimeout = setTimeout(() => {
         if (signal) signal.removeEventListener('abort', onAbortDuring)
-        resolve({ sRGBHex: 'rgba(255, 255, 255, 0)' })
-      }, 300)
+        this._setClosed()
+        resolve({ sRGBHex: this._getColor() })
+      }, this._getTimeout())
     })
   }
 }
