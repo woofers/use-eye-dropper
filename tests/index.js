@@ -45,6 +45,7 @@ describe('useEyeDropper', () => {
             setColor(e.message)
             return
           }
+          if (!isSubscribed.current) return
           setColor(result.sRGBHex)
         }
         openPicker()
@@ -78,7 +79,7 @@ describe('useEyeDropper', () => {
         })
       render(<Button onPick={onPick} />)
       fireEvent.click(screen.getByText('None'))
-      await waitFor(() => expect(screen.getByText("Color selection aborted.")).toBeInTheDocument())
+      await waitFor(() => expect(screen.getByText('Color selection aborted.')).toBeInTheDocument())
     })
     it('open() is canceled on unmount', async () => {
       let promise
@@ -98,21 +99,85 @@ describe('useEyeDropper', () => {
       const onPick = open => open()
       render(<Button onPick={onPick} />)
       fireEvent.click(screen.getByText('None'))
-      await waitFor(() => expect(screen.getByText("Unsupported browser.")).toBeInTheDocument())
+      await waitFor(() => expect(screen.getByText('Unsupported browser.')).toBeInTheDocument())
+    })
+  })
+  describe('close()', () => {
+    const Button = ({ onPick }) => {
+      const [status, setStatus] = useState('None')
+      const { open, close } = useEyeDropper()
+      const isSubscribed = useRef(true)
+      useEffect(() => {
+        return () => {
+          isSubscribed.current = false
+        }
+      }, [])
+      const onClick = () => {
+        const openPicker = async () => {
+          let result
+          try {
+            result = await onPick(open)
+          }
+          catch (e) {
+            if (!isSubscribed.current) return
+            setStatus(e.message)
+            return
+          }
+          if (!isSubscribed.current) return
+          setStatus(result.sRGBHex)
+        }
+        openPicker()
+      }
+      return (
+        <>
+          <span>{status}</span>
+          <button onClick={close}>Close</button>
+          <button onClick={onClick}>Open</button>
+        </>
+      )
+    }
+    it('close() rejects open()', async () => {
+      render(<Button onPick={open => open()} />)
+      fireEvent.click(screen.getByText('Open'))
+      fireEvent.click(screen.getByText('Close'))
+      await waitFor(() => expect(screen.getByText('Color selection aborted.')).toBeInTheDocument())
+    })
+    it('close() does not affect open() when called before', async () => {
+      render(<Button onPick={open => open()}/>)
+      fireEvent.click(screen.getByText('Open'))
+      fireEvent.click(screen.getByText('Close'))
+      fireEvent.click(screen.getByText('Open'))
+      await waitFor(() => expect(screen.getByText('rgba(255, 255, 255, 0)')).toBeInTheDocument())
+    })
+    it('close() works with signal', async () => {
+      const controller = new AbortController()
+      render(<Button onPick={open => open({ signal: controller.signal })}/>)
+      fireEvent.click(screen.getByText('Open'))
+      fireEvent.click(screen.getByText('Close'))
+      await waitFor(() => expect(screen.getByText('Color selection aborted.')).toBeInTheDocument())
+      controller.abort()
+      fireEvent.click(screen.getByText('Open'))
+      await waitFor(() => expect(screen.getByText("Failed to execute 'open' on 'EyeDropper': Color selection aborted.")).toBeInTheDocument())
+    })
+    it('close() works when EyeDropper API is not supported', async () => {
+      delete window.EyeDropper
+      render(<Button onPick={open => open()} />)
+      fireEvent.click(screen.getByText('Close'))
+      await waitFor(() => expect(screen.getByText('None')).toBeInTheDocument())
     })
   })
   describe('isSupported()', () => {
-    const Hint = () => {
+    const Status = () => {
       const { isSupported } = useEyeDropper()
       return isSupported() ? 'EyeDropper API is supported' : 'EyeDropper API unavailable'
     }
     it('isSupported() is truthy when supported', async () => {
-      render(<Hint />)
+      render(<Status />)
       expect(screen.getByText('EyeDropper API is supported'))
     })
     it('isSupported() is falsy when unsupported', async () => {
       delete window.EyeDropper
-      render(<Hint />)
+      render(<Status />)
       expect(screen.getByText('EyeDropper API unavailable'))
     })
   })

@@ -32,7 +32,7 @@ class EyeDropper {
     EyeDropper.isOpen = false
   }
   _getTimeout() {
-    return 300
+    return 50
   }
   open(options) {
     return new Promise((resolve, reject) => {
