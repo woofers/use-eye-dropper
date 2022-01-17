@@ -93,6 +93,13 @@ describe('useEyeDropper', () => {
       await expect(promise).rejects.toThrow('Color selection aborted.')
       expect(window.EyeDropper.isOpen).toBe(false)
     })
+    it('open() is rejected when EyeDropper API is not supported', async () => {
+      delete window.EyeDropper
+      const onPick = open => open()
+      render(<Button onPick={onPick} />)
+      fireEvent.click(screen.getByText('None'))
+      await waitFor(() => expect(screen.getByText("Unsupported browser.")).toBeInTheDocument())
+    })
   })
   describe('isSupported()', () => {
     const Hint = () => {

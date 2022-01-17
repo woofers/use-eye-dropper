@@ -9,6 +9,6 @@ module.exports = {
     './tests/setup/index.js'
   ],
   globals: {
-    __DEV__: true
+    __isDev__: false
   }
 }
