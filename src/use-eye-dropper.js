@@ -43,7 +43,7 @@ const createHelpers = options => {
 }
 
 export const useEyeDropper = options => {
-  const { open: openPicker, isSupported } = useMemo(() => createHelpers(options), [])
+  const { open: openPicker, isSupported } = useMemo(() => createHelpers(options), [options])
   const controller = useRef()
   const hasController = () => typeof controller.current !== 'undefined'
   const close = useCallback(() => {
