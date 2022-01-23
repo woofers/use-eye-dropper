@@ -1,4 +1,3 @@
-
 class DOMException extends Error {
   constructor(message) {
     super(message)
@@ -10,7 +9,9 @@ const cancelSelection = () => {
   return new DOMException('The user canceled the selection.')
 }
 const abortSignal = () => {
-  return new DOMException("Failed to execute 'open' on 'EyeDropper': Color selection aborted.")
+  return new DOMException(
+    "Failed to execute 'open' on 'EyeDropper': Color selection aborted."
+  )
 }
 const abortSignalDuring = () => {
   return new DOMException('Color selection aborted.')
@@ -20,8 +21,7 @@ const abortAlreadyOpen = () => {
 }
 
 class EyeDropper {
-  constructor() {
-  }
+  constructor() {}
   _getColor() {
     return 'rgba(255, 255, 255, 0)'
   }

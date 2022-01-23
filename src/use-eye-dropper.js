@@ -19,17 +19,19 @@ const anySignal = signals => {
   return controller.signal
 }
 
-const isSupported = () => typeof window !== 'undefined' && 'EyeDropper' in window
+const isSupported = () =>
+  typeof window !== 'undefined' && 'EyeDropper' in window
 
 const resolveError = () => {
   let error = 'Unsupported browser.'
   if (__isDev__) {
-    error = 'Unsupported browser: no EyeDropper in Window. Check https://developer.mozilla.org/en-US/docs/Web/API/EyeDropper_API.'
+    error =
+      'Unsupported browser: no EyeDropper in Window. Check https://developer.mozilla.org/en-US/docs/Web/API/EyeDropper_API.'
   }
   return Promise.reject(new Error(error))
 }
 
-const createInstance = options => isSupported() ? new EyeDropper(options) : {}
+const createInstance = options => (isSupported() ? new EyeDropper(options) : {})
 
 const bindFunc = (key, instance) => {
   if (!isSupported()) return resolveError
@@ -54,7 +56,10 @@ const createHelpers = options => {
 }
 
 export const useEyeDropper = options => {
-  const { open: openPicker, isSupported } = useMemo(() => createHelpers(options), [options])
+  const { open: openPicker, isSupported } = useMemo(
+    () => createHelpers(options),
+    [options]
+  )
   const mounted = useIsMounted()
   const controller = useRef()
   const hasController = () => typeof controller.current !== 'undefined'
@@ -62,20 +67,26 @@ export const useEyeDropper = options => {
     if (!hasController()) return
     controller.current.abort()
   }, [controller])
-  const open = useCallback(async (options = {}) => {
-    close()
-    const { signal, ...rest } = options
-    const newController = new AbortController()
-    controller.current = newController
-    const unionSignal = typeof signal !== 'undefined' ? anySignal([signal, newController.signal]) : newController.signal
-    try {
-      const results = await openPicker({ ...rest, signal: unionSignal })
-      return results
-    } catch (e) {
-      if (!mounted()) e.canceled = true
-      throw e
-    }
-  }, [controller, mounted])
+  const open = useCallback(
+    async (options = {}) => {
+      close()
+      const { signal, ...rest } = options
+      const newController = new AbortController()
+      controller.current = newController
+      const unionSignal =
+        typeof signal !== 'undefined'
+          ? anySignal([signal, newController.signal])
+          : newController.signal
+      try {
+        const results = await openPicker({ ...rest, signal: unionSignal })
+        return results
+      } catch (e) {
+        if (!mounted()) e.canceled = true
+        throw e
+      }
+    },
+    [controller, mounted]
+  )
   useEffect(() => close, [close])
   return { open, close, isSupported }
 }

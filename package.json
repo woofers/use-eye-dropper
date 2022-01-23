@@ -23,7 +23,8 @@
     "clean": "rimraf lib/use-eye-dropper.dev.js lib/use-eye-dropper.js lib/use-eye-dropper.module.dev.js lib/use-eye-dropper.module.js lib/index.d.ts && jest --clearCache",
     "build": "yarn build:dev:module && yarn build:dev:umd && yarn build:module && yarn build:umd && yarn build:types",
     "watch": "rollup -c --watch",
-    "test": "jest"
+    "test": "jest",
+    "format": "prettier --write \"{src,tests}/**/*.js\""
   },
   "repository": "https://github.com/woofers/use-eye-dropper",
   "keywords": [
@@ -54,6 +55,7 @@
     "babel-jest": "^27.4.6",
     "jest": "^27.4.7",
     "microbundle": "^0.14.2",
+    "prettier": "^2.5.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "rimraf": "^3.0.2"
