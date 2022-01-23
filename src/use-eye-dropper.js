@@ -36,6 +36,17 @@ const bindFunc = (key, instance) => {
   return EyeDropper.prototype[key].bind(instance)
 }
 
+const useIsMounted = () => {
+  const ref = useRef()
+  useEffect(() => {
+    ref.current = true
+    return () => {
+      ref.current = false
+    }
+  }, [])
+  return useCallback(() => !!ref?.current, [])
+}
+
 const createHelpers = options => {
   const dropper = createInstance(options)
   const open = bindFunc('open', dropper)
@@ -44,6 +55,7 @@ const createHelpers = options => {
 
 export const useEyeDropper = options => {
   const { open: openPicker, isSupported } = useMemo(() => createHelpers(options), [options])
+  const mounted = useIsMounted()
   const controller = useRef()
   const hasController = () => typeof controller.current !== 'undefined'
   const close = useCallback(() => {
@@ -56,9 +68,14 @@ export const useEyeDropper = options => {
     const newController = new AbortController()
     controller.current = newController
     const unionSignal = typeof signal !== 'undefined' ? anySignal([signal, newController.signal]) : newController.signal
-    const results = await openPicker({ ...rest, signal: unionSignal })
-    return results
-  }, [controller])
+    try {
+      const results = await openPicker({ ...rest, signal: unionSignal })
+      return results
+    } catch (e) {
+      if (!mounted()) e.canceled = true
+      throw e
+    }
+  }, [controller, mounted])
   useEffect(() => close, [close])
   return { open, close, isSupported }
 }

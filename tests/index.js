@@ -1,6 +1,6 @@
 import { jest } from '@jest/globals'
-import React, { useRef, useEffect, useState } from 'react'
-import { act, render, fireEvent, waitFor, screen } from '@testing-library/react'
+import React, { useState } from 'react'
+import { act, render, fireEvent, waitFor, waitForElementToBeRemoved, screen } from '@testing-library/react'
 import { EyeDropper } from './mocks'
 import useEyeDropper from '../src'
 
@@ -26,27 +26,17 @@ describe('useEyeDropper', () => {
     const Button = ({ onPick }) => {
       const [color, setColor] = useState('None')
       const { open } = useEyeDropper()
-      const isSubscribed = useRef(true)
-      useEffect(() => {
-        return () => {
-          isSubscribed.current = false
-        }
-      }, [])
       const onClick = () => {
         const openPicker = async () => {
           const controller = new AbortController()
           const { signal } = controller
-          let result
           try {
-            result = await onPick(open, controller)
+            const result = await onPick(open, controller)
+            setColor(result.sRGBHex)
           }
           catch (e) {
-            if (!isSubscribed.current) return
-            setColor(e.message)
-            return
+            if (!e.canceled) setColor(e.message)
           }
-          if (!isSubscribed.current) return
-          setColor(result.sRGBHex)
         }
         openPicker()
       }
@@ -101,30 +91,51 @@ describe('useEyeDropper', () => {
       fireEvent.click(screen.getByText('None'))
       await waitFor(() => expect(screen.getByText('Unsupported browser.')).toBeInTheDocument())
     })
+    const UnmountButton = ({ onPick }) => {
+      const [color, setColor] = React.useState('None')
+      const { open } = useEyeDropper()
+      const onClick = () => {
+        const openPicker = async () => {
+          try {
+            const result = await open()
+            setColor(result.sRGBHex)
+          }
+          catch (e) {
+            if (!e.canceled) setColor(e.message)
+          }
+        }
+        openPicker()
+      }
+      return <button onClick={onClick}>None</button>
+    }
+    it('open() prevents executing setState after unmount', async () => {
+      const setStateMock = jest.fn()
+      const useStateMock = value => [value, setStateMock]
+      const spy = jest.spyOn(React, 'useState').mockImplementation(useStateMock)
+      const { unmount } = render(<UnmountButton />)
+      expect(screen.queryByText('None')).toBeInTheDocument()
+      fireEvent.click(screen.getByText('None'))
+      const removal = waitForElementToBeRemoved(() => screen.queryByText('None'))
+      unmount()
+      await removal
+      expect(screen.queryByText('None')).not.toBeInTheDocument()
+      expect(setStateMock).not.toBeCalled()
+      spy.mockRestore()
+    })
   })
   describe('close()', () => {
     const Button = ({ onPick }) => {
       const [status, setStatus] = useState('None')
       const { open, close } = useEyeDropper()
-      const isSubscribed = useRef(true)
-      useEffect(() => {
-        return () => {
-          isSubscribed.current = false
-        }
-      }, [])
       const onClick = () => {
         const openPicker = async () => {
-          let result
           try {
-            result = await onPick(open)
+            const result = await onPick(open)
+            setStatus(result.sRGBHex)
           }
           catch (e) {
-            if (!isSubscribed.current) return
-            setStatus(e.message)
-            return
+            if (!e.canceled) setStatus(e.message)
           }
-          if (!isSubscribed.current) return
-          setStatus(result.sRGBHex)
         }
         openPicker()
       }
