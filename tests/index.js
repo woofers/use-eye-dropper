@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals'
-import React, { useState } from 'react'
+import React from 'react'
 import { act, render, fireEvent, waitFor, waitForElementToBeRemoved, screen } from '@testing-library/react'
 import { EyeDropper } from './mocks'
 import useEyeDropper from '../src'
@@ -21,31 +21,41 @@ describe('EyeDropper Mock', () => {
   })
 })
 
+
+const Button = ({ onPick }) => {
+  const [status, setStatus] = React.useState('None')
+  const { open, close, isSupported } = useEyeDropper()
+  const onClick = () => {
+    const openPicker = async () => {
+      const controller = new AbortController()
+      const { signal } = controller
+      try {
+        const result = await onPick(open, controller)
+        setStatus(result.sRGBHex)
+      }
+      catch (e) {
+        if (!e.canceled) setStatus(e.message)
+      }
+    }
+    openPicker()
+  }
+  return (
+    <>
+      <span>EyeDropper</span>
+      <span>{status}</span>
+      <span>{isSupported() ? 'EyeDropper API is supported' : 'EyeDropper API unavailable'}</span>
+      <button onClick={close}>Close</button>
+      <button onClick={onClick}>Open</button>
+    </>
+  )
+}
+
 describe('useEyeDropper', () => {
   describe('open()', () => {
-    const Button = ({ onPick }) => {
-      const [color, setColor] = useState('None')
-      const { open } = useEyeDropper()
-      const onClick = () => {
-        const openPicker = async () => {
-          const controller = new AbortController()
-          const { signal } = controller
-          try {
-            const result = await onPick(open, controller)
-            setColor(result.sRGBHex)
-          }
-          catch (e) {
-            if (!e.canceled) setColor(e.message)
-          }
-        }
-        openPicker()
-      }
-      return <button onClick={onClick}>{color}</button>
-    }
     it('open() resolves color', async () => {
       const onPick = open => open()
       render(<Button onPick={onPick} />)
-      const button = screen.getByText('None')
+      const button = screen.getByText('Open')
       expect(button).toBeInTheDocument()
       fireEvent.click(button)
       await waitFor(() => expect(screen.getByText('rgba(255, 255, 255, 0)')).toBeInTheDocument())
@@ -56,7 +66,7 @@ describe('useEyeDropper', () => {
         return open({ signal: controller.signal })
       }
       render(<Button onPick={onPick} />)
-      fireEvent.click(screen.getByText('None'))
+      fireEvent.click(screen.getByText('Open'))
       await waitFor(() => expect(screen.getByText("Failed to execute 'open' on 'EyeDropper': Color selection aborted.")).toBeInTheDocument())
     })
     it('open() does not resolve when called with an aborted signal while open', async () => {
@@ -68,7 +78,7 @@ describe('useEyeDropper', () => {
           controller.abort()
         })
       render(<Button onPick={onPick} />)
-      fireEvent.click(screen.getByText('None'))
+      fireEvent.click(screen.getByText('Open'))
       await waitFor(() => expect(screen.getByText('Color selection aborted.')).toBeInTheDocument())
     })
     it('open() is canceled on unmount', async () => {
@@ -78,7 +88,7 @@ describe('useEyeDropper', () => {
         return promise
       }
       const { unmount } = render(<Button onPick={onPick} />)
-      fireEvent.click(screen.getByText('None'))
+      fireEvent.click(screen.getByText('Open'))
       expect(window.EyeDropper.isOpen).toBe(true)
       unmount()
       await expect(promise).rejects.toThrow('Color selection aborted.')
@@ -88,65 +98,24 @@ describe('useEyeDropper', () => {
       delete window.EyeDropper
       const onPick = open => open()
       render(<Button onPick={onPick} />)
-      fireEvent.click(screen.getByText('None'))
+      fireEvent.click(screen.getByText('Open'))
       await waitFor(() => expect(screen.getByText('Unsupported browser.')).toBeInTheDocument())
     })
-    const UnmountButton = ({ onPick }) => {
-      const [color, setColor] = React.useState('None')
-      const { open } = useEyeDropper()
-      const onClick = () => {
-        const openPicker = async () => {
-          try {
-            const result = await open()
-            setColor(result.sRGBHex)
-          }
-          catch (e) {
-            if (!e.canceled) setColor(e.message)
-          }
-        }
-        openPicker()
-      }
-      return <button onClick={onClick}>None</button>
-    }
     it('open() prevents executing setState after unmount', async () => {
       const setStateMock = jest.fn()
       const useStateMock = value => [value, setStateMock]
       const spy = jest.spyOn(React, 'useState').mockImplementation(useStateMock)
-      const { unmount } = render(<UnmountButton />)
-      expect(screen.queryByText('None')).toBeInTheDocument()
-      fireEvent.click(screen.getByText('None'))
+      const { unmount } = render(<Button onPick={open => open()}/>)
+      fireEvent.click(screen.getByText('Open'))
       const removal = waitForElementToBeRemoved(() => screen.queryByText('None'))
       unmount()
       await removal
-      expect(screen.queryByText('None')).not.toBeInTheDocument()
+      expect(screen.queryByText('EyeDropper')).not.toBeInTheDocument()
       expect(setStateMock).not.toBeCalled()
       spy.mockRestore()
     })
   })
   describe('close()', () => {
-    const Button = ({ onPick }) => {
-      const [status, setStatus] = useState('None')
-      const { open, close } = useEyeDropper()
-      const onClick = () => {
-        const openPicker = async () => {
-          try {
-            const result = await onPick(open)
-            setStatus(result.sRGBHex)
-          }
-          catch (e) {
-            if (!e.canceled) setStatus(e.message)
-          }
-        }
-        openPicker()
-      }
-      return (
-        <>
-          <span>{status}</span>
-          <button onClick={close}>Close</button>
-          <button onClick={onClick}>Open</button>
-        </>
-      )
-    }
     it('close() rejects open()', async () => {
       render(<Button onPick={open => open()} />)
       fireEvent.click(screen.getByText('Open'))
@@ -178,17 +147,13 @@ describe('useEyeDropper', () => {
     })
   })
   describe('isSupported()', () => {
-    const Status = () => {
-      const { isSupported } = useEyeDropper()
-      return isSupported() ? 'EyeDropper API is supported' : 'EyeDropper API unavailable'
-    }
     it('isSupported() is truthy when supported', async () => {
-      render(<Status />)
+      render(<Button />)
       expect(screen.getByText('EyeDropper API is supported'))
     })
     it('isSupported() is falsy when unsupported', async () => {
       delete window.EyeDropper
-      render(<Status />)
+      render(<Button />)
       expect(screen.getByText('EyeDropper API unavailable'))
     })
   })
