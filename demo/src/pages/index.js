@@ -447,10 +447,19 @@ import useEyeDropper from 'use-eye-dropper'
 const App = () => {
   const { open, close, isSupported } = useEyeDropper()
   const [color, setColor] = useState('#fff')
+  const [error, setError] = useState()
   // useEyeDropper will reject/cleanup the open() promise on unmount,
   // so setState never fires when the component is unmounted.
-  const pickColor = () =>
-    open().then(color => setColor(color.sRGBHex).catch(err => console.log(err))
+  const pickColor = () => {
+    open()
+      .then(color => setColor(color.sRGBHex))
+      .catch(e => {
+        console.log(e)
+        // Ensures component is still mounted
+        // before calling setState
+        if (!e.canceled) setError(e)
+      })
+  }
   return (
     <>
       <div style={{ padding: '64px', background: color }}>Selected color</div>
@@ -458,6 +467,7 @@ const App = () => {
           <button onClick={pickColor}>Pick color</button>
         : <span>EyeDropper API not supported in this browser</span>
       }
+      {!!error && <span>{error.message}</span>}
     </>
   )
 }`}
