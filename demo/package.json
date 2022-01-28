@@ -9,7 +9,11 @@
     "start": "next start",
     "lint": "next lint",
     "test": "echo \"No tests \" && exit 0",
-    "format": "prettier --write \"src/**/*.js\""
+    "format": "prettier --write \"src/**/*.js\"",
+    "cypress": "cypress open",
+    "cypress:headless": "cypress run",
+    "e2e": "start-server-and-test dev http://localhost:3000 cypress",
+    "e2e:headless": "start-server-and-test dev http://localhost:3000 cypress:headless"
   },
   "dependencies": {
     "@stitches/react": "^1.2.6",
@@ -25,11 +29,14 @@
   },
   "devDependencies": {
     "@svgr/webpack": "^6.1.1",
+    "@testing-library/cypress": "^8.0.2",
+    "cypress": "^9.3.1",
     "eslint": "7.32.0",
     "eslint-config-next": "^12.0.7",
     "eslint-webpack-plugin": "^3.1.1",
     "file-loader": "^6.2.0",
     "gh-pages": "^3.2.3",
-    "prettier": "^2.5.1"
+    "prettier": "^2.5.1",
+    "start-server-and-test": "^1.14.0"
   }
 }
