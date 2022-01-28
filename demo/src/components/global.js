@@ -3,61 +3,60 @@ import { globalCss } from 'stitches'
 const useGlobalStyles = globalCss({
   '*, *::before, *::after ': { boxSizing: 'border-box' },
   '*': {
-    margin: 0,
+    margin: 0
   },
   html: {
     scrollBehavior: 'smooth',
-    overflowX: 'hidden',
+    overflowX: 'hidden'
   },
   body: {
-    '-webkit-font-smoothing': 'antialiased',
-    backgroundColor: 'var(--body-background, rgb(0, 116, 224))',
+    '-webkit-font-smoothing': 'antialiased'
   },
   'input, button, textarea, select': {
-    font: 'inherit',
+    font: 'inherit'
   },
   'p, h1, h2, h3, h4, h5, h6': {
-    overflowWrap: 'break-word',
+    overflowWrap: 'break-word'
   },
   '#root, #__next': {
-    isolation: 'isolate',
+    isolation: 'isolate'
   },
   ul: {
     padding: 0,
-    listStyleType: 'none',
+    listStyleType: 'none'
   },
   li: {
-    py: '$1',
+    py: '$1'
   },
   pre: {
     overflowX: 'hidden',
     margin: 0,
     padding: '4px 0',
     br: '$3',
-    color: '$$text',
+    color: '$$text'
   },
   code: {
-    fontFamily: "'Red Hat Mono', monospace",
+    fontFamily: "'Red Hat Mono', monospace"
   },
   '.hljs-comment': {
-    color: '$$lightText',
+    color: '$$lightText'
   },
   '.hljs-bullet': {
-    color: '$$lightText',
+    color: '$$lightText'
   },
   '.hljs-string, .hljs-name': {
-    color: '$$lightText',
+    color: '$$lightText'
   },
   '.hljs-keyword, .hljs-link': {
-    color: '$$lightText',
+    color: '$$lightText'
   },
   '.hljs-attr': {
-    color: '$$text',
+    color: '$$text'
   },
   '::selection': {
     backgroundColor: '$$lightText',
-    color: '$$background',
-  },
+    color: '$$background'
+  }
 })
 
 const Global = ({ children }) => {
