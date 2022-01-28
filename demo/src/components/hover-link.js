@@ -7,25 +7,25 @@ const Link = styled('a', {
   color: '$$linkText',
   transition: 'color 0.2s 0.0s ease-in-out, border-width 0.1s 0.0s ease-in-out',
   '&:hover, &:focus': {
-    color: '$$linkHover',
+    color: '$$linkHover'
   },
   variants: {
     type: {
       primary: {
         $$linkText: '$$lightText',
         $$linkHover: 'currentColor',
-        fontWeight: 700,
+        fontWeight: 700
       },
       minimal: {
         $$linkText: 'currentColor',
         $$linkHover: '$$lightText',
-        pb: '5px',
-      },
-    },
+        pb: '5px'
+      }
+    }
   },
   defaultVariants: {
-    type: 'minimal',
-  },
+    type: 'minimal'
+  }
 })
 
 const HoverLink = ({ target, children, ...rest }) => (

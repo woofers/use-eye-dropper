@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext, createContext } from 'react'
 import { theme } from 'stitches'
 
 const themes = {
-  light: theme,
+  light: theme
 }
 
 const ThemeClass = ({ children, theme, name }) => {
