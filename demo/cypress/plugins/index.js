@@ -19,4 +19,13 @@
 module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
+  on('before:browser:launch', (browser = {}, launchOptions) => {
+    if (browser.family === 'chromium' && browser.name !== 'electron') {
+      launchOptions.args.push('--auto-open-devtools-for-tabs')
+      launchOptions.args.push('--no-user-gesture-required')
+      launchOptions.args.push('--autoplay-policy=no-user-gesture-required')
+    }
+    return launchOptions
+  })
+
 }
