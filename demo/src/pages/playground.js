@@ -80,7 +80,7 @@ const Dropper = ({ onPick }) => {
         css={{ gap: '0 $4', height: '128px', color: '$slate400' }}
       >
         <Box css={{ ...style, padding: '$9', maxWidth: '$9', br: '$4' }} />
-        <Color css={{ pb: '$2' }}>{status}</Color>
+        <Color aria-label="Status" css={{ pb: '$2' }}>{status}</Color>
       </Flex>
       <Flex css={{ gap: '0 $6' }}>
         <Button onClick={onClick}>
@@ -89,7 +89,11 @@ const Dropper = ({ onPick }) => {
         <Button onClick={close} type="minimal" css={{ minWidth: 'unset' }}>
           <Bold>Close</Bold>
         </Button>
-        <Button onClick={() => timeout2.current = setTimeout(() => close(), 1000)} type="minimal" css={{ minWidth: 'unset' }}>
+        <Button
+          onClick={() => (timeout2.current = setTimeout(() => close(), 1000))}
+          type="minimal"
+          css={{ minWidth: 'unset' }}
+        >
           <Bold>Close after 1s</Bold>
         </Button>
       </Flex>
@@ -104,7 +108,12 @@ const Dropper = ({ onPick }) => {
           <Bold>Abort controller now</Bold>
         </Button>
         <Button
-          onClick={() => timeout.current = setTimeout(() => controller.current.abort(), 1000)}
+          onClick={() =>
+            (timeout.current = setTimeout(
+              () => controller.current.abort(),
+              1000
+            ))
+          }
           type="minimal"
         >
           <Bold>Abort controller after 1s</Bold>
@@ -142,10 +151,7 @@ const Sandbox = () => {
         {mount && (
           <Button
             onClick={() => {
-              timeout.current = setTimeout(
-                () => setMount(false),
-                1000
-              )
+              timeout.current = setTimeout(() => setMount(false), 1000)
             }}
             type="minimal"
           >
