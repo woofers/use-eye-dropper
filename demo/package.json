@@ -8,8 +8,11 @@
     "build": "next build && next export",
     "start": "next start",
     "lint": "next lint",
-    "test": "echo \"No tests \" && exit 0",
-    "format": "prettier --write \"src/**/*.js\""
+    "test": "playwright test --headed",
+    "test:ci": "xvfb-run --auto-servernum -- yarn test:install",
+    "test:install": "npx playwright install && yarn test:skip",
+    "test:skip": "SKIP_BUILD=true yarn test",
+    "format": "prettier --write \"tests/**/*.mjs\""
   },
   "dependencies": {
     "@stitches/react": "^1.2.6",
@@ -21,9 +24,10 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-icons": "^4.3.1",
-    "use-eye-dropper": "../."
+    "use-eye-dropper": "^1.3.2"
   },
   "devDependencies": {
+    "@playwright/test": "^1.18.1",
     "@svgr/webpack": "^6.1.1",
     "eslint": "7.32.0",
     "eslint-config-next": "^12.0.7",

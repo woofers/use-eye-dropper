@@ -19,15 +19,21 @@ import {
   motion,
   useTransform,
   useViewportScroll,
-  useMotionTemplate,
+  useMotionTemplate
 } from 'framer-motion'
 import { IoLogoNpm } from 'react-icons/io'
 import { GoMarkGithub, GoLogoGithub } from 'react-icons/go'
 
+const useBackground = globalCss({
+  body: {
+    backgroundColor: 'var(--body-background, rgb(0, 116, 224))'
+  }
+})
+
 const Button = dynamic(() => import('components/button'), { ssr: false })
 
 const IconContainer = styled(Box, {
-  fontSize: '240px',
+  fontSize: '240px'
 })
 
 const Drop = () => (
@@ -44,7 +50,7 @@ const Drop = () => (
       stroke="currentColor"
       style={{
         transform: 'translate(-1px, 1px)',
-        clipPath: 'inset(2px 0px 0px 0px)',
+        clipPath: 'inset(2px 0px 0px 0px)'
       }}
       fill="none"
       strokeWidth="1.619"
@@ -71,7 +77,7 @@ const getDir = colors => {
   const darkContrast = chroma.contrast(color, dark)
   return [
     lightContrast < darkContrast ? 1 : -1,
-    Math.min(lightContrast, darkContrast),
+    Math.min(lightContrast, darkContrast)
   ]
 }
 
@@ -102,13 +108,13 @@ const getBackground = colors => {
 const Link = styled('a', {
   color: '$$lightText',
   fontWeight: 700,
-  textDecoration: 'none',
+  textDecoration: 'none'
 })
 
 const Spacer = styled('span', {
   mr: '$2',
   color: '$$lightText',
-  fontWeight: '900',
+  fontWeight: '900'
 })
 
 const Li = ({ children, showDivider = true }) => (
@@ -120,7 +126,7 @@ const Li = ({ children, showDivider = true }) => (
 
 const InnerList = styled(Box, {
   my: '$2',
-  pl: '$4',
+  pl: '$4'
 })
 
 const ClipLink = styled(HoverLink, {
@@ -132,14 +138,14 @@ const ClipLink = styled(HoverLink, {
     fontSize: '0.7em',
     opacity: 0,
     transition:
-      'opacity 0.2s 0.05s ease-in-out, transform 0.2s 0.05s ease-in-out',
+      'opacity 0.2s 0.05s ease-in-out, transform 0.2s 0.05s ease-in-out'
   },
   '&:hover, &:focus': {
     svg: {
       transform: 'translate(calc(-0.7em - 0.64em), -50%)',
-      opacity: 1,
-    },
-  },
+      opacity: 1
+    }
+  }
 })
 
 const PlainLink = styled('a', {
@@ -156,15 +162,15 @@ const PlainLink = styled('a', {
     fontSize: '0.7em',
     opacity: 0,
     transition:
-      'opacity 0.2s 0.05s ease-in-out, transform 0.2s 0.05s ease-in-out',
+      'opacity 0.2s 0.05s ease-in-out, transform 0.2s 0.05s ease-in-out'
   },
   '&:hover, &:focus': {
     color: '$$lightText',
     svg: {
       transform: 'translate(calc(-0.7em - 0.64em), -50%)',
-      opacity: 1,
-    },
-  },
+      opacity: 1
+    }
+  }
 })
 
 const TocHeading = ({ id, children, ...rest }) => (
@@ -198,6 +204,7 @@ const setBodyBackground = color => {
 
 const Home = () => {
   const [color, setValue] = useState('rgb(0, 116, 224)')
+  useBackground()
   const { open, isSupported } = useEyeDropper()
   const setColor = value => {
     const color = value.replace('0)', '1)')
@@ -229,7 +236,10 @@ const Home = () => {
   const events = useTransform(scrollYProgress, value =>
     value === 0 ? 'all' : 'none'
   )
-  const apple = () => chroma.contrast('#FFF', backgroundColor) > 1.6 ? 'black-translucent' : 'default'
+  const apple = () =>
+    chroma.contrast('#FFF', backgroundColor) > 1.6
+      ? 'black-translucent'
+      : 'default'
   return (
     <>
       <Head>
@@ -248,7 +258,7 @@ const Home = () => {
           backgroundColor: '$$background',
           $$lightText: lightText,
           $$text: text,
-          minHeight: '100vh',
+          minHeight: '100vh'
         }}
       >
         <Flex
@@ -264,12 +274,12 @@ const Home = () => {
             position: 'fixed',
             top: 0,
             right: 0,
-            color: '$$text',
+            color: '$$text'
           }}
           as={motion.div}
           style={{
             translateX: nav,
-            pointerEvents: events,
+            pointerEvents: events
           }}
         >
           <Flex
@@ -281,7 +291,7 @@ const Home = () => {
               border: 'none',
               cursor: 'pointer',
               height: 'max-content',
-              pointerEvents: 'all',
+              pointerEvents: 'all'
             }}
             as="button"
             onClick={scrollToTop}
@@ -295,7 +305,7 @@ const Home = () => {
             as={motion.div}
             style={{
               opacity,
-              filter: blur,
+              filter: blur
             }}
           >
             <TocHeading id="documentation">Documentation</TocHeading>
@@ -312,7 +322,7 @@ const Home = () => {
             gap: '$10 0',
             position: 'sticky',
             top: 0,
-            '@sm': { pt: '12vh' },
+            '@sm': { pt: '12vh' }
           }}
           as={motion.div}
           style={{
@@ -320,14 +330,14 @@ const Home = () => {
             filter: blur,
             scale: scaleValue,
             translateY: translateValue,
-            pointerEvents: events,
+            pointerEvents: events
           }}
         >
           <IconContainer
             css={{
               mt: '-108px',
               transform: 'scale(calc(1 / 1.5)) translate(40px, 230px)',
-              '@sm': { mt: '0px', transform: 'none' },
+              '@sm': { mt: '0px', transform: 'none' }
             }}
           >
             <Box css={{ pl: '100px' }}>
@@ -354,7 +364,10 @@ const Home = () => {
               <FiCopy />
             </Button>
           </IconContainer>
-          <Logo size={{ '@initial': 'small', '@sm': 'normal' }}               css={{ mt: '-8px', '@sm': { mt: '0px' } }} />
+          <Logo
+            size={{ '@initial': 'small', '@sm': 'normal' }}
+            css={{ mt: '-8px', '@sm': { mt: '0px' } }}
+          />
           {isSupported() ? (
             <Button
               css={{ mt: '-64px', '@sm': { mt: '0px' } }}

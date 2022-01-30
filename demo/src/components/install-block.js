@@ -10,17 +10,17 @@ import { copyToClipboard } from 'utils'
 
 const Yarn = styled(FaYarn, {
   width: '30px',
-  height: '100%',
+  height: '100%'
 })
 
 const Npm = styled(IoLogoNpm, {
   width: '62px',
-  height: '100%',
+  height: '100%'
 })
 
 const Logos = {
   npm: Npm,
-  yarn: Yarn,
+  yarn: Yarn
 }
 
 const InstallBlock = ({ type, children }) => {
@@ -34,14 +34,14 @@ const InstallBlock = ({ type, children }) => {
         background: 'none',
         border: 'none',
         cursor: 'pointer',
-        padding: '0',
+        padding: '0'
       }}
     >
       <Flex
         css={{
           height: '48px',
           br: '$3',
-          overflow: 'hidden',
+          overflow: 'hidden'
         }}
       >
         <Flex
@@ -51,7 +51,7 @@ const InstallBlock = ({ type, children }) => {
             height: '48px',
             br: '$3',
             borderTopRightRadius: 0,
-            borderBottomRightRadius: 0,
+            borderBottomRightRadius: 0
           }}
         >
           <Logo />

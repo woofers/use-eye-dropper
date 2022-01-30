@@ -15,13 +15,13 @@ const Typography = styled('p', {
         '&::before': {
           content: "''",
           marginBottom: '-0.175em',
-          display: 'table',
+          display: 'table'
         },
         '&::after': {
           content: "''",
           marginTop: '-0.175em',
-          display: 'table',
-        },
+          display: 'table'
+        }
       },
       h2: {
         fontSize: '$h2',
@@ -32,13 +32,13 @@ const Typography = styled('p', {
         '&::before': {
           content: "''",
           marginBottom: '-0.1909em',
-          display: 'table',
+          display: 'table'
         },
         '&::after': {
           content: "''",
           marginTop: '-0.1909em',
-          display: 'table',
-        },
+          display: 'table'
+        }
       },
       h3: {
         fontSize: '$h3',
@@ -49,13 +49,13 @@ const Typography = styled('p', {
         '&::before': {
           content: "''",
           marginBottom: '-0.2188em',
-          display: 'table',
+          display: 'table'
         },
         '&::after': {
           content: "''",
           marginTop: '-0.2188em',
-          display: 'table',
-        },
+          display: 'table'
+        }
       },
       h4: {
         fontSize: '$h4',
@@ -66,13 +66,13 @@ const Typography = styled('p', {
         '&::before': {
           content: "''",
           marginBottom: '-0.2917em',
-          display: 'table',
+          display: 'table'
         },
         '&::after': {
           content: "''",
           marginTop: '-0.2917em',
-          display: 'table',
-        },
+          display: 'table'
+        }
       },
       h5: {
         fontSize: '$h5',
@@ -83,13 +83,13 @@ const Typography = styled('p', {
         '&::before': {
           content: "''",
           marginBottom: '-0.21em',
-          display: 'table',
+          display: 'table'
         },
         '&::after': {
           content: "''",
           marginTop: '-0.21em',
-          display: 'table',
-        },
+          display: 'table'
+        }
       },
       h6: {
         fontSize: '$h6',
@@ -100,13 +100,13 @@ const Typography = styled('p', {
         '&::before': {
           content: "''",
           marginBottom: '-0.2625em',
-          display: 'table',
+          display: 'table'
         },
         '&::after': {
           content: "''",
           marginTop: '-0.2625em',
-          display: 'table',
-        },
+          display: 'table'
+        }
       },
       subtitle1: {
         fontSize: '$subtitle1',
@@ -117,13 +117,13 @@ const Typography = styled('p', {
         '&::before': {
           content: "''",
           marginBottom: '-0.35em',
-          display: 'table',
+          display: 'table'
         },
         '&::after': {
           content: "''",
           marginTop: '-0.35em',
-          display: 'table',
-        },
+          display: 'table'
+        }
       },
       subtitle2: {
         fontSize: '$subtitle2',
@@ -134,13 +134,13 @@ const Typography = styled('p', {
         '&::before': {
           content: "''",
           marginBottom: '-0.35em',
-          display: 'table',
+          display: 'table'
         },
         '&::after': {
           content: "''",
           marginTop: '-0.35em',
-          display: 'table',
-        },
+          display: 'table'
+        }
       },
       body1: {
         fontSize: '$body1',
@@ -151,13 +151,13 @@ const Typography = styled('p', {
         '&::before': {
           content: "''",
           marginBottom: '-0.4667em',
-          display: 'table',
+          display: 'table'
         },
         '&::after': {
           content: "''",
           marginTop: '-0.4667em',
-          display: 'table',
-        },
+          display: 'table'
+        }
       },
       body2: {
         fontSize: '$body2',
@@ -168,13 +168,13 @@ const Typography = styled('p', {
         '&::before': {
           content: "''",
           marginBottom: '-0.35em',
-          display: 'table',
+          display: 'table'
         },
         '&::after': {
           content: "''",
           marginTop: '-0.35em',
-          display: 'table',
-        },
+          display: 'table'
+        }
       },
       button: {
         fontSize: '$button',
@@ -186,13 +186,13 @@ const Typography = styled('p', {
         '&::before': {
           content: "''",
           marginBottom: '-0.35em',
-          display: 'table',
+          display: 'table'
         },
         '&::after': {
           content: "''",
           marginTop: '-0.35em',
-          display: 'table',
-        },
+          display: 'table'
+        }
       },
       overline: {
         fontSize: '$overline',
@@ -204,24 +204,24 @@ const Typography = styled('p', {
         '&::before': {
           content: "''",
           marginBottom: '-0.2333em',
-          display: 'table',
+          display: 'table'
         },
         '&::after': {
           content: "''",
           marginTop: '-0.2333em',
-          display: 'table',
-        },
-      },
+          display: 'table'
+        }
+      }
     },
     noMargin: {
       true: {
-        mb: '0',
-      },
-    },
+        mb: '0 !important'
+      }
+    }
   },
   defaultVariants: {
-    type: 'body1',
-  },
+    type: 'body1'
+  }
 })
 
 export default Typography
