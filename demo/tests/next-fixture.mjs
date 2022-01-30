@@ -3,19 +3,18 @@ import { parse } from 'url'
 import { test as base } from '@playwright/test'
 import next from 'next'
 import path from 'path'
-import { AddressInfo } from 'net'
 
 const test = base.extend({
   port: [
-    async (_, use) => {
+    async ({}, use) => {
       const app = next({
         dev: false,
-        dir: path.resolve(__dirname, '..')
+        dir: path.resolve(path.dirname(''))
       })
 
       await app.prepare()
       const handle = app.getRequestHandler()
-      const server: Server = await new Promise(resolve => {
+      const server = await new Promise(resolve => {
         const server = createServer((req, res) => {
           const parsedUrl = parse(req.url, true)
           handle(req, res, parsedUrl)

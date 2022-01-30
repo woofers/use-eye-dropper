@@ -1,6 +1,6 @@
 
 module.exports = {
-  testMatch: ["./**/tests/*.[jt]s?(x)"],
+  testMatch: ["./**/tests/index.[jt]s?(x)"],
   testEnvironment: 'jsdom',
   transform: {
     "\\.[jt]sx?$": "./jest-transformer.js"
