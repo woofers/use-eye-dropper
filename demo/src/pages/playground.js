@@ -5,6 +5,11 @@ import Typography from 'components/typography'
 import { Box, Flex } from 'components/box'
 import Button from 'components/button'
 
+const abortController = () => {
+  if (typeof window === 'undefined') return
+  return new AbortController()
+}
+
 const useBackground = globalCss({
   body: {
     backgroundColor: '#f9fafe'
@@ -42,7 +47,7 @@ const Dropper = ({ onPick }) => {
     }
   }, [])
   const { open, close, isSupported } = useEyeDropper()
-  const controller = useRef(new AbortController())
+  const controller = useRef(abortController())
   const onClick = () => {
     const openPicker = async () => {
       const { signal } = controller.current
@@ -99,7 +104,7 @@ const Dropper = ({ onPick }) => {
       </Flex>
       <Flex css={{ gap: '0 $3' }}>
         <Button
-          onClick={() => (controller.current = new AbortController())}
+          onClick={() => (controller.current = abortController())}
           type="minimal"
         >
           <Bold>Reset controller</Bold>
