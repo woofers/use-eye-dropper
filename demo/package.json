@@ -10,7 +10,7 @@
     "lint": "next lint",
     "test": "playwright test --headed",
     "test:ci": "xvfb-run --auto-servernum -- yarn test:install",
-    "test:install": "npx playwright install && npx playwright install-deps chromium && yarn test:skip",
+    "test:install": "npx playwright install && yarn test:skip",
     "test:skip": "SKIP_BUILD=true yarn test",
     "format": "prettier --write \"tests/**/*.mjs\""
   },
