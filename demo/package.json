@@ -9,6 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "test": "playwright test --headed",
+    "test:action": "xvfb-run --auto-servernum -- yarn test:ci",
     "test:ci": "npx playwright install --with-deps && playwright test --headed",
     "format": "prettier --write \"tests/**/*.mjs\""
   },
