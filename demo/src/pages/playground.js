@@ -47,7 +47,7 @@ const Dropper = ({ onPick, setExternal }) => {
         clearTimeout(timeout2.current)
       }
     }
-  }, [])
+  }, [timeout, timeout2])
   const { open, close, isSupported } = useEyeDropper()
   const controller = useRef(abortController())
   const onClick = () => {
@@ -142,7 +142,7 @@ const Sandbox = () => {
       if (typeof timeout.current === 'undefined') return
       clearTimeout(timeout.current)
     }
-  }, [])
+  }, [timeout])
   return (
     <Flex
       direction="column"
