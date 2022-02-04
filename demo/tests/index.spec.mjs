@@ -24,7 +24,6 @@ test('open() does not resolve when called with an aborted signal while open', as
   expect(msg).toBe('Color selection aborted.')
 })
 
-/*
 test('open() is canceled on unmount', async ({ page, port }) => {
   await goto(page, port)
   await page.click('button:has-text("Unmount after 1s")')
@@ -34,7 +33,6 @@ test('open() is canceled on unmount', async ({ page, port }) => {
   const msg = await page.innerText('div[aria-label="Status"]')
   expect(msg).toBe('Color selection aborted.')
 })
-*/
 
 test('close() rejects open()', async ({ page, port }) => {
   await goto(page, port)

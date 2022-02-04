@@ -23,6 +23,8 @@ const useBackground = globalCss({
 const pattern =
   'linear-gradient(to right, rgba(192, 192, 192, 0.75), rgba(192, 192, 192, 0.75)), linear-gradient(to right, black 50%, white 50%), linear-gradient(to bottom, black 50%, white 50%);'
 
+const Status = ({ children }) => <Color aria-label="Status" css={{ pb: '$2' }}>{children}</Color>
+
 const Heading = props => <Typography type="h4" {...props} as="h1" />
 
 const Color = props => <Typography type="h6" {...props} as="div" />
@@ -31,7 +33,7 @@ const Bold = props => <Typography type="button" noMargin as="span" {...props} />
 
 const Text = props => <Typography type="body1" as="span" {...props} />
 
-const Dropper = ({ onPick }) => {
+const Dropper = ({ onPick, setExternal }) => {
   const [status, setStatus] = useState('None')
   const [error, setError] = useState(true)
   const timeout = useRef()
@@ -53,6 +55,7 @@ const Dropper = ({ onPick }) => {
       const { signal } = controller.current
       try {
         const result = await open({ signal })
+        setExternal(result.sRGBHex)
         setStatus(result.sRGBHex)
         setError(false)
       } catch (e) {
@@ -60,6 +63,7 @@ const Dropper = ({ onPick }) => {
           setStatus(e.message)
           setError(true)
         }
+        setExternal(e.message)
       }
     }
     openPicker()
@@ -85,7 +89,7 @@ const Dropper = ({ onPick }) => {
         css={{ gap: '0 $4', height: '128px', color: '$slate400' }}
       >
         <Box css={{ ...style, padding: '$9', maxWidth: '$9', br: '$4' }} />
-        <Color aria-label="Status" css={{ pb: '$2' }}>{status}</Color>
+        <Status>{status}</Status>
       </Flex>
       <Flex css={{ gap: '0 $6' }}>
         <Button onClick={onClick}>
@@ -131,6 +135,7 @@ const Dropper = ({ onPick }) => {
 const Sandbox = () => {
   useBackground()
   const [mount, setMount] = useState(true)
+  const [external, setExternal] = useState('None')
   const timeout = useRef()
   useEffect(() => {
     return () => {
@@ -164,7 +169,8 @@ const Sandbox = () => {
           </Button>
         )}
       </Flex>
-      {mount && <Dropper />}
+      {mount && <Dropper setExternal={setExternal} />}
+      {!mount && <Status>{external}</Status>}
     </Flex>
   )
 }
