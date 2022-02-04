@@ -44,6 +44,18 @@ test('close() rejects open()', async ({ page, port }) => {
   expect(msg).toBe('Color selection aborted.')
 })
 
+test('close() works with signal', async ({ page, port }) => {
+  await goto(page, port)
+  await page.click('button:has-text("Open")')
+  await page.click('button:has-text("Close")')
+  const msg = await page.innerText('div[aria-label="Status"]')
+  expect(msg).toBe('Color selection aborted.')
+  await page.click('button:has-text("Abort controller now")')
+  await page.click('button:has-text("Open")')
+  const msg2 = await page.innerText('div[aria-label="Status"]')
+  expect(msg2).toBe("Failed to execute 'open' on 'EyeDropper': Color selection aborted.")
+})
+
 test('isSupported() is truthy when supported', async ({ page, port }) => {
   await goto(page, port)
   const status = page.locator('body > div > div > span')
