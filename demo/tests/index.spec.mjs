@@ -26,7 +26,7 @@ test('open() does not resolve when called with an aborted signal while open', as
 
 /*
 test('open() is canceled on unmount', async ({ page, port }) => {
-  await page.goto(`http://localhost:${port}/use-eye-dropper/playground`)
+  await goto(page, port)
   await page.click('button:has-text("Unmount after 1s")')
   const timer = sleep(1000)
   await page.click('button:has-text("Open")')
@@ -37,7 +37,6 @@ test('open() is canceled on unmount', async ({ page, port }) => {
 */
 
 test('close() rejects open()', async ({ page, port }) => {
-  await page.goto(`http://localhost:${port}/use-eye-dropper/playground`)
   await goto(page, port)
   await page.click('button:has-text("Close after 1s")')
   const timer = sleep(1000)
@@ -45,4 +44,10 @@ test('close() rejects open()', async ({ page, port }) => {
   await timer
   const msg = await page.innerText('div[aria-label="Status"]')
   expect(msg).toBe('Color selection aborted.')
+})
+
+test('isSupported() is truthy when supported', async ({ page, port }) => {
+  await goto(page, port)
+  const status = page.locator('body > div > div > span')
+  await expect(status).toHaveText('EyeDropper API is supported')
 })
