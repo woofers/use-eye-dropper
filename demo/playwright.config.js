@@ -3,7 +3,7 @@ module.exports = {
   use: {
     headless: false,
     actionTimeout: 10000,
-    baseURL: 'http://localhost:3000/use-eye-dropper/'
+    baseURL: 'http://localhost:${port}/use-eye-dropper/playground'
   },
   projects: [
     {
