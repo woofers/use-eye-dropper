@@ -67,6 +67,19 @@ test('close() works with signal', async ({ page, port }) => {
   )
 })
 
+test('close() does not affect open() when called before', async ({ page, port }) => {
+  await page.locator('"Close"').click()
+  await page.locator('"Close"').click()
+  await page.locator('"Open"').click()
+  await expect(page.locator('div[aria-label="Status"]')).toHaveText(
+    'None'
+  )
+  await page.locator('"Unmount"').click()
+  await expect(page.locator('div[aria-label="Status"]')).toHaveText(
+    'Color selection aborted.'
+  )
+})
+
 test('isSupported() is truthy when supported', async ({ page, port }) => {
   const status = page.locator('body > div > div > span')
   await expect(status).toHaveText('EyeDropper API is supported')
