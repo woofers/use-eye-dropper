@@ -1,12 +1,20 @@
 import { expect } from '@playwright/test'
 import test from './next-fixture.mjs'
 
-test('open() is rejected when EyeDropper API is not supported', async ({ page, port }) => {
+test('open() is rejected when EyeDropper API is not supported', async ({
+  page,
+  port
+}) => {
   await page.locator('"Open"').click()
-  await expect(page.locator('div[aria-label="Status"]')).toHaveText('Unsupported browser.')
+  await expect(page.locator('div[aria-label="Status"]')).toHaveText(
+    'Unsupported browser.'
+  )
 })
 
-test('close() works when EyeDropper API is not supported', async ({ page, port }) => {
+test('close() works when EyeDropper API is not supported', async ({
+  page,
+  port
+}) => {
   await page.locator('"Close"').click()
   await expect(page.locator('div[aria-label="Status"]')).toHaveText('None')
 })
