@@ -5,6 +5,8 @@ import Typography from 'components/typography'
 import { Box, Flex } from 'components/box'
 import Button from 'components/button'
 
+const delay = 100
+
 const abortController = () => {
   if (typeof window === 'undefined') return
   return new AbortController()
@@ -104,7 +106,7 @@ const Dropper = ({ onPick, setExternal }) => {
           onClick={() => (timeout2.current = setTimeout(() => {
             close()
             setDone(true)
-          }, 1000))}
+          }, delay))}
           type="minimal"
           css={{ minWidth: 'unset' }}
         >
@@ -128,7 +130,7 @@ const Dropper = ({ onPick, setExternal }) => {
                 controller.current.abort()
                 setDone(true)
               },
-              1000
+              delay
             ))
           }
           type="minimal"
@@ -169,7 +171,7 @@ const Sandbox = () => {
         {mount && (
           <Button
             onClick={() => {
-              timeout.current = setTimeout(() => setMount(false), 1000)
+              timeout.current = setTimeout(() => setMount(false), delay)
             }}
             type="minimal"
           >
