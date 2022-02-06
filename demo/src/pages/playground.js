@@ -12,6 +12,18 @@ const abortController = () => {
   return new AbortController()
 }
 
+const useCancelTimeout = () => {
+  const ref = useRef()
+  useEffect(() => {
+    return () => {
+      if (typeof ref.current === 'undefined') return
+      clearTimeout(ref.current)
+      ref.current = null
+    }
+  }, [])
+  return ref
+}
+
 const useBackground = globalCss({
   body: {
     backgroundColor: '#f9fafe'
@@ -42,18 +54,8 @@ const Text = props => <Typography type="body1" as="span" {...props} />
 const Dropper = ({ children, onPick, setStatus, setInternal }) => {
   const [error, setError] = useState(true)
   const [done, setDone] = useState('')
-  const timeout = useRef()
-  const timeout2 = useRef()
-  useEffect(() => {
-    return () => {
-      if (typeof timeout.current !== 'undefined') {
-        clearTimeout(timeout.current)
-      }
-      if (typeof timeout2.current !== 'undefined') {
-        clearTimeout(timeout2.current)
-      }
-    }
-  }, [timeout, timeout2])
+  const timeout = useCancelTimeout()
+  const timeout2 = useCancelTimeout()
   const { open, close, isSupported } = useEyeDropper()
   const controller = useRef(abortController())
   const onClick = () => {
@@ -149,13 +151,7 @@ const Sandbox = () => {
   const [mount, setMount] = useState(true)
   const [status, setStatus] = useState('None')
   const [internal, setInternal] = useState('None')
-  const timeout = useRef()
-  useEffect(() => {
-    return () => {
-      if (typeof timeout.current === 'undefined') return
-      clearTimeout(timeout.current)
-    }
-  }, [timeout])
+  const timeout = useCancelTimeout()
   return (
     <Flex
       direction="column"
