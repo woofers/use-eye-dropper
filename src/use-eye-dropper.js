@@ -85,7 +85,7 @@ export const useEyeDropper = options => {
         throw e
       }
     },
-    [controller, mounted]
+    [controller, mounted, close, openPicker]
   )
   useEffect(() => close, [close])
   return { open, close, isSupported }
