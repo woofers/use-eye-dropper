@@ -25,7 +25,11 @@ const useBackground = globalCss({
 const pattern =
   'linear-gradient(to right, rgba(192, 192, 192, 0.75), rgba(192, 192, 192, 0.75)), linear-gradient(to right, black 50%, white 50%), linear-gradient(to bottom, black 50%, white 50%);'
 
-const Status = ({ children, css }) => <Color aria-label="Status" css={{ pb: '$2', ...css }}>{children}</Color>
+const Status = ({ children, css, ariaLabel = 'Status' }) => (
+  <Color aria-label={ariaLabel} css={{ pb: '$2', ...css }}>
+    {children}
+  </Color>
+)
 
 const Heading = props => <Typography type="h4" {...props} as="h1" />
 
@@ -35,7 +39,7 @@ const Bold = props => <Typography type="button" noMargin as="span" {...props} />
 
 const Text = props => <Typography type="body1" as="span" {...props} />
 
-const Dropper = ({ children, onPick, setStatus }) => {
+const Dropper = ({ children, onPick, setStatus, setInternal }) => {
   const [error, setError] = useState(true)
   const [done, setDone] = useState('')
   const timeout = useRef()
@@ -58,10 +62,12 @@ const Dropper = ({ children, onPick, setStatus }) => {
       try {
         const result = await open({ signal })
         setStatus(result.sRGBHex)
+        setInternal(result.sRGBHex)
         setError(false)
       } catch (e) {
         if (!e.canceled) {
           setError(true)
+          setInternal(e.message)
         }
         setStatus(e.message)
       }
@@ -100,10 +106,12 @@ const Dropper = ({ children, onPick, setStatus }) => {
           <Bold>Close</Bold>
         </Button>
         <Button
-          onClick={() => (timeout2.current = setTimeout(() => {
-            close()
-            setDone(true)
-          }, delay))}
+          onClick={() =>
+            (timeout2.current = setTimeout(() => {
+              close()
+              setDone(true)
+            }, delay))
+          }
           type="minimal"
           css={{ minWidth: 'unset' }}
         >
@@ -122,13 +130,10 @@ const Dropper = ({ children, onPick, setStatus }) => {
         </Button>
         <Button
           onClick={() =>
-            (timeout.current = setTimeout(
-              () => {
-                controller.current.abort()
-                setDone(true)
-              },
-              delay
-            ))
+            (timeout.current = setTimeout(() => {
+              controller.current.abort()
+              setDone(true)
+            }, delay))
           }
           type="minimal"
         >
@@ -143,6 +148,7 @@ const Sandbox = () => {
   useBackground()
   const [mount, setMount] = useState(true)
   const [status, setStatus] = useState('None')
+  const [internal, setInternal] = useState('None')
   const timeout = useRef()
   useEffect(() => {
     return () => {
@@ -175,12 +181,19 @@ const Sandbox = () => {
             <Bold>Unmount after 1s</Bold>
           </Button>
         ) : (
-          <Status css={{ pt: '$2', pb: 0, px: '$6' }}>
-            {status}
-          </Status>
+          <>
+            <Status css={{ pt: '$2', pb: 0, px: '$6' }}>{status}</Status>
+            <Status css={{ pt: '$2', pb: 0, px: '$6' }} ariaLabel="Internal">
+              Internal: {internal}
+            </Status>
+          </>
         )}
       </Flex>
-      {mount && <Dropper setStatus={setStatus}>{status}</Dropper>}
+      {mount && (
+        <Dropper setStatus={setStatus} setInternal={setInternal}>
+          {status}
+        </Dropper>
+      )}
     </Flex>
   )
 }

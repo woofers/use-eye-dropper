@@ -12,7 +12,7 @@
     "test:ci": "xvfb-run --auto-servernum -- yarn test:install",
     "test:install": "npx playwright install && yarn test:skip",
     "test:skip": "SKIP_BUILD=true yarn test",
-    "format": "prettier --write \"tests/**/*.mjs\""
+    "format": "prettier --write \"{tests,src}/**/*.{js,mjs}\""
   },
   "dependencies": {
     "@stitches/react": "^1.2.6",

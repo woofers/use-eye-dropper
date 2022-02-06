@@ -33,6 +33,18 @@ test('open() is canceled on unmount', async ({ page, port }) => {
   )
 })
 
+test('open() prevents executing setState after unmount', async ({
+  page,
+  port
+}) => {
+  await page.locator('"Unmount after 1s"').click()
+  await page.locator('"Open"').click()
+  await page.locator('"Mount"').waitFor()
+  await expect(page.locator('div[aria-label="Internal"]')).toHaveText(
+    'Internal: None'
+  )
+})
+
 test('close() rejects open()', async ({ page, port }) => {
   await page.locator('"Close after 1s"').click()
   await page.locator('"Open"').click()
