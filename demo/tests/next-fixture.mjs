@@ -6,6 +6,19 @@ import path from 'path'
 
 const getUrl = (url, port) => url.replace('${port}', port)
 
+// Hide Next.js SWC warning
+const disableWarn = () => {
+  const warn = console.warn
+  const disable = () => {
+    console.warn = () => {}
+  }
+  const enable = () => {
+    console.warn = warn
+  }
+  disable()
+  return enable
+}
+
 const test = base.extend({
   url: [
     async ({ page, port, baseURL }, use) => {
@@ -23,8 +36,9 @@ const test = base.extend({
         dev: false,
         dir: path.resolve(path.dirname(''))
       })
-
+      const enable = disableWarn()
       await app.prepare()
+      enable()
       const handle = app.getRequestHandler()
       const server = await new Promise(resolve => {
         const server = createServer((req, res) => {

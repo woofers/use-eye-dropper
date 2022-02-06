@@ -25,7 +25,7 @@ const useBackground = globalCss({
 const pattern =
   'linear-gradient(to right, rgba(192, 192, 192, 0.75), rgba(192, 192, 192, 0.75)), linear-gradient(to right, black 50%, white 50%), linear-gradient(to bottom, black 50%, white 50%);'
 
-const Status = ({ children }) => <Color aria-label="Status" css={{ pb: '$2' }}>{children}</Color>
+const Status = ({ children, css }) => <Color aria-label="Status" css={{ pb: '$2', ...css }}>{children}</Color>
 
 const Heading = props => <Typography type="h4" {...props} as="h1" />
 
@@ -35,8 +35,7 @@ const Bold = props => <Typography type="button" noMargin as="span" {...props} />
 
 const Text = props => <Typography type="body1" as="span" {...props} />
 
-const Dropper = ({ onPick, setExternal }) => {
-  const [status, setStatus] = useState('None')
+const Dropper = ({ children, onPick, setStatus }) => {
   const [error, setError] = useState(true)
   const [done, setDone] = useState('')
   const timeout = useRef()
@@ -58,20 +57,18 @@ const Dropper = ({ onPick, setExternal }) => {
       const { signal } = controller.current
       try {
         const result = await open({ signal })
-        setExternal(result.sRGBHex)
         setStatus(result.sRGBHex)
         setError(false)
       } catch (e) {
         if (!e.canceled) {
-          setStatus(e.message)
           setError(true)
         }
-        setExternal(e.message)
+        setStatus(e.message)
       }
     }
     openPicker()
   }
-  const background = status?.replace(/0\)/g, `1)`)
+  const background = children?.replace(/0\)/g, `1)`)
   const style = !error
     ? { background }
     : {
@@ -92,8 +89,8 @@ const Dropper = ({ onPick, setExternal }) => {
         css={{ gap: '0 $4', height: '128px', color: '$slate400' }}
       >
         <Box css={{ ...style, padding: '$9', maxWidth: '$9', br: '$4' }} />
-        <Status>{status}</Status>
-        <Text>{done && 'Done'}</Text>
+        <Status>{children}</Status>
+        <Color>{done && 'Done'}</Color>
       </Flex>
       <Flex css={{ gap: '0 $6' }}>
         <Button onClick={onClick}>
@@ -145,7 +142,7 @@ const Dropper = ({ onPick, setExternal }) => {
 const Sandbox = () => {
   useBackground()
   const [mount, setMount] = useState(true)
-  const [external, setExternal] = useState('None')
+  const [status, setStatus] = useState('None')
   const timeout = useRef()
   useEffect(() => {
     return () => {
@@ -164,11 +161,11 @@ const Sandbox = () => {
         $$background: '#fff'
       }}
     >
-      <Flex css={{ pb: '$6', gap: '0 $3' }}>
+      <Flex css={{ pb: '$6', gap: '0 $3' }} align="center">
         <Button onClick={() => setMount(value => !value)}>
           <Bold>{mount ? 'Unmount' : 'Mount'}</Bold>
         </Button>
-        {mount && (
+        {mount ? (
           <Button
             onClick={() => {
               timeout.current = setTimeout(() => setMount(false), delay)
@@ -177,10 +174,13 @@ const Sandbox = () => {
           >
             <Bold>Unmount after 1s</Bold>
           </Button>
+        ) : (
+          <Status css={{ pt: '$2', pb: 0, px: '$6' }}>
+            {status}
+          </Status>
         )}
       </Flex>
-      {mount && <Dropper setExternal={setExternal} />}
-      {!mount && <Status>{external}</Status>}
+      {mount && <Dropper setStatus={setStatus}>{status}</Dropper>}
     </Flex>
   )
 }
