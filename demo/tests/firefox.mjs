@@ -7,15 +7,13 @@ const goto = async (page, port) =>
 test('open() is rejected when EyeDropper API is not supported', async ({ page, port }) => {
   await goto(page, port)
   await page.locator('"Open"').click()
-  const msg = await page.innerText('div[aria-label="Status"]')
-  expect(msg).toBe('Unsupported browser.')
+  await expect(page.locator('div[aria-label="Status"]')).toHaveText('Unsupported browser.')
 })
 
 test('close() works when EyeDropper API is not supported', async ({ page, port }) => {
   await goto(page, port)
   await page.locator('"Close"').click()
-  const msg = await page.innerText('div[aria-label="Status"]')
-  expect(msg).toBe('None')
+  await expect(page.locator('div[aria-label="Status"]')).toHaveText('None')
 })
 
 test('isSupported() is falsy when unsupported', async ({ page, port }) => {
