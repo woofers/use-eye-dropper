@@ -1,0 +1,39 @@
+name: 'Install'
+description: 'Installs and builds package'
+inputs:
+  demo:
+    description: 'Should install + build demo'
+    required: true
+    default: false
+  build:
+    description: 'Should build module'
+    required: true
+    default: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Use Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+        registry-url: 'https://registry.npmjs.org'
+    - name: Install
+      run: yarn install
+      shell: bash
+    - name: Build
+      if: ${{ inputs.build == 'true' }}
+      run: yarn build
+      shell: bash
+    - name: Install Prod
+      if: ${{ inputs.demo == 'true' }}
+      run: yarn install --prod
+      shell: bash
+    - name: Install Demo
+      if: ${{ inputs.demo == 'true' }}
+      run: yarn --cwd demo install
+      shell: bash
+    - name: Build Demo
+      if: ${{ inputs.demo == 'true' }}
+      run: yarn --cwd demo build
+      shell: bash
