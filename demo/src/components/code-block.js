@@ -10,7 +10,7 @@ const Pre = styled('pre', {
   fontSize: '12px',
   '@sm': {
     fontSize: '16px',
-    lineHeight: '1.5',
+    lineHeight: '1.5'
   }
 })
 

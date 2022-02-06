@@ -20,14 +20,6 @@ afterEach(() => {
   delete global.window.EyeDropper
 })
 
-describe('EyeDropper Mock', () => {
-  it('open() resolves color', async () => {
-    const dropper = new EyeDropper()
-    const color = await dropper.open()
-    expect(color.sRGBHex).toEqual('rgba(255, 255, 255, 0)')
-  })
-})
-
 const Button = ({ onPick }) => {
   const [status, setStatus] = React.useState('None')
   const { open, close, isSupported } = useEyeDropper()
