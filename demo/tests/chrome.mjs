@@ -1,8 +1,6 @@
 import { expect } from '@playwright/test'
 import test from './next-fixture.mjs'
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
-
 test('open() does not resolve when called with an aborted signal', async ({ page, port }) => {
   await page.locator('"Abort controller now"').click()
   await page.locator('"Open"').click()
@@ -11,25 +9,22 @@ test('open() does not resolve when called with an aborted signal', async ({ page
 
 test('open() does not resolve when called with an aborted signal while open', async ({ page, port }) => {
   await page.locator('"Abort controller after 1s"').click()
-  const timer = sleep(1000)
   await page.locator('"Open"').click()
-  await timer
+  await page.locator('"Done"').waitFor()
   await expect(page.locator('div[aria-label="Status"]')).toHaveText('Color selection aborted.')
 })
 
 test('open() is canceled on unmount', async ({ page, port }) => {
   await page.locator('"Unmount after 1s"').click()
-  const timer = sleep(1000)
   await page.locator('"Open"').click()
-  await timer
+  await page.locator('"Mount"').waitFor()
   await expect(page.locator('div[aria-label="Status"]')).toHaveText('Color selection aborted.')
 })
 
 test('close() rejects open()', async ({ page, port }) => {
   await page.locator('"Close after 1s"').click()
-  const timer = sleep(1000)
   await page.locator('"Open"').click()
-  await timer
+  await page.locator('"Done"').waitFor()
   await expect(page.locator('div[aria-label="Status"]')).toHaveText('Color selection aborted.')
 })
 

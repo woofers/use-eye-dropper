@@ -36,6 +36,7 @@ const Text = props => <Typography type="body1" as="span" {...props} />
 const Dropper = ({ onPick, setExternal }) => {
   const [status, setStatus] = useState('None')
   const [error, setError] = useState(true)
+  const [done, setDone] = useState('')
   const timeout = useRef()
   const timeout2 = useRef()
   useEffect(() => {
@@ -90,6 +91,7 @@ const Dropper = ({ onPick, setExternal }) => {
       >
         <Box css={{ ...style, padding: '$9', maxWidth: '$9', br: '$4' }} />
         <Status>{status}</Status>
+        <Text>{done && 'Done'}</Text>
       </Flex>
       <Flex css={{ gap: '0 $6' }}>
         <Button onClick={onClick}>
@@ -99,7 +101,10 @@ const Dropper = ({ onPick, setExternal }) => {
           <Bold>Close</Bold>
         </Button>
         <Button
-          onClick={() => (timeout2.current = setTimeout(() => close(), 1000))}
+          onClick={() => (timeout2.current = setTimeout(() => {
+            close()
+            setDone(true)
+          }, 1000))}
           type="minimal"
           css={{ minWidth: 'unset' }}
         >
@@ -119,7 +124,10 @@ const Dropper = ({ onPick, setExternal }) => {
         <Button
           onClick={() =>
             (timeout.current = setTimeout(
-              () => controller.current.abort(),
+              () => {
+                controller.current.abort()
+                setDone(true)
+              },
               1000
             ))
           }
