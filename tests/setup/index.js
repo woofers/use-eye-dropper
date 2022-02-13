@@ -16,5 +16,5 @@ const replace = (obj, key, func) => {
 replace(console, 'error', ([message, ...args], error) => {
   error.apply(message, args)
   const formatted = format(message, ...args)
-  throw (message instanceof Error ? formatted : new Error(formatted))
+  throw message instanceof Error ? formatted : new Error(formatted)
 })

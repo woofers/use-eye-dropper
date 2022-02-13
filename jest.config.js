@@ -13,5 +13,7 @@ module.exports = {
   },
   restoreMocks: true,
   clearMocks: true,
-  resetMocks: true
+  resetMocks: true,
+  collectCoverage: true,
+  coverageReporters: ['json-summary']
 }

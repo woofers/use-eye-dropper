@@ -65,10 +65,7 @@ const createHelpers = options => {
 }
 
 export const useEyeDropper = options => {
-  const { open: openPicker } = useMemo(
-    () => createHelpers(options),
-    [options]
-  )
+  const { open: openPicker } = useMemo(() => createHelpers(options), [options])
   const mounted = useIsMounted()
   const isSupported = useIsSupported()
   const controller = useRef()
