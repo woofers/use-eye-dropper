@@ -24,6 +24,7 @@ const isSupported = () =>
 
 const resolveError = () => {
   let error = 'Unsupported browser.'
+  // istanbul ignore next
   if (__isDev__) {
     error =
       'Unsupported browser: no EyeDropper in Window. Check https://developer.mozilla.org/en-US/docs/Web/API/EyeDropper_API.'

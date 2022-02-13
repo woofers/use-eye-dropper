@@ -9,6 +9,7 @@ into an easy-to-use React hook.  This API is currently only available in Chromiu
 ## Features
 
 - Supports Server-Side rendering.
+- Test coverage with unit and integration tests.
 - Safely detect and fallback on unsupported browsers using `isSupported` method.
 - Closes eye dropper when corresponding component is unmounted.
 - Provides explicit `close` method to cancel eye dropper (signals can still be used).

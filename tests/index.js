@@ -207,4 +207,11 @@ describe('useEyeDropper', () => {
       expect(screen.getByText('EyeDropper API unavailable'))
     })
   })
+  describe('Mock', () => {
+    it('Ensure mock resolves with no signal', async () => {
+      const dropper = new EyeDropper()
+      const result = await dropper.open()
+      expect(result.sRGBHex).toBe('rgba(255, 255, 255, 0)')
+    })
+  })
 })
