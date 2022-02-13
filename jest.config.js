@@ -10,5 +10,8 @@ module.exports = {
   ],
   globals: {
     __isDev__: false
-  }
+  },
+  restoreMocks: true,
+  clearMocks: true,
+  resetMocks: true
 }
