@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useEffect, useRef } from 'react'
+import { useState, useCallback, useMemo, useEffect, useRef } from 'react'
 
 // https://github.com/whatwg/fetch/issues/905#issuecomment-491970649
 const anySignal = signals => {
@@ -38,6 +38,14 @@ const bindFunc = (key, instance) => {
   return EyeDropper.prototype[key].bind(instance)
 }
 
+const useIsSupported = () => {
+  const [supported, setSupported] = useState()
+  useEffect(() => {
+    setSupported(isSupported())
+  }, [])
+  return useCallback(() => !!supported, [supported])
+}
+
 const useIsMounted = () => {
   const ref = useRef()
   useEffect(() => {
@@ -52,15 +60,16 @@ const useIsMounted = () => {
 const createHelpers = options => {
   const dropper = createInstance(options)
   const open = bindFunc('open', dropper)
-  return { open, isSupported }
+  return { open }
 }
 
 export const useEyeDropper = options => {
-  const { open: openPicker, isSupported } = useMemo(
+  const { open: openPicker } = useMemo(
     () => createHelpers(options),
     [options]
   )
   const mounted = useIsMounted()
+  const isSupported = useIsSupported()
   const controller = useRef()
   const hasController = () => typeof controller.current !== 'undefined'
   const close = useCallback(() => {

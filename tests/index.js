@@ -1,4 +1,5 @@
 import { jest } from '@jest/globals'
+import { renderToString } from 'react-dom/server'
 import React from 'react'
 import {
   act,
@@ -117,7 +118,8 @@ describe('useEyeDropper', () => {
     it('open() prevents executing setState after unmount', async () => {
       const setStateMock = jest.fn()
       const useStateMock = value => [value, setStateMock]
-      const spy = jest.spyOn(React, 'useState').mockImplementation(useStateMock)
+      const spy = jest.spyOn(React, 'useState')
+      spy.mockImplementation(useStateMock)
       const { unmount } = render(<Button onPick={open => open()} />)
       fireEvent.click(screen.getByText('Open'))
       const removal = waitForElementToBeRemoved(() =>
@@ -126,7 +128,8 @@ describe('useEyeDropper', () => {
       unmount()
       await removal
       expect(screen.queryByText('EyeDropper')).not.toBeInTheDocument()
-      expect(setStateMock).not.toBeCalled()
+      expect(setStateMock).toBeCalledTimes(1)
+      expect(setStateMock).toBeCalledWith(true)
       spy.mockRestore()
     })
   })
@@ -181,6 +184,26 @@ describe('useEyeDropper', () => {
     it('isSupported() is falsy when unsupported', async () => {
       delete window.EyeDropper
       render(<Button />)
+      expect(screen.getByText('EyeDropper API unavailable'))
+    })
+    it('isSupported() is handled on SSR when supported', async () => {
+      const EyeDropper = window.EyeDropper
+      delete window.EyeDropper
+      const container = document.createElement('div')
+      container.innerHTML = renderToString(<Button />)
+      document.body.appendChild(container)
+      expect(screen.getByText('EyeDropper API unavailable'))
+      window.EyeDropper = EyeDropper
+      render(<Button />, { container, hydrate: true })
+      expect(screen.getByText('EyeDropper API is supported'))
+    })
+    it('isSupported() is handled on SSR when unsupported', async () => {
+      delete window.EyeDropper
+      const container = document.createElement('div')
+      container.innerHTML = renderToString(<Button />)
+      document.body.appendChild(container)
+      expect(screen.getByText('EyeDropper API unavailable'))
+      render(<Button />, { container, hydrate: true })
       expect(screen.getByText('EyeDropper API unavailable'))
     })
   })
