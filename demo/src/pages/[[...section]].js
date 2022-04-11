@@ -1,6 +1,8 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Head from 'next/head'
 import Image from 'next/image'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { styled, globalCss } from 'stitches'
 import { Box, Inline, Flex } from 'components/box'
 import Logo from 'components/logo'
@@ -23,6 +25,20 @@ import {
 } from 'framer-motion'
 import { IoLogoNpm } from 'react-icons/io'
 import { GoMarkGithub, GoLogoGithub } from 'react-icons/go'
+
+const scrollToTop = () => {
+  if (typeof window === 'undefined') return
+  window.scrollTo(0, 0)
+}
+
+const scrollTo = id => {
+  if (typeof window === 'undefined') return
+  const element = document.getElementById(id)
+  if (!element) return
+  const offset = 100
+  const y = element.getBoundingClientRect().top + window.scrollY - offset
+  window.scroll({ top: y })
+}
 
 const useBackground = globalCss({
   body: {
@@ -105,12 +121,6 @@ const getBackground = colors => {
   return [colors[boundary + offset], true]
 }
 
-const Link = styled('a', {
-  color: '$$lightText',
-  fontWeight: 700,
-  textDecoration: 'none'
-})
-
 const Spacer = styled('span', {
   mr: '$2',
   color: '$$lightText',
@@ -130,6 +140,7 @@ const InnerList = styled(Box, {
 })
 
 const ClipLink = styled(HoverLink, {
+  position: 'relative',
   svg: {
     transform: 'translate(0, -50%)',
     top: '50%',
@@ -149,7 +160,6 @@ const ClipLink = styled(HoverLink, {
 })
 
 const PlainLink = styled('a', {
-  position: 'relative',
   textDecoration: 'none',
   color: 'currentColor',
   pb: '5px',
@@ -179,23 +189,22 @@ const TocHeading = ({ id, children, ...rest }) => (
     as="span"
     css={{ textTransform: 'lowercase', letterSpacing: '-0.5px' }}
   >
-    <HoverLink href={`#${id}`}>{children}</HoverLink>
+    <Link href={`/${id}`} passHref scroll={false}>
+      <HoverLink>{children}</HoverLink>
+    </Link>
   </Typography>
 )
 
 const AnchorHeading = ({ type, as, id, children, ...rest }) => (
-  <Typography id={id} as={as} type={type}>
-    <ClipLink href={`#${id}`} {...rest}>
-      <FiPaperclip aria-hidden /> <span>{children.substring(0, 1)}</span>
-      {children.substring(1)}
-    </ClipLink>
+  <Typography as={as} type={type}>
+    <Link href={`/${id}`} passHref scroll={false}>
+      <ClipLink {...rest} id={id}>
+        <FiPaperclip aria-hidden /> <span>{children.substring(0, 1)}</span>
+        {children.substring(1)}
+      </ClipLink>
+    </Link>
   </Typography>
 )
-
-const scrollToTop = () => {
-  if (typeof window === 'undefined') return
-  window.scrollTo(0, 0)
-}
 
 const setBodyBackground = color => {
   if (typeof window === 'undefined') return
@@ -203,6 +212,17 @@ const setBodyBackground = color => {
 }
 
 const Home = () => {
+  const router = useRouter()
+  const isReady = router.isReady
+  const path = router?.query?.section?.[0]
+  useEffect(() => {
+    if (!isReady) return
+    if (!path) {
+      scrollToTop()
+    } else {
+      scrollTo(path)
+    }
+  }, [path, isReady, router])
   const [color, setValue] = useState('rgb(0, 116, 224)')
   useBackground()
   const { open, isSupported } = useEyeDropper()
@@ -282,23 +302,25 @@ const Home = () => {
             pointerEvents: events
           }}
         >
-          <Flex
-            css={{
-              pt: '$5',
-              pb: '$2',
-              px: '$5',
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              height: 'max-content',
-              pointerEvents: 'all'
-            }}
-            as="button"
-            onClick={scrollToTop}
-            aria-label="Scroll to top"
-          >
-            <Logo size="small" as="div" />
-          </Flex>
+          <Link href="/" passHref scroll={false}>
+            <Flex
+              css={{
+                pt: '$5',
+                pb: '$2',
+                px: '$5',
+                textDecoration: 'none',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                height: 'max-content',
+                pointerEvents: 'all'
+              }}
+              as="a"
+              aria-label="Scroll to top"
+            >
+              <Logo size="small" as="div" />
+            </Flex>
+          </Link>
           <Flex
             direction="column"
             css={{ gap: '$1 0', pt: '$5', pr: '$5', '@sm': { gap: '$2 0' } }}
@@ -528,6 +550,27 @@ const App = () => {
       </Box>
     </>
   )
+}
+
+const sections = ['', 'documentation', 'features', 'usage', 'methods']
+
+const getPaths = () =>
+  sections.map(path => {
+    const section = path ? [path] : []
+    return { params: { section } }
+  })
+
+export const getStaticPaths = async () => {
+  return {
+    paths: getPaths(),
+    fallback: false
+  }
+}
+
+export const getStaticProps = async () => {
+  return {
+    props: {}
+  }
 }
 
 export default Home

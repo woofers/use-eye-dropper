@@ -32,5 +32,17 @@ module.exports = {
   },
   basePath: '/use-eye-dropper',
   assetPrefix: '/use-eye-dropper/',
-  trailingSlash: true
+  trailingSlash: true,
+  exportPathMap: async function (
+    defaultPathMap,
+    { dev, dir, outDir, distDir, buildId }
+  ) {
+    return {
+      '/': { page: '/[[...section]]' },
+      '/documentation/': { page: '/[[...section]]' },
+      '/features/': { page: '/[[...section]]' },
+      '/usage/': { page: '/[[...section]]' },
+      '/methods/': { page: '/[[...section]]' }
+    }
+  }
 }

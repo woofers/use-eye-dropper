@@ -1,3 +1,4 @@
+import { forwardRef } from 'react'
 import { styled } from 'stitches'
 import { FiExternalLink } from 'react-icons/fi'
 
@@ -28,8 +29,8 @@ const Link = styled('a', {
   }
 })
 
-const HoverLink = ({ target, children, ...rest }) => (
-  <Link target={target} {...rest}>
+const HoverLink = forwardRef(({ target, children, ...rest }, ref) => (
+  <Link target={target} ref={ref} {...rest}>
     {children}
     {target && target != '_self' && (
       <>
@@ -38,6 +39,8 @@ const HoverLink = ({ target, children, ...rest }) => (
       </>
     )}
   </Link>
-)
+))
+
+HoverLink.displayName = 'HoverLink'
 
 export default HoverLink
