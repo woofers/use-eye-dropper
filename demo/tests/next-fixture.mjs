@@ -17,7 +17,6 @@ const disableWarn = () => {
   return enable
 }
 
-
 const getUrl = (url, port) => url.replace('${port}', port)
 
 const test = base.extend({
