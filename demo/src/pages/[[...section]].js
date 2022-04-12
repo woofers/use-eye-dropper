@@ -393,7 +393,7 @@ const Home = () => {
           {isSupported() ? (
             <Button
               css={{ mt: '-64px', '@sm': { mt: '0px' } }}
-              onClick={() => open().then(color => setColor(color?.sRGBHex))}
+              onClick={() => open().then(color => setColor(color?.sRGBHex)).catch(() => {})}
             >
               <BsEyedropper aria-hidden />
               <Typography noMargin type="button" as="span">
