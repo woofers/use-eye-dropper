@@ -10,36 +10,33 @@ import Typography from 'components/typography'
 import HoverLink from 'components/hover-link'
 import { HiBan } from 'react-icons/hi'
 import { BsDropletFill, BsEyedropper } from 'react-icons/bs'
-import { FiCopy, FiPaperclip, FiExternalLink } from 'react-icons/fi'
+import { FiCopy, FiExternalLink } from 'react-icons/fi'
 import CodeBlock from 'components/code-block'
 import Button from 'components/button'
 import InstallBlock from 'components/install-block'
 import chroma from 'chroma-js'
 import useEyeDropper from 'use-eye-dropper'
-import { copyToClipboard } from 'utils'
-import dynamic from 'next/dynamic'
+import {
+  toHex,
+  contrast,
+  scale,
+  getAccent,
+  getBackground,
+  scrollTo,
+  scrollToTop,
+  copyToClipboard,
+  setBodyBackground
+} from 'utils'
 import {
   motion,
   useTransform,
   useViewportScroll,
   useMotionTemplate
 } from 'framer-motion'
+import Dropper from 'components/dropper'
 import { IoLogoNpm } from 'react-icons/io'
 import { GoMarkGithub, GoLogoGithub } from 'react-icons/go'
-
-const scrollToTop = () => {
-  if (typeof window === 'undefined') return
-  window.scrollTo(0, 0)
-}
-
-const scrollTo = id => {
-  if (typeof window === 'undefined') return
-  const element = document.getElementById(id)
-  if (!element) return
-  const offset = 100
-  const y = element.getBoundingClientRect().top + window.scrollY - offset
-  window.scroll({ top: y })
-}
+import AnchorHeading from 'components/anchor-heading'
 
 const useBackground = globalCss({
   body: {
@@ -48,77 +45,11 @@ const useBackground = globalCss({
 })
 
 const IconContainer = styled(Box, {
-  fontSize: '240px'
+  fontSize: '240px',
+  mt: '-108px',
+  transform: 'scale(calc(1 / 1.5)) translate(40px, 230px)',
+  '@sm': { mt: '0px', transform: 'none' }
 })
-
-const Drop = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    stroke="currentColor"
-    fill="var(---outline)"
-    strokeWidth="0"
-    height="1em"
-    width="1em"
-    viewBox="0 0 16 16"
-  >
-    <path
-      stroke="currentColor"
-      style={{
-        transform: 'translate(-1px, 1px)',
-        clipPath: 'inset(2px 0px 0px 0px)'
-      }}
-      fill="none"
-      strokeWidth="1.619"
-      d="M2.413 13.334l8.184-8.183.261.261-8.183 8.184z"
-    />
-    <path
-      d="M13.354.646a1.207 1.207 0 00-1.708 0L8.5 3.793l-.646-.647a.5.5 0 10-.708.708L8.293 5l-7.147 7.146A.5.5 0 001 12.5v1.793l-.854.853a.5.5 0 10.708.707L1.707 15H3.5a.5.5 0 00.354-.146L11 7.707l1.146 1.147a.5.5 0 00.708-.708l-.647-.646 3.147-3.146a1.207 1.207 0 000-1.708l-2-2zM2 12.707l7-7L10.293 7l-7 7H2v-1.293z"
-      stroke="none"
-    />
-  </svg>
-)
-
-const scale = (color, steps = 31) =>
-  chroma.scale(['#fff', color, '#000']).mode('lch').colors(steps)
-
-const getDir = colors => {
-  const steps = colors.length
-  const end = steps - 1
-  const mid = (steps - 1) / 2
-  const color = colors[mid]
-  const light = colors[1]
-  const dark = colors[end - 1]
-  const lightContrast = chroma.contrast(color, light)
-  const darkContrast = chroma.contrast(color, dark)
-  return [
-    lightContrast < darkContrast ? 1 : -1,
-    Math.min(lightContrast, darkContrast)
-  ]
-}
-
-const steps = 31
-const primary = 7
-const highContrast = 1
-
-const getAccent = colors => {
-  const [dir, constrast] = getDir(colors)
-  const boundary = dir > 0 ? colors.length - 1 : 0
-  const offset = -1 * primary * dir
-  return colors[boundary + offset]
-}
-
-const getBackground = colors => {
-  const [dir, contrast] = getDir(colors)
-  const boundary = dir < 0 ? colors.length - 1 : 0
-  const offset = 7 * dir
-  const isBad = contrast < 1.75
-  if (isBad) {
-    const contrastBoundary = dir > 0 ? colors.length - 1 : 0
-    const contrastOffset = -1 * highContrast * dir
-    return [colors[contrastOffset + contrastBoundary], false]
-  }
-  return [colors[boundary + offset], true]
-}
 
 const Spacer = styled('span', {
   mr: '$2',
@@ -138,51 +69,6 @@ const InnerList = styled(Box, {
   pl: '$4'
 })
 
-const ClipLink = styled(HoverLink, {
-  position: 'relative',
-  div: {
-    display: 'inline-block',
-    transform: 'translate(0, 0)',
-    transition: 'transform 0.2s 0.05s ease-in-out'
-  },
-  svg: {
-    position: 'absolute',
-    top: '50%',
-    left: '0',
-    fontSize: '0.7em',
-    opacity: 0,
-    transform: 'translate(-0.7em, -50%)',
-    transition: 'opacity 0.2s 0.05s ease-in-out, transform 0.2s 0.05s ease-in-out'
-  },
-  '&:hover, &:focus': {
-    div: {
-      transform: 'translate(calc(0.7em + 0.18em), 0)',
-    },
-    svg: {
-      transform: 'translate(0, -50%)',
-      opacity: 1
-    }
-  },
-  '@lg': {
-    div: {
-      transform: 'translate(0, 0)',
-    },
-    svg: {
-      transform: 'translate(0, -50%)',
-      opacity: 0,
-    },
-    '&:hover, &:focus': {
-      div: {
-        transform: 'translate(0, 0)',
-      },
-      svg: {
-        transform: 'translate(calc(-0.7em - 0.64em), -50%)',
-        opacity: 1
-      }
-    }
-  }
-})
-
 const TocHeading = ({ id, children, ...rest }) => (
   <Typography
     type={{ '@initial': 'h6', '@sm': 'h5' }}
@@ -194,22 +80,6 @@ const TocHeading = ({ id, children, ...rest }) => (
     </Link>
   </Typography>
 )
-
-const AnchorHeading = ({ type, as, id, children, ...rest }) => (
-  <Typography as={as} type={type}>
-    <Link href={`/${id}`} passHref scroll={false}>
-      <ClipLink {...rest} id={id}>
-        <FiPaperclip aria-hidden />
-        <div>{children}</div>
-      </ClipLink>
-    </Link>
-  </Typography>
-)
-
-const setBodyBackground = color => {
-  if (typeof window === 'undefined') return
-  document.body.style.setProperty('--body-background', color)
-}
 
 const Home = () => {
   const router = useRouter()
@@ -236,7 +106,7 @@ const Home = () => {
   const accent = getAccent(colors)
   const lightText = swap ? color : accent
   const text = !swap ? color : accent
-  const colorText = chroma(color).hex()
+  const colorText = toHex(color)
   const { scrollYProgress } = useViewportScroll()
   const opacity = useTransform(
     scrollYProgress,
@@ -257,9 +127,7 @@ const Home = () => {
     value === 0 ? 'all' : 'none'
   )
   const apple = () =>
-    chroma.contrast('#FFF', backgroundColor) > 1.6
-      ? 'black-translucent'
-      : 'default'
+    contrast('#FFF', backgroundColor) > 1.6 ? 'black-translucent' : 'default'
   return (
     <>
       <Head>
@@ -355,15 +223,9 @@ const Home = () => {
             pointerEvents: events
           }}
         >
-          <IconContainer
-            css={{
-              mt: '-108px',
-              transform: 'scale(calc(1 / 1.5)) translate(40px, 230px)',
-              '@sm': { mt: '0px', transform: 'none' }
-            }}
-          >
+          <IconContainer>
             <Box css={{ pl: '100px' }}>
-              <Drop />
+              <Dropper />
             </Box>
             <Box css={{ fontSize: '180px', mt: '-28px', pr: '150px' }}>
               <BsDropletFill />
@@ -393,7 +255,11 @@ const Home = () => {
           {isSupported() ? (
             <Button
               css={{ mt: '-64px', '@sm': { mt: '0px' } }}
-              onClick={() => open().then(color => setColor(color?.sRGBHex)).catch(() => {})}
+              onClick={() =>
+                open()
+                  .then(color => setColor(color?.sRGBHex))
+                  .catch(() => {})
+              }
             >
               <BsEyedropper aria-hidden />
               <Typography noMargin type="button" as="span">
