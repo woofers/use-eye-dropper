@@ -1,6 +1,6 @@
 import { forwardRef } from 'react'
 import { styled } from 'stitches'
-import { FiExternalLink } from 'react-icons/fi'
+import { ExternalLinkIcon } from 'icons'
 
 const Link = styled('a', {
   position: 'relative',
@@ -35,7 +35,7 @@ const HoverLink = forwardRef(({ target, children, ...rest }, ref) => (
     {target && target != '_self' && (
       <>
         {' '}
-        <FiExternalLink aria-label="External link" strokeWidth="2.5px" />
+        <ExternalLinkIcon aria-label="External link" strokeWidth="2.5px" />
       </>
     )}
   </Link>

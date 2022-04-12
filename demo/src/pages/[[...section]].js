@@ -4,42 +4,40 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { styled, globalCss } from 'stitches'
+import useEyeDropper from 'use-eye-dropper'
 import { Box, Inline, Flex } from 'components/box'
 import Logo from 'components/logo'
 import Typography from 'components/typography'
 import HoverLink from 'components/hover-link'
-import { HiBan } from 'react-icons/hi'
-import { BsDropletFill, BsEyedropper } from 'react-icons/bs'
-import { FiCopy, FiPaperclip, FiExternalLink } from 'react-icons/fi'
 import CodeBlock from 'components/code-block'
 import Button from 'components/button'
 import InstallBlock from 'components/install-block'
-import chroma from 'chroma-js'
-import useEyeDropper from 'use-eye-dropper'
-import { copyToClipboard } from 'utils'
-import dynamic from 'next/dynamic'
+import { List, ListItem, InnerList } from 'components/list'
+import Dropper from 'components/dropper'
+import AnchorHeading from 'components/anchor-heading'
+import TocHeading from 'components/toc-heading'
+import {
+  toTitle,
+  alpha,
+  toHex,
+  contrast,
+  scale,
+  getAccent,
+  getBackground,
+  scrollTo,
+  scrollToTop,
+  copyToClipboard,
+  setBodyBackground
+} from 'utils'
 import {
   motion,
   useTransform,
   useViewportScroll,
   useMotionTemplate
 } from 'framer-motion'
-import { IoLogoNpm } from 'react-icons/io'
-import { GoMarkGithub, GoLogoGithub } from 'react-icons/go'
 
-const scrollToTop = () => {
-  if (typeof window === 'undefined') return
-  window.scrollTo(0, 0)
-}
-
-const scrollTo = id => {
-  if (typeof window === 'undefined') return
-  const element = document.getElementById(id)
-  if (!element) return
-  const offset = 100
-  const y = element.getBoundingClientRect().top + window.scrollY - offset
-  window.scroll({ top: y })
-}
+const sections = ['documentation', 'features', 'usage', 'methods']
+const pages = ['', ...sections]
 
 const useBackground = globalCss({
   body: {
@@ -47,171 +45,7 @@ const useBackground = globalCss({
   }
 })
 
-const IconContainer = styled(Box, {
-  fontSize: '240px'
-})
-
-const Drop = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    stroke="currentColor"
-    fill="var(---outline)"
-    strokeWidth="0"
-    height="1em"
-    width="1em"
-    viewBox="0 0 16 16"
-  >
-    <path
-      stroke="currentColor"
-      style={{
-        transform: 'translate(-1px, 1px)',
-        clipPath: 'inset(2px 0px 0px 0px)'
-      }}
-      fill="none"
-      strokeWidth="1.619"
-      d="M2.413 13.334l8.184-8.183.261.261-8.183 8.184z"
-    />
-    <path
-      d="M13.354.646a1.207 1.207 0 00-1.708 0L8.5 3.793l-.646-.647a.5.5 0 10-.708.708L8.293 5l-7.147 7.146A.5.5 0 001 12.5v1.793l-.854.853a.5.5 0 10.708.707L1.707 15H3.5a.5.5 0 00.354-.146L11 7.707l1.146 1.147a.5.5 0 00.708-.708l-.647-.646 3.147-3.146a1.207 1.207 0 000-1.708l-2-2zM2 12.707l7-7L10.293 7l-7 7H2v-1.293z"
-      stroke="none"
-    />
-  </svg>
-)
-
-const scale = (color, steps = 31) =>
-  chroma.scale(['#fff', color, '#000']).mode('lch').colors(steps)
-
-const getDir = colors => {
-  const steps = colors.length
-  const end = steps - 1
-  const mid = (steps - 1) / 2
-  const color = colors[mid]
-  const light = colors[1]
-  const dark = colors[end - 1]
-  const lightContrast = chroma.contrast(color, light)
-  const darkContrast = chroma.contrast(color, dark)
-  return [
-    lightContrast < darkContrast ? 1 : -1,
-    Math.min(lightContrast, darkContrast)
-  ]
-}
-
-const steps = 31
-const primary = 7
-const highContrast = 1
-
-const getAccent = colors => {
-  const [dir, constrast] = getDir(colors)
-  const boundary = dir > 0 ? colors.length - 1 : 0
-  const offset = -1 * primary * dir
-  return colors[boundary + offset]
-}
-
-const getBackground = colors => {
-  const [dir, contrast] = getDir(colors)
-  const boundary = dir < 0 ? colors.length - 1 : 0
-  const offset = 7 * dir
-  const isBad = contrast < 1.75
-  if (isBad) {
-    const contrastBoundary = dir > 0 ? colors.length - 1 : 0
-    const contrastOffset = -1 * highContrast * dir
-    return [colors[contrastOffset + contrastBoundary], false]
-  }
-  return [colors[boundary + offset], true]
-}
-
-const Spacer = styled('span', {
-  mr: '$2',
-  color: '$$lightText',
-  fontWeight: '900'
-})
-
-const Li = ({ children, showDivider = true }) => (
-  <Typography type="body1" as="li">
-    <Spacer aria-hidden>{showDivider ? '-' : ''}</Spacer>
-    {children}
-  </Typography>
-)
-
-const InnerList = styled(Box, {
-  my: '$2',
-  pl: '$4'
-})
-
-const ClipLink = styled(HoverLink, {
-  position: 'relative',
-  div: {
-    display: 'inline-block',
-    transform: 'translate(0, 0)',
-    transition: 'transform 0.2s 0.05s ease-in-out'
-  },
-  svg: {
-    position: 'absolute',
-    top: '50%',
-    left: '0',
-    fontSize: '0.7em',
-    opacity: 0,
-    transform: 'translate(-0.7em, -50%)',
-    transition: 'opacity 0.2s 0.05s ease-in-out, transform 0.2s 0.05s ease-in-out'
-  },
-  '&:hover, &:focus': {
-    div: {
-      transform: 'translate(calc(0.7em + 0.18em), 0)',
-    },
-    svg: {
-      transform: 'translate(0, -50%)',
-      opacity: 1
-    }
-  },
-  '@lg': {
-    div: {
-      transform: 'translate(0, 0)',
-    },
-    svg: {
-      transform: 'translate(0, -50%)',
-      opacity: 0,
-    },
-    '&:hover, &:focus': {
-      div: {
-        transform: 'translate(0, 0)',
-      },
-      svg: {
-        transform: 'translate(calc(-0.7em - 0.64em), -50%)',
-        opacity: 1
-      }
-    }
-  }
-})
-
-const TocHeading = ({ id, children, ...rest }) => (
-  <Typography
-    type={{ '@initial': 'h6', '@sm': 'h5' }}
-    as="span"
-    css={{ textTransform: 'lowercase', letterSpacing: '-0.5px' }}
-  >
-    <Link href={`/${id}`} passHref scroll={false}>
-      <HoverLink>{children}</HoverLink>
-    </Link>
-  </Typography>
-)
-
-const AnchorHeading = ({ type, as, id, children, ...rest }) => (
-  <Typography as={as} type={type}>
-    <Link href={`/${id}`} passHref scroll={false}>
-      <ClipLink {...rest} id={id}>
-        <FiPaperclip aria-hidden />
-        <div>{children}</div>
-      </ClipLink>
-    </Link>
-  </Typography>
-)
-
-const setBodyBackground = color => {
-  if (typeof window === 'undefined') return
-  document.body.style.setProperty('--body-background', color)
-}
-
-const Home = () => {
+const useScrollListItems = () => {
   const router = useRouter()
   const isReady = router.isReady
   const path = router?.query?.section?.[0]
@@ -223,20 +57,10 @@ const Home = () => {
       scrollTo(path)
     }
   }, [path, isReady, router])
-  const [color, setValue] = useState('rgb(0, 116, 224)')
-  useBackground()
-  const { open, isSupported } = useEyeDropper()
-  const setColor = value => {
-    const color = value.replace('0)', '1)')
-    setValue(color)
-    setBodyBackground(color)
-  }
-  const colors = scale(color)
-  const [backgroundColor, swap] = getBackground(colors)
-  const accent = getAccent(colors)
-  const lightText = swap ? color : accent
-  const text = !swap ? color : accent
-  const colorText = chroma(color).hex()
+  return null
+}
+
+const useScrollValues = () => {
   const { scrollYProgress } = useViewportScroll()
   const opacity = useTransform(
     scrollYProgress,
@@ -256,16 +80,42 @@ const Home = () => {
   const events = useTransform(scrollYProgress, value =>
     value === 0 ? 'all' : 'none'
   )
-  const apple = () =>
-    chroma.contrast('#FFF', backgroundColor) > 1.6
-      ? 'black-translucent'
-      : 'default'
+  return { opacity, opacityDocs, blur, scaleValue, nav, translateValue, events }
+}
+
+const Home = () => {
+  useBackground()
+  useScrollListItems()
+  const [color, setValue] = useState('rgb(0, 116, 224)')
+  const {
+    opacity,
+    opacityDocs,
+    blur,
+    scaleValue,
+    nav,
+    translateValue,
+    events
+  } = useScrollValues()
+  const { open, isSupported } = useEyeDropper()
+  const setColor = value => {
+    const color = value.replace('0)', '1)')
+    setValue(color)
+    setBodyBackground(color)
+  }
+  const colors = scale(color)
+  const [backgroundColor, swap] = getBackground(colors)
+  const accent = getAccent(colors)
+  const lightText = swap ? color : accent
+  const text = !swap ? color : accent
+  const colorText = toHex(color)
+  const apple =
+    contrast('#FFF', backgroundColor) > 1.6 ? 'black-translucent' : 'default'
   return (
     <>
       <Head>
         <meta name="theme-color" content={backgroundColor} />
         <meta name="msapplication-navbutton-color" content={backgroundColor} />
-        <meta name="apple-mobile-web-app-status-bar-style" content={apple()} />
+        <meta name="apple-mobile-web-app-status-bar-style" content={apple} />
         <meta name="apple-mobile-web-app-capable" content="yes" />
       </Head>
       <Box
@@ -273,8 +123,8 @@ const Home = () => {
           color: color,
           $$outline: accent,
           $$background: backgroundColor,
-          $$background88: chroma(backgroundColor).alpha(0.88),
-          $$background0: chroma(backgroundColor).alpha(0),
+          $$background88: alpha(backgroundColor, 0.88),
+          $$background0: alpha(backgroundColor, 0),
           backgroundColor: '$$background',
           $$lightText: lightText,
           $$text: text,
@@ -330,10 +180,11 @@ const Home = () => {
               filter: blur
             }}
           >
-            <TocHeading id="documentation">Documentation</TocHeading>
-            <TocHeading id="features">Features</TocHeading>
-            <TocHeading id="usage">Usage</TocHeading>
-            <TocHeading id="methods">Methods</TocHeading>
+            {sections.map(section => (
+              <TocHeading key={section} id={section}>
+                {toTitle(section)}
+              </TocHeading>
+            ))}
           </Flex>
         </Flex>
         <Flex
@@ -355,66 +206,15 @@ const Home = () => {
             pointerEvents: events
           }}
         >
-          <IconContainer
-            css={{
-              mt: '-108px',
-              transform: 'scale(calc(1 / 1.5)) translate(40px, 230px)',
-              '@sm': { mt: '0px', transform: 'none' }
-            }}
-          >
-            <Box css={{ pl: '100px' }}>
-              <Drop />
-            </Box>
-            <Box css={{ fontSize: '180px', mt: '-28px', pr: '150px' }}>
-              <BsDropletFill />
-            </Box>
-            <Button
-              type="minimal"
-              onClick={copyToClipboard(colorText)}
-              title="Copy to clipboard"
-              aria-label="Copy to HEX color code to clipboard"
-              css={{ mt: '-24px', '@sm': { mt: '0px' } }}
-            >
-              <Typography
-                type="h3"
-                as="div"
-                noMargin
-                css={{ textTransform: 'lowercase' }}
-              >
-                {colorText}
-              </Typography>
-              <FiCopy />
-            </Button>
-          </IconContainer>
-          <Logo
-            size={{ '@initial': 'small', '@sm': 'normal' }}
-            css={{ mt: '-8px', '@sm': { mt: '0px' } }}
+          <Dropper
+            colorText={colorText}
+            supported={isSupported()}
+            onClick={() =>
+              open()
+                .then(color => setColor(color?.sRGBHex))
+                .catch(() => {})
+            }
           />
-          {isSupported() ? (
-            <Button
-              css={{ mt: '-64px', '@sm': { mt: '0px' } }}
-              onClick={() => open().then(color => setColor(color?.sRGBHex)).catch(() => {})}
-            >
-              <BsEyedropper aria-hidden />
-              <Typography noMargin type="button" as="span">
-                Pick color
-              </Typography>
-            </Button>
-          ) : (
-            <Button
-              css={{ mt: '-64px', '@sm': { mt: '0px' } }}
-              as="a"
-              href="https://developer.mozilla.org/en-US/docs/Web/API/EyeDropper#browser_compatibility"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <HiBan aria-hidden />
-              <Typography noMargin type="button" as="span">
-                Browser not supported
-              </Typography>
-              <FiExternalLink aria-label="External link" strokeWidth="2.5px" />
-            </Button>
-          )}
         </Flex>
         <Box
           as={motion.div}
@@ -457,20 +257,20 @@ const Home = () => {
           <AnchorHeading id="features" type="h4" as="h3">
             Features
           </AnchorHeading>
-          <ul>
-            <Li>Supports Server-Side rendering.</Li>
-            <Li>
+          <List>
+            <ListItem>Supports Server-Side rendering.</ListItem>
+            <ListItem>
               Safely detect and fallback on unsupported browsers using{' '}
               <code>isSupported</code> method.
-            </Li>
-            <Li>
+            </ListItem>
+            <ListItem>
               Closes eye dropper when corresponding component is unmounted.{' '}
-            </Li>
-            <Li>
+            </ListItem>
+            <ListItem>
               Provides an explicit <code>close</code> method to cancel eye
               dropper (signals can still be used).
-            </Li>
-          </ul>
+            </ListItem>
+          </List>
           <AnchorHeading id="usage" type="h4" as="h3">
             Usage
           </AnchorHeading>
@@ -509,8 +309,8 @@ const App = () => {
           <AnchorHeading id="methods" type="h4" as="h3">
             Methods
           </AnchorHeading>
-          <ul>
-            <Li>
+          <List>
+            <ListItem>
               <code>
                 {'open({ signal?: AbortSignal })'}
                 {' => Promise<{ sRGBHex: string }>'}
@@ -525,16 +325,16 @@ const App = () => {
                 returned, the current Chrome implementation returns a{' '}
                 <code>rgba</code> value.
               </InnerList>
-            </Li>
-            <Li>
+            </ListItem>
+            <ListItem>
               <code>{'close()  => void'}</code>
               <InnerList>
                 This method closes the EyeDropper API selector if it is open and
                 rejects the promise from <code>open</code>. Otherwise this
                 performs a no-op.
               </InnerList>
-            </Li>
-            <Li>
+            </ListItem>
+            <ListItem>
               <code>
                 {'isSupported()'}
                 {' => boolean'}
@@ -543,18 +343,16 @@ const App = () => {
                 Determines if the EyeDropper API is supported in the current
                 browser.
               </InnerList>
-            </Li>
-          </ul>
+            </ListItem>
+          </List>
         </Box>
       </Box>
     </>
   )
 }
 
-const sections = ['', 'documentation', 'features', 'usage', 'methods']
-
 const getPaths = () =>
-  sections.map(path => {
+  pages.map(path => {
     const section = path ? [path] : []
     return { params: { section } }
   })

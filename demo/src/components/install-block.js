@@ -1,19 +1,20 @@
-import { Fragment } from 'react'
 import { styled } from 'stitches'
 import { Flex } from 'components/box'
 import Typography from 'components/typography'
-import { IoLogoNpm } from 'react-icons/io'
-import { FaYarn } from 'react-icons/fa'
-import { FiCopy } from 'react-icons/fi'
 import HoverLink from 'components/hover-link'
+import {
+  NpmIcon,
+  YarnIcon,
+  CopyIcon
+} from 'icons'
 import { copyToClipboard } from 'utils'
 
-const Yarn = styled(FaYarn, {
+const Yarn = styled(YarnIcon, {
   width: '30px',
   height: '100%'
 })
 
-const Npm = styled(IoLogoNpm, {
+const Npm = styled(NpmIcon, {
   width: '62px',
   height: '100%'
 })
@@ -24,7 +25,7 @@ const Logos = {
 }
 
 const InstallBlock = ({ type, children }) => {
-  const Logo = Logos[type] || Fragment
+  const Logo = Logos[type] || null
   return (
     <HoverLink
       as="button"
@@ -64,7 +65,7 @@ const InstallBlock = ({ type, children }) => {
           <Typography noMargin type="button">
             {children}
           </Typography>
-          <FiCopy style={{ fontSize: '22px' }} />
+          <CopyIcon style={{ fontSize: '22px' }} />
         </Flex>
       </Flex>
     </HoverLink>
