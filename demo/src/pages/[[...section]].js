@@ -12,6 +12,7 @@ import { HiBan } from 'react-icons/hi'
 import { BsDropletFill, BsEyedropper } from 'react-icons/bs'
 import { FiCopy, FiPaperclip, FiExternalLink } from 'react-icons/fi'
 import CodeBlock from 'components/code-block'
+import Button from 'components/button'
 import InstallBlock from 'components/install-block'
 import chroma from 'chroma-js'
 import useEyeDropper from 'use-eye-dropper'
@@ -45,8 +46,6 @@ const useBackground = globalCss({
     backgroundColor: 'var(--body-background, rgb(0, 116, 224))'
   }
 })
-
-const Button = dynamic(() => import('components/button'), { ssr: false })
 
 const IconContainer = styled(Box, {
   fontSize: '240px'
@@ -141,44 +140,45 @@ const InnerList = styled(Box, {
 
 const ClipLink = styled(HoverLink, {
   position: 'relative',
+  div: {
+    display: 'inline-block',
+    transform: 'translate(0, 0)',
+    transition: 'transform 0.2s 0.05s ease-in-out'
+  },
   svg: {
-    transform: 'translate(0, -50%)',
+    position: 'absolute',
     top: '50%',
     left: '0',
-    position: 'absolute',
     fontSize: '0.7em',
     opacity: 0,
-    transition:
-      'opacity 0.2s 0.05s ease-in-out, transform 0.2s 0.05s ease-in-out'
+    transform: 'translate(-0.7em, -50%)',
+    transition: 'opacity 0.2s 0.05s ease-in-out, transform 0.2s 0.05s ease-in-out'
   },
   '&:hover, &:focus': {
+    div: {
+      transform: 'translate(calc(0.7em + 0.18em), 0)',
+    },
     svg: {
-      transform: 'translate(calc(-0.7em - 0.64em), -50%)',
+      transform: 'translate(0, -50%)',
       opacity: 1
     }
-  }
-})
-
-const PlainLink = styled('a', {
-  textDecoration: 'none',
-  color: 'currentColor',
-  pb: '5px',
-  transition: 'color 0.2s 0.0s ease-in-out, border-width 0.1s 0.0s ease-in-out',
-  svg: {
-    transform: 'translate(0, -50%)',
-    top: '50%',
-    left: '0',
-    position: 'absolute',
-    fontSize: '0.7em',
-    opacity: 0,
-    transition:
-      'opacity 0.2s 0.05s ease-in-out, transform 0.2s 0.05s ease-in-out'
   },
-  '&:hover, &:focus': {
-    color: '$$lightText',
+  '@lg': {
+    div: {
+      transform: 'translate(0, 0)',
+    },
     svg: {
-      transform: 'translate(calc(-0.7em - 0.64em), -50%)',
-      opacity: 1
+      transform: 'translate(0, -50%)',
+      opacity: 0,
+    },
+    '&:hover, &:focus': {
+      div: {
+        transform: 'translate(0, 0)',
+      },
+      svg: {
+        transform: 'translate(calc(-0.7em - 0.64em), -50%)',
+        opacity: 1
+      }
     }
   }
 })
@@ -199,8 +199,8 @@ const AnchorHeading = ({ type, as, id, children, ...rest }) => (
   <Typography as={as} type={type}>
     <Link href={`/${id}`} passHref scroll={false}>
       <ClipLink {...rest} id={id}>
-        <FiPaperclip aria-hidden /> <span>{children.substring(0, 1)}</span>
-        {children.substring(1)}
+        <FiPaperclip aria-hidden />
+        <div>{children}</div>
       </ClipLink>
     </Link>
   </Typography>
@@ -406,7 +406,6 @@ const Home = () => {
               as="a"
               href="https://developer.mozilla.org/en-US/docs/Web/API/EyeDropper#browser_compatibility"
               target="_blank"
-              and
               rel="noopener noreferrer"
             >
               <HiBan aria-hidden />
