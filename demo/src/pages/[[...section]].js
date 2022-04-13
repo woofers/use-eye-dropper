@@ -9,8 +9,8 @@ import Logo from 'components/logo'
 import Typography from 'components/typography'
 import HoverLink from 'components/hover-link'
 import { HiBan } from 'react-icons/hi'
-import { BsDropletFill, BsEyedropper } from 'react-icons/bs'
-import { FiCopy, FiExternalLink } from 'react-icons/fi'
+import { BsEyedropper } from 'react-icons/bs'
+import { FiExternalLink } from 'react-icons/fi'
 import CodeBlock from 'components/code-block'
 import Button from 'components/button'
 import InstallBlock from 'components/install-block'
@@ -46,12 +46,6 @@ const useBackground = globalCss({
   }
 })
 
-const IconContainer = styled(Box, {
-  fontSize: '240px',
-  mt: '-108px',
-  transform: 'scale(calc(1 / 1.5)) translate(40px, 230px)',
-  '@sm': { mt: '0px', transform: 'none' }
-})
 
 const TocHeading = ({ id, children, ...rest }) => (
   <Typography
@@ -216,31 +210,7 @@ const Home = () => {
             pointerEvents: events
           }}
         >
-          <IconContainer>
-            <Box css={{ pl: '100px' }}>
-              <Dropper />
-            </Box>
-            <Box css={{ fontSize: '180px', mt: '-28px', pr: '150px' }}>
-              <BsDropletFill />
-            </Box>
-            <Button
-              type="minimal"
-              onClick={copyToClipboard(colorText)}
-              title="Copy to clipboard"
-              aria-label="Copy to HEX color code to clipboard"
-              css={{ mt: '-24px', '@sm': { mt: '0px' } }}
-            >
-              <Typography
-                type="h3"
-                as="div"
-                noMargin
-                css={{ textTransform: 'lowercase' }}
-              >
-                {colorText}
-              </Typography>
-              <FiCopy />
-            </Button>
-          </IconContainer>
+          <Dropper colorText={colorText} />
           <Logo
             size={{ '@initial': 'small', '@sm': 'normal' }}
             css={{ mt: '-8px', '@sm': { mt: '0px' } }}

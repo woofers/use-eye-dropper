@@ -1,4 +1,20 @@
-const Dropper = () => (
+import { styled } from 'stitches'
+import { Box } from 'components/box'
+import { FiCopy, FiExternalLink } from 'react-icons/fi'
+import { BsDropletFill, BsEyedropper } from 'react-icons/bs'
+import Button from 'components/button'
+import Typography from 'components/typography'
+import { copyToClipboard } from 'utils'
+
+const IconContainer = styled(Box, {
+  fontSize: '240px',
+  mt: '-108px',
+  transform: 'scale(calc(1 / 1.5)) translate(40px, 230px)',
+  '@sm': { mt: '0px', transform: 'none' }
+})
+
+
+const DropperIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     stroke="currentColor"
@@ -24,5 +40,35 @@ const Dropper = () => (
     />
   </svg>
 )
+
+const Dropper = ({ colorText }) => {
+  return (
+    <IconContainer>
+      <Box css={{ pl: '100px' }}>
+        <DropperIcon />
+      </Box>
+      <Box css={{ fontSize: '180px', mt: '-28px', pr: '150px' }}>
+        <BsDropletFill />
+      </Box>
+      <Button
+        type="minimal"
+        onClick={copyToClipboard(colorText)}
+        title="Copy to clipboard"
+        aria-label="Copy to HEX color code to clipboard"
+        css={{ mt: '-24px', '@sm': { mt: '0px' } }}
+      >
+        <Typography
+          type="h3"
+          as="div"
+          noMargin
+          css={{ textTransform: 'lowercase' }}
+        >
+          {colorText}
+        </Typography>
+        <FiCopy />
+      </Button>
+    </IconContainer>
+  )
+}
 
 export default Dropper
