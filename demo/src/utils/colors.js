@@ -45,3 +45,5 @@ export const getBackground = colors => {
 export const contrast = (a, b) => chroma.contrast(a, b)
 
 export const toHex = color => chroma(color).hex()
+
+export const alpha = (color, a) => chroma(color).alpha(a)

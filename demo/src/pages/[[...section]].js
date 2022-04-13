@@ -14,9 +14,11 @@ import { FiCopy, FiExternalLink } from 'react-icons/fi'
 import CodeBlock from 'components/code-block'
 import Button from 'components/button'
 import InstallBlock from 'components/install-block'
+import { List, ListItem, InnerList } from 'components/list'
 import chroma from 'chroma-js'
 import useEyeDropper from 'use-eye-dropper'
 import {
+  alpha,
   toHex,
   contrast,
   scale,
@@ -51,24 +53,6 @@ const IconContainer = styled(Box, {
   '@sm': { mt: '0px', transform: 'none' }
 })
 
-const Spacer = styled('span', {
-  mr: '$2',
-  color: '$$lightText',
-  fontWeight: '900'
-})
-
-const Li = ({ children, showDivider = true }) => (
-  <Typography type="body1" as="li">
-    <Spacer aria-hidden>{showDivider ? '-' : ''}</Spacer>
-    {children}
-  </Typography>
-)
-
-const InnerList = styled(Box, {
-  my: '$2',
-  pl: '$4'
-})
-
 const TocHeading = ({ id, children, ...rest }) => (
   <Typography
     type={{ '@initial': 'h6', '@sm': 'h5' }}
@@ -81,7 +65,7 @@ const TocHeading = ({ id, children, ...rest }) => (
   </Typography>
 )
 
-const Home = () => {
+const useScrollListItemnks = () => {
   const router = useRouter()
   const isReady = router.isReady
   const path = router?.query?.section?.[0]
@@ -93,20 +77,10 @@ const Home = () => {
       scrollTo(path)
     }
   }, [path, isReady, router])
-  const [color, setValue] = useState('rgb(0, 116, 224)')
-  useBackground()
-  const { open, isSupported } = useEyeDropper()
-  const setColor = value => {
-    const color = value.replace('0)', '1)')
-    setValue(color)
-    setBodyBackground(color)
-  }
-  const colors = scale(color)
-  const [backgroundColor, swap] = getBackground(colors)
-  const accent = getAccent(colors)
-  const lightText = swap ? color : accent
-  const text = !swap ? color : accent
-  const colorText = toHex(color)
+  return null
+}
+
+const useScrollValues = () => {
   const { scrollYProgress } = useViewportScroll()
   const opacity = useTransform(
     scrollYProgress,
@@ -126,14 +100,33 @@ const Home = () => {
   const events = useTransform(scrollYProgress, value =>
     value === 0 ? 'all' : 'none'
   )
-  const apple = () =>
-    contrast('#FFF', backgroundColor) > 1.6 ? 'black-translucent' : 'default'
+  return { opacity, opacityDocs, blur, scaleValue, nav, translateValue, events }
+}
+
+const Home = () => {
+  useBackground()
+  useScrollListItemnks()
+  const [color, setValue] = useState('rgb(0, 116, 224)')
+  const { opacity, opacityDocs, blur, scaleValue, nav, translateValue, events } = useScrollValues()
+  const { open, isSupported } = useEyeDropper()
+  const setColor = value => {
+    const color = value.replace('0)', '1)')
+    setValue(color)
+    setBodyBackground(color)
+  }
+  const colors = scale(color)
+  const [backgroundColor, swap] = getBackground(colors)
+  const accent = getAccent(colors)
+  const lightText = swap ? color : accent
+  const text = !swap ? color : accent
+  const colorText = toHex(color)
+  const apple = contrast('#FFF', backgroundColor) > 1.6 ? 'black-translucent' : 'default'
   return (
     <>
       <Head>
         <meta name="theme-color" content={backgroundColor} />
         <meta name="msapplication-navbutton-color" content={backgroundColor} />
-        <meta name="apple-mobile-web-app-status-bar-style" content={apple()} />
+        <meta name="apple-mobile-web-app-status-bar-style" content={apple} />
         <meta name="apple-mobile-web-app-capable" content="yes" />
       </Head>
       <Box
@@ -141,8 +134,8 @@ const Home = () => {
           color: color,
           $$outline: accent,
           $$background: backgroundColor,
-          $$background88: chroma(backgroundColor).alpha(0.88),
-          $$background0: chroma(backgroundColor).alpha(0),
+          $$background88: alpha(backgroundColor, 0.88),
+          $$background0: alpha(backgroundColor, 0),
           backgroundColor: '$$background',
           $$lightText: lightText,
           $$text: text,
@@ -323,20 +316,20 @@ const Home = () => {
           <AnchorHeading id="features" type="h4" as="h3">
             Features
           </AnchorHeading>
-          <ul>
-            <Li>Supports Server-Side rendering.</Li>
-            <Li>
+          <List>
+            <ListItem>Supports Server-Side rendering.</ListItem>
+            <ListItem>
               Safely detect and fallback on unsupported browsers using{' '}
               <code>isSupported</code> method.
-            </Li>
-            <Li>
+            </ListItem>
+            <ListItem>
               Closes eye dropper when corresponding component is unmounted.{' '}
-            </Li>
-            <Li>
+            </ListItem>
+            <ListItem>
               Provides an explicit <code>close</code> method to cancel eye
               dropper (signals can still be used).
-            </Li>
-          </ul>
+            </ListItem>
+          </List>
           <AnchorHeading id="usage" type="h4" as="h3">
             Usage
           </AnchorHeading>
@@ -375,8 +368,8 @@ const App = () => {
           <AnchorHeading id="methods" type="h4" as="h3">
             Methods
           </AnchorHeading>
-          <ul>
-            <Li>
+          <List>
+            <ListItem>
               <code>
                 {'open({ signal?: AbortSignal })'}
                 {' => Promise<{ sRGBHex: string }>'}
@@ -391,16 +384,16 @@ const App = () => {
                 returned, the current Chrome implementation returns a{' '}
                 <code>rgba</code> value.
               </InnerList>
-            </Li>
-            <Li>
+            </ListItem>
+            <ListItem>
               <code>{'close()  => void'}</code>
               <InnerList>
                 This method closes the EyeDropper API selector if it is open and
                 rejects the promise from <code>open</code>. Otherwise this
                 performs a no-op.
               </InnerList>
-            </Li>
-            <Li>
+            </ListItem>
+            <ListItem>
               <code>
                 {'isSupported()'}
                 {' => boolean'}
@@ -409,8 +402,8 @@ const App = () => {
                 Determines if the EyeDropper API is supported in the current
                 browser.
               </InnerList>
-            </Li>
-          </ul>
+            </ListItem>
+          </List>
         </Box>
       </Box>
     </>
