@@ -14,7 +14,6 @@
     "README.md"
   ],
   "scripts": {
-    "start": "yarn watch",
     "build:module": "microbundle --no-pkg-main --no-sourcemap --no-generateTypes --jsx React.createElement --define __isDev__=false -i src/index.js -o lib/use-eye-dropper.module.js -f es",
     "build:umd": "microbundle --no-pkg-main --no-sourcemap --no-generateTypes --jsx React.createElement --define __isDev__=false -i src/index.js -o lib/use-eye-dropper.js -f umd",
     "build:dev:module": "microbundle --no-pkg-main --no-sourcemap --no-generateTypes --jsx React.createElement --define __isDev__=true -i src/index.js -o lib/use-eye-dropper.module.dev.js -f es",
@@ -22,7 +21,6 @@
     "build:types": "cp src/index.d.ts lib/index.d.ts",
     "clean": "rimraf lib/use-eye-dropper.dev.js lib/use-eye-dropper.js lib/use-eye-dropper.module.dev.js lib/use-eye-dropper.module.js lib/index.d.ts coverage && jest --clearCache",
     "build": "yarn build:dev:module && yarn build:dev:umd && yarn build:module && yarn build:umd && yarn build:types",
-    "watch": "rollup -c --watch",
     "test": "jest",
     "test:coverage": "node coverage.js",
     "format": "prettier --write \"{src,tests}/**/*.js\""
@@ -52,7 +50,7 @@
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
     "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.0.0",
+    "@testing-library/react": "^13.1.1",
     "babel-jest": "^27.5.1",
     "chalk": "^4.0.0",
     "jest": "^27.5.1",
