@@ -92,7 +92,15 @@ const Home = () => {
   useBackground()
   useScrollListItems()
   const [color, setValue] = useState('rgb(0, 116, 224)')
-  const { opacity, opacityDocs, blur, scaleValue, nav, translateValue, events } = useScrollValues()
+  const {
+    opacity,
+    opacityDocs,
+    blur,
+    scaleValue,
+    nav,
+    translateValue,
+    events
+  } = useScrollValues()
   const { open, isSupported } = useEyeDropper()
   const setColor = value => {
     const color = value.replace('0)', '1)')
@@ -105,7 +113,8 @@ const Home = () => {
   const lightText = swap ? color : accent
   const text = !swap ? color : accent
   const colorText = toHex(color)
-  const apple = contrast('#FFF', backgroundColor) > 1.6 ? 'black-translucent' : 'default'
+  const apple =
+    contrast('#FFF', backgroundColor) > 1.6 ? 'black-translucent' : 'default'
   return (
     <>
       <Head>
@@ -176,7 +185,11 @@ const Home = () => {
               filter: blur
             }}
           >
-           {sections.map(section => <TocHeading key={section} id={section}>{toTitle(section)}</TocHeading>)}
+            {sections.map(section => (
+              <TocHeading key={section} id={section}>
+                {toTitle(section)}
+              </TocHeading>
+            ))}
           </Flex>
         </Flex>
         <Flex

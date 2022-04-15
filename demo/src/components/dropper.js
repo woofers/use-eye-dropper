@@ -18,10 +18,7 @@ const IconContainer = styled(Box, {
 const DropButton = ({ onClick, supported }) => (
   <>
     {supported ? (
-      <Button
-        css={{ mt: '-64px', '@sm': { mt: '0px' } }}
-        onClick={onClick}
-      >
+      <Button css={{ mt: '-64px', '@sm': { mt: '0px' } }} onClick={onClick}>
         <BsEyedropper aria-hidden />
         <Typography noMargin type="button" as="span">
           Pick color
