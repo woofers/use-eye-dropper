@@ -43,7 +43,11 @@ const sections = ['documentation', 'features', 'usage', 'methods']
 const pages = ['', ...sections]
 
 const components = {
-  p: props => <Typography {...props} type="body1" />,
+  p: ({ children, ...rest }) => {
+    if (typeof children !== 'string' && children.type === 'strong') return null
+    const filtered = typeof children === 'string' ? children.replace(/(👀|🩸|🧫)/g, '') : children
+    return <Typography {...rest} type="body1">{filtered}</Typography>
+  },
   a: props => (
     <HoverLink
       {...props}
@@ -56,6 +60,7 @@ const components = {
   h2: ({ children, ...rest }) => {
     const id = typeof children === 'string' ? children.toLowerCase() : ''
     const props = id ? { id } : {}
+    if (id === 'installation') return null
     return (
       <AnchorHeading {...props} type="h4" as="h3" {...rest}>
         {children}
