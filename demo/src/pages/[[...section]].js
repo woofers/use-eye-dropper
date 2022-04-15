@@ -15,9 +15,9 @@ import CodeBlock from 'components/code-block'
 import Button from 'components/button'
 import InstallBlock from 'components/install-block'
 import { List, ListItem, InnerList } from 'components/list'
-import chroma from 'chroma-js'
 import useEyeDropper from 'use-eye-dropper'
 import {
+  toTitle,
   alpha,
   toHex,
   contrast,
@@ -39,6 +39,11 @@ import Dropper from 'components/dropper'
 import { IoLogoNpm } from 'react-icons/io'
 import { GoMarkGithub, GoLogoGithub } from 'react-icons/go'
 import AnchorHeading from 'components/anchor-heading'
+import TocHeading from 'components/toc-heading'
+
+
+const sections = ['documentation', 'features', 'usage', 'methods']
+const pages = ['', ...sections]
 
 const useBackground = globalCss({
   body: {
@@ -46,20 +51,7 @@ const useBackground = globalCss({
   }
 })
 
-
-const TocHeading = ({ id, children, ...rest }) => (
-  <Typography
-    type={{ '@initial': 'h6', '@sm': 'h5' }}
-    as="span"
-    css={{ textTransform: 'lowercase', letterSpacing: '-0.5px' }}
-  >
-    <Link href={`/${id}`} passHref scroll={false}>
-      <HoverLink>{children}</HoverLink>
-    </Link>
-  </Typography>
-)
-
-const useScrollListItemnks = () => {
+const useScrollListItems = () => {
   const router = useRouter()
   const isReady = router.isReady
   const path = router?.query?.section?.[0]
@@ -99,7 +91,7 @@ const useScrollValues = () => {
 
 const Home = () => {
   useBackground()
-  useScrollListItemnks()
+  useScrollListItems()
   const [color, setValue] = useState('rgb(0, 116, 224)')
   const { opacity, opacityDocs, blur, scaleValue, nav, translateValue, events } = useScrollValues()
   const { open, isSupported } = useEyeDropper()
@@ -185,10 +177,7 @@ const Home = () => {
               filter: blur
             }}
           >
-            <TocHeading id="documentation">Documentation</TocHeading>
-            <TocHeading id="features">Features</TocHeading>
-            <TocHeading id="usage">Usage</TocHeading>
-            <TocHeading id="methods">Methods</TocHeading>
+           {sections.map(section => <TocHeading key={section} id={section}>{toTitle(section)}</TocHeading>)}
           </Flex>
         </Flex>
         <Flex
@@ -380,10 +369,8 @@ const App = () => {
   )
 }
 
-const sections = ['', 'documentation', 'features', 'usage', 'methods']
-
 const getPaths = () =>
-  sections.map(path => {
+  pages.map(path => {
     const section = path ? [path] : []
     return { params: { section } }
   })
