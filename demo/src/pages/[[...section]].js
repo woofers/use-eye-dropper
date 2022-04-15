@@ -4,18 +4,18 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { styled, globalCss } from 'stitches'
+import useEyeDropper from 'use-eye-dropper'
 import { Box, Inline, Flex } from 'components/box'
 import Logo from 'components/logo'
 import Typography from 'components/typography'
 import HoverLink from 'components/hover-link'
-import { HiBan } from 'react-icons/hi'
-import { BsEyedropper } from 'react-icons/bs'
-import { FiExternalLink } from 'react-icons/fi'
 import CodeBlock from 'components/code-block'
 import Button from 'components/button'
 import InstallBlock from 'components/install-block'
 import { List, ListItem, InnerList } from 'components/list'
-import useEyeDropper from 'use-eye-dropper'
+import Dropper from 'components/dropper'
+import AnchorHeading from 'components/anchor-heading'
+import TocHeading from 'components/toc-heading'
 import {
   toTitle,
   alpha,
@@ -35,11 +35,6 @@ import {
   useViewportScroll,
   useMotionTemplate
 } from 'framer-motion'
-import Dropper from 'components/dropper'
-import { IoLogoNpm } from 'react-icons/io'
-import { GoMarkGithub, GoLogoGithub } from 'react-icons/go'
-import AnchorHeading from 'components/anchor-heading'
-import TocHeading from 'components/toc-heading'
 
 const sections = ['documentation', 'features', 'usage', 'methods']
 const pages = ['', ...sections]

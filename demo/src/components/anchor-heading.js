@@ -2,7 +2,7 @@ import Typography from 'components/typography'
 import HoverLink from 'components/hover-link'
 import Link from 'next/link'
 import { styled } from 'stitches'
-import { FiPaperclip } from 'react-icons/fi'
+import { PaperclipIcon } from 'icons'
 
 const ClipLink = styled(HoverLink, {
   position: 'relative',
@@ -54,7 +54,7 @@ const AnchorHeading = ({ type, as, id, children, ...rest }) => (
   <Typography as={as} type={type}>
     <Link href={`/${id}`} passHref scroll={false}>
       <ClipLink {...rest} id={id}>
-        <FiPaperclip aria-hidden />
+        <PaperclipIcon aria-hidden />
         <div>{children}</div>
       </ClipLink>
     </Link>

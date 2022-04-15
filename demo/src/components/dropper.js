@@ -1,12 +1,16 @@
 import { styled } from 'stitches'
 import { Box } from 'components/box'
-import { FiCopy, FiExternalLink } from 'react-icons/fi'
-import { BsDropletFill, BsEyedropper } from 'react-icons/bs'
-import { HiBan } from 'react-icons/hi'
 import Button from 'components/button'
 import Typography from 'components/typography'
 import Logo from 'components/logo'
 import { copyToClipboard } from 'utils'
+import {
+  BanIcon,
+  CopyIcon,
+  ExternalLinkIcon,
+  DropperIcon,
+  DropIcon
+} from 'icons'
 
 const IconContainer = styled(Box, {
   fontSize: '240px',
@@ -19,7 +23,7 @@ const DropButton = ({ onClick, supported }) => (
   <>
     {supported ? (
       <Button css={{ mt: '-64px', '@sm': { mt: '0px' } }} onClick={onClick}>
-        <BsEyedropper aria-hidden />
+        <DropperIcon aria-hidden />
         <Typography noMargin type="button" as="span">
           Pick color
         </Typography>
@@ -32,17 +36,17 @@ const DropButton = ({ onClick, supported }) => (
         target="_blank"
         rel="noopener noreferrer"
       >
-        <HiBan aria-hidden />
+        <BanIcon aria-hidden />
         <Typography noMargin type="button" as="span">
           Browser not supported
         </Typography>
-        <FiExternalLink aria-label="External link" strokeWidth="2.5px" />
+        <ExternalLinkIcon aria-label="External link" strokeWidth="2.5px" />
       </Button>
     )}
   </>
 )
 
-const DropperIcon = () => (
+const ColorDropperIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     stroke="currentColor"
@@ -74,10 +78,10 @@ const Dropper = ({ colorText, onClick, supported }) => {
     <>
       <IconContainer>
         <Box css={{ pl: '100px' }}>
-          <DropperIcon />
+          <ColorDropperIcon />
         </Box>
         <Box css={{ fontSize: '180px', mt: '-28px', pr: '150px' }}>
-          <BsDropletFill />
+          <DropIcon />
         </Box>
         <Button
           type="minimal"
@@ -94,7 +98,7 @@ const Dropper = ({ colorText, onClick, supported }) => {
           >
             {colorText}
           </Typography>
-          <FiCopy />
+          <CopyIcon />
         </Button>
       </IconContainer>
       <Logo
