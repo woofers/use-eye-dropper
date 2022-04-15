@@ -15,17 +15,21 @@ into an easy-to-use React hook.  This API is currently only available in Chromiu
 - Provides explicit `close` method to cancel eye dropper (signals can still be used).
 
 
-# Installation
+## Installation
 
 **Yarn**
 
-    yarn add use-eye-dropper
+```yarn
+yarn add use-eye-dropper
+```
 
 **npm**
 
-    npm install use-eye-dropper
+```npm
+npm install use-eye-dropper
+```
 
-# Usage
+## Usage
 
 ```jsx
 import React, { useState } from 'react'
@@ -60,7 +64,7 @@ const App = () => {
 }
 ```
 
-# Methods
+## Methods
 
 - `open({ signal?: AbortSignal }) => Promise<{ sRGBHex: string }>'`
 

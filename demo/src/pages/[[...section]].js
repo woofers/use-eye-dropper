@@ -1,4 +1,6 @@
-import { useEffect, useMemo, useState } from 'react'
+import { Children, useEffect, useMemo, useState } from 'react'
+import { bundleMDX } from 'mdx-bundler'
+import { getMDXComponent } from 'mdx-bundler/client'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -16,6 +18,7 @@ import { List, ListItem, InnerList } from 'components/list'
 import Dropper from 'components/dropper'
 import AnchorHeading from 'components/anchor-heading'
 import TocHeading from 'components/toc-heading'
+import { getMarkdownFile } from 'data/local'
 import {
   toTitle,
   alpha,
@@ -38,6 +41,71 @@ import {
 
 const sections = ['documentation', 'features', 'usage', 'methods']
 const pages = ['', ...sections]
+
+const components = {
+  p: props => <Typography {...props} type="body1" />,
+  a: props => (
+    <HoverLink
+      {...props}
+      type="primary"
+      target="_blank"
+      rel="noopener noreferrer"
+    />
+  ),
+  h1: props => null,
+  h2: ({ children, ...rest }) => {
+    const id = typeof children === 'string' ? children.toLowerCase() : ''
+    const props = id ? { id } : {}
+    return (
+      <AnchorHeading {...props} type="h4" as="h3" {...rest}>
+        {children}
+      </AnchorHeading>
+    )
+  },
+  ul: List,
+  li: ({ children, ...rest }) => {
+    const filtered = Children.map(children, item =>
+      item !== '\n' ? item : null
+    )
+    const single = Children.count(filtered) === 1
+    const first = filtered[0]
+    if (!single && typeof first !== 'string' && first.type.name === 'p') {
+      const text = Children.map(filtered, item => {
+        if (typeof item !== 'string' && item.type.name === 'p')
+          return <>{item.props.children}</>
+        return item
+      })
+      const content = Children.map(text, (item, i) => {
+        if (i <= 0 && typeof item === 'object')
+          return <>{item.props.children}</>
+        return <InnerList>{item}</InnerList>
+      })
+      return <ListItem {...rest}>{content}</ListItem>
+    }
+    return <ListItem {...rest}>{children}</ListItem>
+  },
+  pre: ({ children, ...rest }) => {
+    const single = Children.count(children) === 1
+    if (single) {
+      if (typeof children !== 'string' && children.type === 'code') {
+        const { children: content, ...rest } = children.props
+        if (typeof content === 'string') {
+          const reg = /language-(.*)/
+          const { className } = rest
+          const matches = reg.exec(className)
+          if (matches) {
+            const lang = matches[1]
+            if (['yarn', 'npm'].indexOf(lang) >= 0)
+              return <InstallBlock type={lang}>{content}</InstallBlock>
+            if (lang === 'jsx')
+              return <CodeBlock lang={className}>{content}</CodeBlock>
+          }
+        }
+      }
+    }
+    return <pre {...rest}>{children}</pre>
+  }
+}
 
 const useBackground = globalCss({
   body: {
@@ -83,7 +151,8 @@ const useScrollValues = () => {
   return { opacity, opacityDocs, blur, scaleValue, nav, translateValue, events }
 }
 
-const Home = () => {
+const Home = ({ code, frontmatter }) => {
+  const Component = useMemo(() => getMDXComponent(code), [code])
   useBackground()
   useScrollListItems()
   const [color, setValue] = useState('rgb(0, 116, 224)')
@@ -236,115 +305,7 @@ const Home = () => {
           <AnchorHeading id="documentation" type="h3" as="h2">
             Documentation
           </AnchorHeading>
-          <Typography type="body1">
-            Browser color picker hook for React.
-          </Typography>
-          <Typography type="body1">
-            Implements the{' '}
-            <HoverLink
-              type="primary"
-              target="_blank"
-              rel="noopener noreferrer"
-              href="https://github.com/WICG/eyedropper-api"
-            >
-              EyeDropper API{' '}
-            </HoverLink>{' '}
-            into an easy-to-use React hook. This API is currently only available
-            in Chromium based browsers.
-          </Typography>
-          <InstallBlock type="npm">npm install use-eye-dropper</InstallBlock>
-          <InstallBlock type="yarn">yarn add use-eye-dropper</InstallBlock>
-          <AnchorHeading id="features" type="h4" as="h3">
-            Features
-          </AnchorHeading>
-          <List>
-            <ListItem>Supports Server-Side rendering.</ListItem>
-            <ListItem>
-              Safely detect and fallback on unsupported browsers using{' '}
-              <code>isSupported</code> method.
-            </ListItem>
-            <ListItem>
-              Closes eye dropper when corresponding component is unmounted.{' '}
-            </ListItem>
-            <ListItem>
-              Provides an explicit <code>close</code> method to cancel eye
-              dropper (signals can still be used).
-            </ListItem>
-          </List>
-          <AnchorHeading id="usage" type="h4" as="h3">
-            Usage
-          </AnchorHeading>
-          <CodeBlock>
-            {`import React, { useState } from 'react'
-import useEyeDropper from 'use-eye-dropper'
-
-const App = () => {
-  const { open, close, isSupported } = useEyeDropper()
-  const [color, setColor] = useState('#fff')
-  const [error, setError] = useState()
-  // useEyeDropper will reject/cleanup the open() promise on unmount,
-  // so setState never fires when the component is unmounted.
-  const pickColor = () => {
-    open()
-      .then(color => setColor(color.sRGBHex))
-      .catch(e => {
-        console.log(e)
-        // Ensures component is still mounted
-        // before calling setState
-        if (!e.canceled) setError(e)
-      })
-  }
-  return (
-    <>
-      <div style={{ padding: '64px', background: color }}>Selected color</div>
-      {isSupported() ?
-          <button onClick={pickColor}>Pick color</button>
-        : <span>EyeDropper API not supported in this browser</span>
-      }
-      {!!error && <span>{error.message}</span>}
-    </>
-  )
-}`}
-          </CodeBlock>
-          <AnchorHeading id="methods" type="h4" as="h3">
-            Methods
-          </AnchorHeading>
-          <List>
-            <ListItem>
-              <code>
-                {'open({ signal?: AbortSignal })'}
-                {' => Promise<{ sRGBHex: string }>'}
-              </code>
-              <InnerList>
-                Opens the EyeDropper API in supported browsers and returns a
-                promise which will resolve with the selected color.
-                Alternatively the promise will be rejected if the user cancels
-                the operation, for instance by hitting escape. Additionally if
-                the browser does not support the API, the promise is rejected.
-                While the spec currently indicates that a 6-digit HEX value is
-                returned, the current Chrome implementation returns a{' '}
-                <code>rgba</code> value.
-              </InnerList>
-            </ListItem>
-            <ListItem>
-              <code>{'close()  => void'}</code>
-              <InnerList>
-                This method closes the EyeDropper API selector if it is open and
-                rejects the promise from <code>open</code>. Otherwise this
-                performs a no-op.
-              </InnerList>
-            </ListItem>
-            <ListItem>
-              <code>
-                {'isSupported()'}
-                {' => boolean'}
-              </code>
-              <InnerList>
-                Determines if the EyeDropper API is supported in the current
-                browser.
-              </InnerList>
-            </ListItem>
-          </List>
+          <Component components={components} />
         </Box>
       </Box>
     </>
@@ -365,8 +326,10 @@ export const getStaticPaths = async () => {
 }
 
 export const getStaticProps = async () => {
+  const { content } = getMarkdownFile('../', 'README')
+  const { code, frontmatter } = await bundleMDX({ source: content, files: {} })
   return {
-    props: {}
+    props: { code, frontmatter }
   }
 }
 
