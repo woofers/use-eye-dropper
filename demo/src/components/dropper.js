@@ -2,8 +2,10 @@ import { styled } from 'stitches'
 import { Box } from 'components/box'
 import { FiCopy, FiExternalLink } from 'react-icons/fi'
 import { BsDropletFill, BsEyedropper } from 'react-icons/bs'
+import { HiBan } from 'react-icons/hi'
 import Button from 'components/button'
 import Typography from 'components/typography'
+import Logo from 'components/logo'
 import { copyToClipboard } from 'utils'
 
 const IconContainer = styled(Box, {
@@ -13,6 +15,35 @@ const IconContainer = styled(Box, {
   '@sm': { mt: '0px', transform: 'none' }
 })
 
+const DropButton = ({ onClick, supported }) => (
+  <>
+    {supported ? (
+      <Button
+        css={{ mt: '-64px', '@sm': { mt: '0px' } }}
+        onClick={onClick}
+      >
+        <BsEyedropper aria-hidden />
+        <Typography noMargin type="button" as="span">
+          Pick color
+        </Typography>
+      </Button>
+    ) : (
+      <Button
+        css={{ mt: '-64px', '@sm': { mt: '0px' } }}
+        as="a"
+        href="https://developer.mozilla.org/en-US/docs/Web/API/EyeDropper#browser_compatibility"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <HiBan aria-hidden />
+        <Typography noMargin type="button" as="span">
+          Browser not supported
+        </Typography>
+        <FiExternalLink aria-label="External link" strokeWidth="2.5px" />
+      </Button>
+    )}
+  </>
+)
 
 const DropperIcon = () => (
   <svg
@@ -41,33 +72,40 @@ const DropperIcon = () => (
   </svg>
 )
 
-const Dropper = ({ colorText }) => {
+const Dropper = ({ colorText, onClick, supported }) => {
   return (
-    <IconContainer>
-      <Box css={{ pl: '100px' }}>
-        <DropperIcon />
-      </Box>
-      <Box css={{ fontSize: '180px', mt: '-28px', pr: '150px' }}>
-        <BsDropletFill />
-      </Box>
-      <Button
-        type="minimal"
-        onClick={copyToClipboard(colorText)}
-        title="Copy to clipboard"
-        aria-label="Copy to HEX color code to clipboard"
-        css={{ mt: '-24px', '@sm': { mt: '0px' } }}
-      >
-        <Typography
-          type="h3"
-          as="div"
-          noMargin
-          css={{ textTransform: 'lowercase' }}
+    <>
+      <IconContainer>
+        <Box css={{ pl: '100px' }}>
+          <DropperIcon />
+        </Box>
+        <Box css={{ fontSize: '180px', mt: '-28px', pr: '150px' }}>
+          <BsDropletFill />
+        </Box>
+        <Button
+          type="minimal"
+          onClick={copyToClipboard(colorText)}
+          title="Copy to clipboard"
+          aria-label="Copy to HEX color code to clipboard"
+          css={{ mt: '-24px', '@sm': { mt: '0px' } }}
         >
-          {colorText}
-        </Typography>
-        <FiCopy />
-      </Button>
-    </IconContainer>
+          <Typography
+            type="h3"
+            as="div"
+            noMargin
+            css={{ textTransform: 'lowercase' }}
+          >
+            {colorText}
+          </Typography>
+          <FiCopy />
+        </Button>
+      </IconContainer>
+      <Logo
+        size={{ '@initial': 'small', '@sm': 'normal' }}
+        css={{ mt: '-8px', '@sm': { mt: '0px' } }}
+      />
+      <DropButton onClick={onClick} supported={supported} />
+    </>
   )
 }
 

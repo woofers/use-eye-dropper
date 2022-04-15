@@ -41,7 +41,6 @@ import { GoMarkGithub, GoLogoGithub } from 'react-icons/go'
 import AnchorHeading from 'components/anchor-heading'
 import TocHeading from 'components/toc-heading'
 
-
 const sections = ['documentation', 'features', 'usage', 'methods']
 const pages = ['', ...sections]
 
@@ -199,40 +198,15 @@ const Home = () => {
             pointerEvents: events
           }}
         >
-          <Dropper colorText={colorText} />
-          <Logo
-            size={{ '@initial': 'small', '@sm': 'normal' }}
-            css={{ mt: '-8px', '@sm': { mt: '0px' } }}
+          <Dropper
+            colorText={colorText}
+            supported={isSupported()}
+            onClick={() =>
+              open()
+                .then(color => setColor(color?.sRGBHex))
+                .catch(() => {})
+            }
           />
-          {isSupported() ? (
-            <Button
-              css={{ mt: '-64px', '@sm': { mt: '0px' } }}
-              onClick={() =>
-                open()
-                  .then(color => setColor(color?.sRGBHex))
-                  .catch(() => {})
-              }
-            >
-              <BsEyedropper aria-hidden />
-              <Typography noMargin type="button" as="span">
-                Pick color
-              </Typography>
-            </Button>
-          ) : (
-            <Button
-              css={{ mt: '-64px', '@sm': { mt: '0px' } }}
-              as="a"
-              href="https://developer.mozilla.org/en-US/docs/Web/API/EyeDropper#browser_compatibility"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <HiBan aria-hidden />
-              <Typography noMargin type="button" as="span">
-                Browser not supported
-              </Typography>
-              <FiExternalLink aria-label="External link" strokeWidth="2.5px" />
-            </Button>
-          )}
         </Flex>
         <Box
           as={motion.div}
