@@ -2,11 +2,7 @@ import { styled } from 'stitches'
 import { Flex } from 'components/box'
 import Typography from 'components/typography'
 import HoverLink from 'components/hover-link'
-import {
-  NpmIcon,
-  YarnIcon,
-  CopyIcon
-} from 'icons'
+import { NpmIcon, YarnIcon, CopyIcon } from 'icons'
 import { copyToClipboard } from 'utils'
 
 const Yarn = styled(YarnIcon, {

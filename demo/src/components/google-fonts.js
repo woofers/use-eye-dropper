@@ -1,10 +1,19 @@
 import React from 'react'
 import Head from 'next/head'
+import { globalCss } from 'stitches'
 
-const GoogleFonts = ({ children, fonts }) => {
-  const href = `https://fonts.googleapis.com/css2?family=${fonts.join(
-    '&family='
-  )}&display=swap`
+const useGlobalStyles = globalCss({
+  '@import': [
+    `url('https://fonts.googleapis.com/css2?family=Red+Hat+Mono&display=swap')`
+  ]
+})
+
+const Global = ({ children }) => {
+  return <>{children}</>
+}
+
+const GoogleFonts = ({ children }) => {
+  useGlobalStyles()
   return (
     <Head>
       <link
@@ -12,7 +21,6 @@ const GoogleFonts = ({ children, fonts }) => {
         href="https://fonts.gstatic.com/"
         crossOrigin="true"
       />
-      <link href={href} rel="stylesheet" />
       {children}
     </Head>
   )

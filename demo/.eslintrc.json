@@ -1,6 +1,3 @@
 {
-  "extends": "next/core-web-vitals",
-  "rules": {
-    "@next/next/no-css-tags": "off"
-  }
+  "extends": "next/core-web-vitals"
 }
