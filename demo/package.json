@@ -29,7 +29,7 @@
     "use-eye-dropper": "../."
   },
   "devDependencies": {
-    "@playwright/test": "1.21.0",
+    "@playwright/test": "1.21.1",
     "@svgr/webpack": "^6.2.1",
     "eslint": "^8.19.0",
     "eslint-config-next": "^12.2.2",
