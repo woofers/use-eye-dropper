@@ -32,10 +32,10 @@ const resolveError = () => {
   return Promise.reject(new Error(error))
 }
 
-const createInstance = options => (isSupported() ? new EyeDropper(options) : {})
+const createInstance = options => (isSupported() && new EyeDropper(options))
 
 const bindFunc = (key, instance) => {
-  if (!isSupported()) return resolveError
+  if (!instance) return resolveError
   return EyeDropper.prototype[key].bind(instance)
 }
 

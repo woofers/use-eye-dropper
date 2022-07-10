@@ -43,6 +43,10 @@
   "peerDependencies": {
     "react": "^0.13.0 || ^0.14.0 || >=15"
   },
+  "browserslist": [
+    "defaults",
+    "not IE 11"
+  ],
   "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.18.6",
