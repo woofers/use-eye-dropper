@@ -15,27 +15,27 @@
     "format": "prettier --write \"{tests,src}/**/*.{js,mjs}\""
   },
   "dependencies": {
-    "@stitches/react": "^1.2.7",
+    "@stitches/react": "^1.2.8",
     "chroma-js": "^2.4.2",
-    "esbuild": "^0.14.36",
-    "framer-motion": "^6.3.0",
+    "esbuild": "^0.14.49",
+    "framer-motion": "^6.4.3",
     "hast-util-to-html": "^8.0.3",
     "lowlight": "^2.6.1",
-    "mdx-bundler": "^9.0.0",
-    "next": "^12.1.5",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "react-icons": "^4.3.1",
+    "mdx-bundler": "^9.0.1",
+    "next": "^12.2.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.4.0",
     "use-eye-dropper": "../."
   },
   "devDependencies": {
-    "@playwright/test": "^1.21.0",
+    "@playwright/test": "1.21.0",
     "@svgr/webpack": "^6.2.1",
-    "eslint": "^8.13.0",
-    "eslint-config-next": "^12.1.5",
-    "eslint-webpack-plugin": "^3.1.1",
+    "eslint": "^8.19.0",
+    "eslint-config-next": "^12.2.2",
+    "eslint-webpack-plugin": "^3.2.0",
     "file-loader": "^6.2.0",
-    "gh-pages": "^3.2.3",
-    "prettier": "^2.6.2"
+    "gh-pages": "^4.0.0",
+    "prettier": "^2.7.1"
   }
 }
