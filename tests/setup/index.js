@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom'
-import { format } from 'util'
+import { TextEncoder, TextDecoder, format } from 'util'
 
 /* Replaces built-in functions */
 const replace = (obj, key, func) => {
@@ -18,3 +18,7 @@ replace(console, 'error', ([message, ...args], error) => {
   const formatted = format(message, ...args)
   throw message instanceof Error ? formatted : new Error(formatted)
 })
+
+/* Set up text encoder/decode for jsdom */
+global.TextEncoder = TextEncoder
+global.TextDecoder = TextDecoder
