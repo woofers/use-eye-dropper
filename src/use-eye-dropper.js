@@ -40,38 +40,31 @@ const bindFunc = (key, instance) => {
 }
 
 const useIsSupported = () => {
-  const [supported, setSupported] = useState()
+  const mounted = useRef()
+  const [data, setData] = useState(false)
   useEffect(() => {
-    setSupported(isSupported())
-  }, [])
-  return useCallback(() => !!supported, [supported])
-}
-
-const useIsMounted = () => {
-  const ref = useRef()
-  useEffect(() => {
-    ref.current = true
+    mounted.current = true
+    setData(isSupported())
     return () => {
-      ref.current = false
+      mounted.current = false
     }
   }, [])
-  return useCallback(() => !!ref?.current, [])
+  const supported = useCallback(() => data, [data])
+  return [mounted, supported]
 }
 
 const createHelpers = options => {
   const dropper = createInstance(options)
   const open = bindFunc('open', dropper)
-  return { open }
+  return open
 }
 
 export const useEyeDropper = options => {
-  const { open: openPicker } = useMemo(() => createHelpers(options), [options])
-  const mounted = useIsMounted()
-  const isSupported = useIsSupported()
+  const openPicker = useMemo(() => createHelpers(options), [options])
+  const [mounted, isSupported] = useIsSupported()
   const controller = useRef()
-  const hasController = () => typeof controller.current !== 'undefined'
   const close = useCallback(() => {
-    if (!hasController()) return
+    if (typeof controller.current === 'undefined') return
     controller.current.abort()
   }, [controller])
   const open = useCallback(
@@ -88,7 +81,7 @@ export const useEyeDropper = options => {
         const results = await openPicker({ ...rest, signal: unionSignal })
         return results
       } catch (e) {
-        if (!mounted()) e.canceled = true
+        if (!mounted.current) e.canceled = true
         throw e
       }
     },
