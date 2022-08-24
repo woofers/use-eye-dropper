@@ -11,7 +11,7 @@ export type ColorSelectionResult = {
 type EyeDropperHooks = {
   close: () => void
   open: (options?: ColorSelectionOptions) => Promise<ColorSelectionResult>
-  isSupported: () => void
+  isSupported: () => boolean
 }
 
 function useEyeDropper(): EyeDropperHooks
