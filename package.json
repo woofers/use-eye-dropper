@@ -1,6 +1,6 @@
 {
   "name": "use-eye-dropper",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Browser color picker hook for React",
   "main": "lib/index.js",
   "module": "lib/index.module.js",
