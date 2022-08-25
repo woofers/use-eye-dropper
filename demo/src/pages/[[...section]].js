@@ -43,10 +43,28 @@ const sections = ['documentation', 'features', 'usage', 'methods']
 const pages = ['', ...sections]
 
 const components = {
+  img: () => null,
   p: ({ children, ...rest }) => {
     if (typeof children !== 'string' && children.type === 'strong') return null
-    const filtered = typeof children === 'string' ? children.replace(/(👀|🩸|🧫)/g, '') : children
-    return <Typography {...rest} type="body1">{filtered}</Typography>
+    const filtered =
+      typeof children === 'string'
+        ? children.replace(/(👀|🩸|🧫)/g, '')
+        : children
+    const single = Children.count(children) === 1
+    if (!single) {
+      const first = children[0]
+      if (typeof first !== 'string' && first.type.name === 'a') {
+        const url = first?.props?.href ?? ''
+        if (url.endsWith('use-eye-dropper/actions')) {
+          return null
+        }
+      }
+    }
+    return (
+      <Typography {...rest} type="body1">
+        {filtered}
+      </Typography>
+    )
   },
   a: props => (
     <HoverLink
