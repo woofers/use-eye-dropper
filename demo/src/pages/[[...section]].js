@@ -35,7 +35,7 @@ import {
 import {
   motion,
   useTransform,
-  useViewportScroll,
+  useScroll,
   useMotionTemplate
 } from 'framer-motion'
 
@@ -152,7 +152,7 @@ const useScrollListItems = () => {
 }
 
 const useScrollValues = () => {
-  const { scrollYProgress } = useViewportScroll()
+  const { scrollYProgress } = useScroll()
   const opacity = useTransform(
     scrollYProgress,
     value => 1 - Math.pow(value, 0.5)
