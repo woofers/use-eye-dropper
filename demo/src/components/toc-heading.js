@@ -8,7 +8,7 @@ const TocHeading = ({ id, children, ...rest }) => (
     as="span"
     css={{ textTransform: 'lowercase', letterSpacing: '-0.5px' }}
   >
-    <Link href={`/${id}`} passHref scroll={false}>
+    <Link href={`/${id}`} passHref scroll={false} legacyBehavior>
       <HoverLink>{children}</HoverLink>
     </Link>
   </Typography>

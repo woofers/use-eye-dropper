@@ -17,25 +17,25 @@
   "dependencies": {
     "@stitches/react": "^1.2.8",
     "chroma-js": "^2.4.2",
-    "esbuild": "^0.15.12",
-    "framer-motion": "^7.6.1",
+    "esbuild": "0.15.12",
+    "framer-motion": "^7.10.2",
     "hast-util-to-html": "^8.0.3",
-    "lowlight": "^2.7.0",
+    "lowlight": "^2.8.0",
     "mdx-bundler": "^9.0.1",
-    "next": "^12.3.1",
+    "next": "^13.0.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-icons": "^4.6.0",
+    "react-icons": "^4.7.1",
     "use-eye-dropper": "../."
   },
   "devDependencies": {
     "@playwright/test": "1.21.1",
-    "@svgr/webpack": "^6.5.0",
-    "eslint": "^8.25.0",
-    "eslint-config-next": "^12.3.1",
+    "@svgr/webpack": "^6.5.1",
+    "eslint": "^8.30.0",
+    "eslint-config-next": "^13.0.7",
     "eslint-webpack-plugin": "^3.2.0",
     "file-loader": "^6.2.0",
     "gh-pages": "^4.0.0",
-    "prettier": "^2.7.1"
+    "prettier": "^2.8.1"
   }
 }

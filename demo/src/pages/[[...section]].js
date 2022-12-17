@@ -244,7 +244,7 @@ const Home = ({ code, frontmatter }) => {
             pointerEvents: events
           }}
         >
-          <Link href="/" passHref scroll={false}>
+          <Link href="/" passHref scroll={false} legacyBehavior>
             <Flex
               css={{
                 pt: '$5',

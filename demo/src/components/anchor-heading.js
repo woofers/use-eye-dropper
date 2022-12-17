@@ -52,7 +52,7 @@ const ClipLink = styled(HoverLink, {
 
 const AnchorHeading = ({ type, as, id, children, ...rest }) => (
   <Typography as={as} type={type}>
-    <Link href={`/${id}`} passHref scroll={false}>
+    <Link href={`/${id}`} passHref scroll={false} legacyBehavior>
       <ClipLink {...rest} id={id}>
         <PaperclipIcon aria-hidden />
         <div>{children}</div>
