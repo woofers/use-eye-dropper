@@ -17,7 +17,7 @@
   "dependencies": {
     "@stitches/react": "^1.2.8",
     "chroma-js": "^2.4.2",
-    "esbuild": "0.15.12",
+    "esbuild": "^0.17.17",
     "framer-motion": "^10.12.4",
     "hast-util-to-html": "^8.0.4",
     "lowlight": "^2.8.1",
