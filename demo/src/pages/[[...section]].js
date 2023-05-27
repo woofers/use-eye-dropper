@@ -312,11 +312,7 @@ const Home = ({ code, frontmatter }) => {
           <Dropper
             colorText={colorText}
             supported={isSupported()}
-            onClick={() =>
-              open()
-                .then(color => setColor(color?.sRGBHex))
-                .catch(() => {})
-            }
+            onClick={pickColor}
           />
         </Flex>
         <Box
