@@ -28,7 +28,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
-    "use-eye-dropper": "^1.4.4"
+    "use-eye-dropper": "../."
   },
   "devDependencies": {
     "@playwright/test": "1.21.1",

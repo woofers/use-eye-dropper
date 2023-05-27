@@ -4,6 +4,7 @@ import useEyeDropper from 'use-eye-dropper'
 import Typography from 'components/typography'
 import { Box, Flex } from 'components/box'
 import Button from 'components/button'
+import Head from 'next/head'
 
 const delay = 100
 
@@ -86,6 +87,9 @@ const Dropper = ({ children, onPick, setStatus, setInternal }) => {
       }
   return (
     <>
+      <Head>
+        <meta name="robots" content="noindex, nofollow" />
+      </Head>
       <Heading>EyeDropper</Heading>
       <Text>
         {isSupported()

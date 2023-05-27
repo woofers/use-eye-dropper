@@ -20,7 +20,7 @@ const test = base.extend({
       const server = await new Promise(resolve => {
         const server = createServer((req, res) => {
           return handler(req, res, { public: 'build' })
-        });
+        })
 
         server.listen(error => {
           if (error) throw error
