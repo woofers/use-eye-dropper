@@ -1,21 +1,6 @@
-import { createServer, Server } from 'http'
-import { parse } from 'url'
+import { createServer } from 'http'
 import { test as base } from '@playwright/test'
-import next from 'next'
-import path from 'path'
-
-// Hide Next.js SWC warning
-const disableWarn = () => {
-  const warn = console.warn
-  const disable = () => {
-    console.warn = () => {}
-  }
-  const enable = () => {
-    console.warn = warn
-  }
-  disable()
-  return enable
-}
+import handler from 'serve-handler'
 
 const getUrl = (url, port) => url.replace('${port}', port)
 
@@ -32,19 +17,10 @@ const test = base.extend({
   ],
   port: [
     async ({}, use) => {
-      const app = next({
-        dev: false,
-        dir: path.resolve(path.dirname(''))
-      })
-      const enable = disableWarn()
-      await app.prepare()
-      enable()
-      const handle = app.getRequestHandler()
       const server = await new Promise(resolve => {
         const server = createServer((req, res) => {
-          const parsedUrl = parse(req.url, true)
-          handle(req, res, parsedUrl)
-        })
+          return handler(req, res, { public: 'build' })
+        });
 
         server.listen(error => {
           if (error) throw error

@@ -43,7 +43,8 @@ module.exports = {
       '/documentation/': { page: '/[[...section]]' },
       '/features/': { page: '/[[...section]]' },
       '/usage/': { page: '/[[...section]]' },
-      '/methods/': { page: '/[[...section]]' }
+      '/methods/': { page: '/[[...section]]' },
+      '/playground/': { page: 'playground' },
     }
   }
 }

@@ -10,7 +10,7 @@ const run = command =>
 
 const build = async () => {
   try {
-    await run('next build')
+    await run('yarn build:test')
   } catch (e) {
     const { stderr } = e
     console.error(stderr)
