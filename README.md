@@ -65,11 +65,37 @@ const App = () => {
           <button onClick={pickColor}>Pick color</button>
         : <span>EyeDropper API not supported in this browser</span>
       }
-      {!!error && <span>{error.message}</span>}
+      {!!error && <div>{error.message}</div>}
     </>
   )
 }
 ```
+
+### Usage with TypeScript
+
+With TypeScript all of the types will be inferred where possible, however if you need to use error
+handling some type-guard functions can be used to narrow down the type of the
+error from the catch block.  Otherwise it will be `unknown`.
+
+Here is one approach to deal
+with this when working with TypeScript and dropper errors:
+
+```ts
+type DropperError = { 
+  message: string
+  canceled?: boolean
+}
+
+const isError = <T, >(err: DropperError | T): err is DropperError => 
+  !!err && err instanceof Error && !!err.message
+
+const isNotCancelled = <T, >(err: DropperError | T): err is DropperError =>
+  isError(err) && !err.canceled
+```
+
+and then `!e.canceled` can be replaced with `isNotCancelled(e)`, the type-guard will enforce a proper type when using `setError`.
+
+This will also work for `isError`.
 
 ## Methods
 
