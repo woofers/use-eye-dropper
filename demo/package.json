@@ -6,8 +6,7 @@
   "scripts": {
     "clean": "rimraf .next out build use-eye-dropper",
     "dev": "NODE_ENV=development node server.js",
-    "build": "next build",
-    "build:test": "yarn clean && next build && mv build use-eye-dropper && mkdir build && mv use-eye-dropper build",
+    "build": "yarn clean && next build && mv build use-eye-dropper && mkdir build && mv use-eye-dropper build",
     "start": "npx serve@latest build",
     "lint": "next lint",
     "test": "playwright test",
