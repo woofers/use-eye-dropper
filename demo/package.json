@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "clean": "rimraf .next out build use-eye-dropper",
-    "dev": "NODE_ENV=development node server.js",
+    "dev": "NODE_ENV=development next dev",
     "build": "yarn clean && next build && mv build use-eye-dropper && mkdir build && mv use-eye-dropper build",
     "start": "npx serve@latest build",
     "lint": "next lint",
@@ -27,7 +27,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
-    "use-eye-dropper": "../."
+    "use-eye-dropper": "^1.4.4"
   },
   "devDependencies": {
     "@playwright/test": "1.21.1",

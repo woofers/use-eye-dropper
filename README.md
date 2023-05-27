@@ -34,7 +34,7 @@ npm install use-eye-dropper
 ## Usage
 
 ```jsx
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import useEyeDropper from 'use-eye-dropper'
 
 const App = () => {
@@ -43,16 +43,21 @@ const App = () => {
   const [error, setError] = useState()
   // useEyeDropper will reject/cleanup the open() promise on unmount,
   // so setState never fires when the component is unmounted.
-  const pickColor = () => {
-    open()
-      .then(color => setColor(color.sRGBHex))
-      .catch(e => {
+  const pickColor = useCallback(() => {
+    // Using async/await (can be used as a promise as-well)
+    const openPicker = async () => {
+      try {
+        const color = await open()
+        setColor(color.sRGBHex)
+      } catch (e) {
         console.log(e)
         // Ensures component is still mounted
         // before calling setState
         if (!e.canceled) setError(e)
-      })
-  }
+      }
+    }
+    openPicker()
+  }, [open])
   return (
     <>
       <div style={{ padding: '64px', background: color }}>Selected color</div>

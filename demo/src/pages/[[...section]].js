@@ -1,4 +1,4 @@
-import { Children, useEffect, useMemo, useState } from 'react'
+import { Children, useEffect, useMemo, useState, useCallback } from 'react'
 import { bundleMDX } from 'mdx-bundler'
 import { getMDXComponent } from 'mdx-bundler/client'
 import Head from 'next/head'
@@ -189,11 +189,11 @@ const Home = ({ code, frontmatter }) => {
     events
   } = useScrollValues()
   const { open, isSupported } = useEyeDropper()
-  const setColor = value => {
+  const setColor = useCallback(value => {
     const color = value.replace('0)', '1)')
     setValue(color)
     setBodyBackground(color)
-  }
+  }, [])
   const colors = scale(color)
   const [backgroundColor, swap] = getBackground(colors)
   const accent = getAccent(colors)
@@ -202,6 +202,17 @@ const Home = ({ code, frontmatter }) => {
   const colorText = toHex(color)
   const apple =
     contrast('#FFF', backgroundColor) > 1.6 ? 'black-translucent' : 'default'
+  const pickColor = useCallback(() => {
+    const openPicker = async () => {
+      try {
+        const color = await open()
+        setColor(color.sRGBHex)
+      } catch (e) {
+        // fall-through
+      }
+    }
+    openPicker()
+  }, [open, setColor])
   return (
     <>
       <Head>
