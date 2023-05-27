@@ -1,7 +1,9 @@
 const ESLintPlugin = require('eslint-webpack-plugin')
 const path = require('path')
 
+/** @type {import('next').NextConfig} */
 module.exports = {
+  output: 'export',
   distDir: 'build',
   swcMinify: true,
   reactStrictMode: true,
