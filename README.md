@@ -92,11 +92,11 @@ type DropperError = {
 const isError = <T, >(err: DropperError | T): err is DropperError => 
   !!err && err instanceof Error && !!err.message
 
-const isNotCancelled = <T, >(err: DropperError | T): err is DropperError =>
+const isNotCanceled = <T, >(err: DropperError | T): err is DropperError =>
   isError(err) && !err.canceled
 ```
 
-and then `!e.canceled` can be replaced with `isNotCancelled(e)`, the type-guard will enforce a proper type when using `setError`.
+and then `!e.canceled` can be replaced with `isNotCanceled(e)`, the type-guard will enforce a proper type when using `setError`.
 
 This will also work for `isError`.
 
