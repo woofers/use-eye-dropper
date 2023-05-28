@@ -6428,12 +6428,7 @@ uri-js@^4.2.2:
     punycode "^2.1.0"
 
 use-eye-dropper@../.:
-  version "1.4.4"
-
-use-eye-dropper@^1.4.4:
-  version "1.4.4"
-  resolved "https://registry.yarnpkg.com/use-eye-dropper/-/use-eye-dropper-1.4.4.tgz#10cffb838f5f99e2c344fe86a6faaa5cd34a3643"
-  integrity sha512-owBbX2F5/Bk8kWFSa3KL6yIvo+u83p0lAaItU+ygX8P7St0xJWQsVInXmyxqEKkL0UiDWaYEiSVfcq+GnS8M5g==
+  version "1.4.5"
 
 uuid@^8.3.2:
   version "8.3.2"
