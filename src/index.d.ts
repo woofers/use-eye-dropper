@@ -18,4 +18,4 @@ type EyeDropperHooks = {
 
 declare function useEyeDropper(): EyeDropperHooks
 
-export = useEyeDropper;
+export = useEyeDropper
