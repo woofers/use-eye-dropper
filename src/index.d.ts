@@ -1,11 +1,13 @@
-import React, { Props, Component, SVGProps } from 'react'
-
-export type ColorSelectionOptions = {
+type ColorSelectionOptions = {
   signal?: AbortSignal
 }
 
-export type ColorSelectionResult = {
+type ColorSelectionResult = {
   sRGBHex: string
+}
+
+declare namespace useEyeDropper {
+  export { ColorSelectionOptions, ColorSelectionResult }
 }
 
 type EyeDropperHooks = {
@@ -14,6 +16,6 @@ type EyeDropperHooks = {
   isSupported: () => boolean
 }
 
-function useEyeDropper(): EyeDropperHooks
+declare function useEyeDropper(): EyeDropperHooks
 
-export default useEyeDropper
+export = useEyeDropper;
