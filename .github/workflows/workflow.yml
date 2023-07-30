@@ -21,12 +21,12 @@ jobs:
     - name: Install + Build
       uses: ./.github/actions/build
     - name: Test
-      run: yarn test
+      run: pnpm test
     - name: Upload Coverage
       uses: actions/upload-artifact@v2
       with:
         name: coverage
-        path: coverage/*
+        path: packages/use-eye-dropper/coverage/*
   test-coverage:
     name: Unit Test Coverage
     needs: test
@@ -42,9 +42,9 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: coverage
-        path: ./coverage
+        path: ./packages/use-eye-dropper/coverage
     - name: Check Test Coverage
-      run: yarn test:coverage
+      run: pnpm test:coverage
   build-demo:
     name: Build Site
     needs: build
@@ -68,7 +68,7 @@ jobs:
       with:
         demo: true
     - name: Test
-      run: yarn --cwd demo test:ci
+      run: pnpm e2e-test:ci
   publish:
     name: Publish
     needs: [test-coverage, test-demo]
@@ -81,7 +81,7 @@ jobs:
         uses: ./.github/actions/build
       - name: Publish
         if: startsWith(github.ref, 'refs/tags/')
-        run: yarn publish --access public
+        run: pnpm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
       - name: Install + Build Demo
@@ -92,5 +92,5 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4.3.0
         with:
           branch: gh-pages
-          folder: demo/build/use-eye-dropper
+          folder: packages/website/use-eye-dropper
           commit-message: Updates

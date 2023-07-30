@@ -1,18 +1,18 @@
 {
   "name": "use-eye-dropper-demo",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "homepage": "http://woofers.github.io/use-eye-dropper",
   "license": "MIT",
   "scripts": {
     "clean": "rimraf .next out build use-eye-dropper",
     "dev": "NODE_ENV=development next dev",
-    "build": "yarn clean && next build && mv build use-eye-dropper && mkdir build && mv use-eye-dropper build",
-    "start": "npx serve@latest build",
+    "build": "pnpm clean && next build && mv build use-eye-dropper && mkdir build && mv use-eye-dropper build",
+    "start": "pnpx serve@latest build",
     "lint": "next lint",
     "test": "playwright test",
-    "test:ci": "xvfb-run --auto-servernum -- yarn test:install",
-    "test:install": "npx playwright install && yarn test:skip",
-    "test:skip": "SKIP_BUILD=true yarn test",
+    "test:ci": "xvfb-run --auto-servernum -- pnpm test:install",
+    "test:install": "pnpm exec playwright install && pnpm test:skip",
+    "test:skip": "SKIP_BUILD=true pnpm test",
     "format": "prettier --write \"{tests,src}/**/*.{js,mjs}\""
   },
   "dependencies": {
@@ -27,7 +27,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.10.1",
-    "use-eye-dropper": "../."
+    "use-eye-dropper": "workspace:*"
   },
   "devDependencies": {
     "@playwright/test": "1.21.1",

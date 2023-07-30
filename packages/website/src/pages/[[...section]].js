@@ -85,6 +85,15 @@ const components = {
       </AnchorHeading>
     )
   },
+  h3: ({ children, ...rest }) => {
+    const id = (typeof children === 'string' ? children.toLowerCase() : '').replace(/\s/g, '-')
+    const props = id ? { id } : {}
+    return (
+      <AnchorHeading {...props} type="h5" as="h4" {...rest}>
+        {children}
+      </AnchorHeading>
+    )
+  },
   ul: List,
   li: ({ children, ...rest }) => {
     const filtered = Children.map(children, item =>
@@ -118,7 +127,7 @@ const components = {
           const matches = reg.exec(className)
           if (matches) {
             const lang = matches[1]
-            if (['yarn', 'npm'].indexOf(lang) >= 0)
+            if (['yarn', 'npm', 'pnpm'].indexOf(lang) >= 0)
               return <InstallBlock type={lang}>{content}</InstallBlock>
             if (lang === 'jsx')
               return <CodeBlock lang={className}>{content}</CodeBlock>
@@ -158,7 +167,7 @@ const useScrollValues = () => {
     value => 1 - Math.pow(value, 0.5)
   )
   const opacityDocs = useTransform(scrollYProgress, value =>
-    Math.max(value * 2, 0)
+    Math.max(value * 2.8, 0)
   )
   const blurValue = useTransform(scrollYProgress, value => value * 2 * 10)
   const blur = useMotionTemplate`blur(${blurValue}px)`
@@ -166,7 +175,7 @@ const useScrollValues = () => {
     Math.max(1 * (1 - value), 0.67)
   )
   const nav = useTransform(scrollYProgress, value => Math.min(value * 500, 300))
-  const translateValue = useTransform(scrollYProgress, value => -200 * value)
+  const translateValue = useTransform(scrollYProgress, value => -250 * value)
   const transform = useMotionTemplate`scale(${scaleValue}px)`
   const events = useTransform(scrollYProgress, value =>
     value === 0 ? 'all' : 'none'
@@ -343,7 +352,7 @@ const Home = ({ code, frontmatter }) => {
 }
 
 const getPaths = () =>
-  pages.map(path => {
+  [...pages, 'usage-with-typescript'].map(path => {
     const section = path ? [path] : []
     return { params: { section } }
   })
@@ -356,7 +365,7 @@ export const getStaticPaths = async () => {
 }
 
 export const getStaticProps = async () => {
-  const { content } = getMarkdownFile('../', 'README')
+  const { content } = getMarkdownFile('../../../use-eye-dropper', 'README')
   const { code, frontmatter } = await bundleMDX({ source: content, files: {} })
   return {
     props: { code, frontmatter }
