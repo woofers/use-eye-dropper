@@ -92,5 +92,5 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4.3.0
         with:
           branch: gh-pages
-          folder: packages/website/use-eye-dropper
+          folder: packages/website/build/use-eye-dropper
           commit-message: Updates
