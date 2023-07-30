@@ -23,7 +23,8 @@
     "build": "yarn build:dev:module && yarn build:dev:umd && yarn build:module && yarn build:umd && yarn build:types",
     "test": "jest",
     "test:coverage": "node coverage.js",
-    "format": "prettier --write \"{src,tests}/**/*.js\""
+    "format": "prettier --write \"{src,tests}/**/*.js\"",
+    "package": "pnpm publish --no-git-checks --access public"
   },
   "repository": "https://github.com/woofers/use-eye-dropper",
   "keywords": [
