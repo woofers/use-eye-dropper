@@ -10,9 +10,9 @@
     "start": "pnpx serve@latest build",
     "lint": "next lint",
     "test": "playwright test",
-    "test:ci": "xvfb-run --auto-servernum -- yarn test:install",
-    "test:install": "pnpx playwright install && pnpm test:skip",
-    "test:skip": "SKIP_BUILD=true yarn test",
+    "test:ci": "xvfb-run --auto-servernum -- pnpm test:install",
+    "test:install": "pnpm exec playwright install && pnpm test:skip",
+    "test:skip": "SKIP_BUILD=true pnpm test",
     "format": "prettier --write \"{tests,src}/**/*.{js,mjs}\""
   },
   "dependencies": {

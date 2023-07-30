@@ -26,7 +26,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: coverage
-        path: coverage/*
+        path: packages/use-eye-dropper/coverage/*
   test-coverage:
     name: Unit Test Coverage
     needs: test
@@ -42,7 +42,7 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: coverage
-        path: ./coverage
+        path: ./packages/use-eye-dropper/coverage
     - name: Check Test Coverage
       run: pnpm test:coverage
   build-demo:
