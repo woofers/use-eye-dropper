@@ -25,6 +25,7 @@ const InstallBlock = ({ type, children }) => {
   return (
     <HoverLink
       as="button"
+      type="button"
       onClick={copyToClipboard(children)}
       css={{
         width: 'max-content',

@@ -45,6 +45,7 @@ module.exports = {
       '/usage/': { page: '/[[...section]]' },
       '/methods/': { page: '/[[...section]]' },
       '/playground/': { page: 'playground' },
+      '/usage-with-typescript/': { page: 'usage-with-typescript' }
     }
   }
 }

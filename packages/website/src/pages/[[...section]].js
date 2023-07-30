@@ -85,6 +85,15 @@ const components = {
       </AnchorHeading>
     )
   },
+  h3: ({ children, ...rest }) => {
+    const id = (typeof children === 'string' ? children.toLowerCase() : '').replace(/\s/g, '-')
+    const props = id ? { id } : {}
+    return (
+      <AnchorHeading {...props} type="h5" as="h4" {...rest}>
+        {children}
+      </AnchorHeading>
+    )
+  },
   ul: List,
   li: ({ children, ...rest }) => {
     const filtered = Children.map(children, item =>
@@ -356,7 +365,7 @@ export const getStaticPaths = async () => {
 }
 
 export const getStaticProps = async () => {
-  const { content } = getMarkdownFile('../', 'README')
+  const { content } = getMarkdownFile('../../../use-eye-dropper', 'README')
   const { code, frontmatter } = await bundleMDX({ source: content, files: {} })
   return {
     props: { code, frontmatter }
