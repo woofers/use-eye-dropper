@@ -2,7 +2,7 @@ import { styled } from 'stitches'
 import { Flex } from 'components/box'
 import Typography from 'components/typography'
 import HoverLink from 'components/hover-link'
-import { NpmIcon, YarnIcon, CopyIcon } from 'icons'
+import { NpmIcon, YarnIcon, PnpmIcon, CopyIcon } from 'icons'
 import { copyToClipboard } from 'utils'
 
 const Yarn = styled(YarnIcon, {
@@ -15,9 +15,15 @@ const Npm = styled(NpmIcon, {
   height: '100%'
 })
 
+const Pnpm = styled(PnpmIcon, {
+  width: '32px',
+  height: '100%'
+})
+
 const Logos = {
   npm: Npm,
-  yarn: Yarn
+  yarn: Yarn,
+  pnpm: Pnpm
 }
 
 const InstallBlock = ({ type, children }) => {
@@ -25,7 +31,6 @@ const InstallBlock = ({ type, children }) => {
   return (
     <HoverLink
       as="button"
-      type="button"
       onClick={copyToClipboard(children)}
       css={{
         width: 'max-content',

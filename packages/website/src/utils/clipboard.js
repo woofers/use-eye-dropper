@@ -3,5 +3,6 @@ const hasClipboard = () =>
 
 export const copyToClipboard = value => () => {
   if (!hasClipboard()) return
-  navigator.clipboard.writeText(value)
+  const trim = value.trim()
+  navigator.clipboard.writeText(trim)
 }

@@ -22,6 +22,12 @@ into an easy-to-use React hook.  This API is currently only available in Chromiu
 
 ## Installation
 
+**pnpm**
+
+```pnpm
+pnpm add use-eye-dropper
+```
+
 **Yarn**
 
 ```yarn

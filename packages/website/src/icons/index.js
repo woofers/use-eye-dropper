@@ -10,3 +10,4 @@ export {
 } from 'react-icons/fi'
 export { HiBan as BanIcon } from 'react-icons/hi'
 export { IoLogoNpm as NpmIcon } from 'react-icons/io'
+export { SiPnpm as PnpmIcon } from 'react-icons/si'
