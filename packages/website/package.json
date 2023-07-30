@@ -6,12 +6,12 @@
   "scripts": {
     "clean": "rimraf .next out build use-eye-dropper",
     "dev": "NODE_ENV=development next dev",
-    "build": "yarn clean && next build && mv build use-eye-dropper && mkdir build && mv use-eye-dropper build",
-    "start": "npx serve@latest build",
+    "build": "pnpm clean && next build && mv build use-eye-dropper && mkdir build && mv use-eye-dropper build",
+    "start": "pnpx serve@latest build",
     "lint": "next lint",
     "test": "playwright test",
     "test:ci": "xvfb-run --auto-servernum -- yarn test:install",
-    "test:install": "npx playwright install && yarn test:skip",
+    "test:install": "pnpx playwright install && pnpm test:skip",
     "test:skip": "SKIP_BUILD=true yarn test",
     "format": "prettier --write \"{tests,src}/**/*.{js,mjs}\""
   },
