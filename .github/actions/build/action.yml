@@ -19,21 +19,13 @@ runs:
         node-version: '18.8.0'
         registry-url: 'https://registry.npmjs.org'
     - name: Install
-      run: yarn install
+      run: pnpm install
       shell: bash
     - name: Build
       if: ${{ inputs.build == 'true' }}
-      run: yarn build
-      shell: bash
-    - name: Install Prod
-      if: ${{ inputs.demo == 'true' }}
-      run: yarn install --prod
-      shell: bash
-    - name: Install Demo
-      if: ${{ inputs.demo == 'true' }}
-      run: yarn --cwd demo install
+      run: pnpm build
       shell: bash
     - name: Build Demo
       if: ${{ inputs.demo == 'true' }}
-      run: yarn --cwd demo build
+      run: pnpm build-site
       shell: bash
