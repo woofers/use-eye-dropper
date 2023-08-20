@@ -29,7 +29,7 @@ const resolveError = () => {
     error =
       'Unsupported browser: no EyeDropper in Window. Check https://developer.mozilla.org/en-US/docs/Web/API/EyeDropper_API.'
   }
-  return Promise.reject(new Error(error))
+  throw new Error(error)
 }
 
 const createInstance = options => isSupported() && new EyeDropper(options)
