@@ -20,7 +20,7 @@
     "build:dev:umd": "microbundle --no-pkg-main --no-sourcemap --no-generateTypes --jsx React.createElement --define __isDev__=true -i src/index.js -o lib/use-eye-dropper.dev.js -f umd",
     "build:types": "cp src/index.d.ts lib/index.d.ts",
     "clean": "rimraf lib/use-eye-dropper.dev.js lib/use-eye-dropper.js lib/use-eye-dropper.module.dev.js lib/use-eye-dropper.module.js lib/index.d.ts coverage && jest --clearCache",
-    "build": "yarn build:dev:module && yarn build:dev:umd && yarn build:module && yarn build:umd && yarn build:types",
+    "build": "pnpm build:dev:module && pnpm build:dev:umd && pnpm build:module && pnpm build:umd && pnpm build:types",
     "test": "jest",
     "test:coverage": "node coverage.js",
     "format": "prettier --write \"{src,tests}/**/*.js\"",

@@ -1,5 +1,4 @@
 import Global from 'components/global'
-import Head from 'next/head'
 import GoogleFonts from 'components/google-fonts'
 import Fonts from 'components/fonts'
 import { ThemeProvider } from 'components/theme-provider'

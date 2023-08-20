@@ -1,0 +1,29 @@
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+deleted file mode 100644
+index 043f5fa8549a967390a947e9a069f884e040f6d0..0000000000000000000000000000000000000000
+diff --git a/dist/cli.js b/dist/cli.js
+index eb2879e54b235bf1a15d37294c9d54bafa9bd44d..c94349b0283d9811c6776ba9e697b9e741e51b5b 100755
+--- a/dist/cli.js
++++ b/dist/cli.js
+@@ -308,11 +308,6 @@ var customBabel = (() => {
+         }, isTruthy(customOptions.defines) && {
+           name: 'babel-plugin-transform-replace-expressions',
+           replace: customOptions.defines
+-        }, !customOptions.modern && !isNodeTarget && {
+-          name: 'babel-plugin-transform-async-to-promises',
+-          inlineHelpers: true,
+-          externalHelpers: false,
+-          minify: true
+         }, !customOptions.modern && !isNodeTarget && {
+           value: [fastRestTransform, {
+             // Use inline [].slice.call(arguments)
+@@ -322,9 +317,6 @@ var customBabel = (() => {
+         }, {
+           name: '@babel/plugin-proposal-class-properties',
+           loose: true
+-        }, !customOptions.modern && !isNodeTarget && {
+-          name: '@babel/plugin-transform-regenerator',
+-          async: false
+         }, {
+           name: 'babel-plugin-macros'
+         }].filter(Boolean));

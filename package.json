@@ -32,5 +32,10 @@
   "devDependencies": {
     "prettier": "^3.0.0",
     "rimraf": "^5.0.1"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "microbundle@0.15.1": "patches/microbundle@0.15.1.patch"
+    }
   }
 }
