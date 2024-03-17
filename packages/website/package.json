@@ -30,7 +30,7 @@
     "use-eye-dropper": "workspace:*"
   },
   "devDependencies": {
-    "@playwright/test": "1.42.1",
+    "@playwright/test": "1.21.1",
     "@svgr/webpack": "^8.1.0",
     "eslint": "^8.57.0",
     "eslint-config-next": "^14.1.3",
