@@ -1,7 +1,7 @@
 
 # useEyeDropper
 
-[![img](https://github.com/woofers/use-eye-dropper/workflows/build/badge.svg)](https://github.com/woofers/use-eye-dropper/actions) [![img](https://badge.fury.io/js/use-eye-dropper.svg)](https://www.npmjs.com/package/use-eye-dropper) [![img](https://img.shields.io/npm/dt/use-eye-dropper.svg)](https://www.npmjs.com/package/use-eye-dropper) [![img](https://badgen.net/bundlephobia/minzip/use-eye-dropper)](https://bundlephobia.com/result?p=use-eye-dropper) [![img](https://img.shields.io/npm/l/use-eye-dropper.svg)](https://github.com/woofers/use-eye-dropper/blob/main/LICENSE)
+[![img](https://github.com/woofers/use-eye-dropper/actions/workflows/workflow.yml/badge.svg)](https://github.com/woofers/use-eye-dropper/actions) [![img](https://badge.fury.io/js/use-eye-dropper.svg)](https://www.npmjs.com/package/use-eye-dropper) [![img](https://img.shields.io/npm/dt/use-eye-dropper.svg)](https://www.npmjs.com/package/use-eye-dropper) [![img](https://badgen.net/bundlephobia/minzip/use-eye-dropper)](https://bundlephobia.com/result?p=use-eye-dropper) [![img](https://img.shields.io/npm/l/use-eye-dropper.svg)](https://github.com/woofers/use-eye-dropper/blob/main/LICENSE)
 
 👀🩸🧫 Browser color picker hook for React.
 
