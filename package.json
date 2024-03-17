@@ -1,6 +1,6 @@
 {
   "name": "use-eye-dropper-root",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "Browser color picker hook for React",
   "scripts": {
     "package": "pnpm -C packages/use-eye-dropper package",
