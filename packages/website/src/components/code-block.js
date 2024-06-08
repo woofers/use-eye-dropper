@@ -1,7 +1,9 @@
-import React, { useState, Children, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { styled } from 'stitches'
-import { lowlight } from 'lowlight'
+import { common, createLowlight } from 'lowlight'
 import { toHtml } from 'hast-util-to-html'
+
+const lowlight = createLowlight(common)
 
 const Element = styled('div', {})
 
