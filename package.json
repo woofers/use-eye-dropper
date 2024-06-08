@@ -30,8 +30,8 @@
   },
   "homepage": "https://jaxs.onl/use-eye-dropper/",
   "devDependencies": {
-    "prettier": "^3.2.5",
-    "rimraf": "^5.0.5"
+    "prettier": "^3.3.1",
+    "rimraf": "^5.0.7"
   },
   "pnpm": {
     "patchedDependencies": {
