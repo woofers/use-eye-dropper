@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState, useCallback, memo } from 'react'
+import { useEffect, useCallback, memo } from 'react'
 import Head from 'next/head'
 import Link from 'components/client-link'
 import { useRouter } from 'next/navigation'
@@ -29,6 +29,7 @@ import {
   useMotionTemplate
 } from 'framer-motion'
 import { sections } from 'utils/sections'
+import useLocalStorage from 'hooks/use-local-storage'
 
 const useBackground = globalCss({
   body: {
@@ -77,14 +78,7 @@ const useScrollValues = () => {
 }
 
 const Home = memo(({ children }) => {
-  useBackground()
-  useEffect(() => {
-    console.log('m')
-    return () => {
-      console.log('unmouint')
-    }
-  }, [])
-  const [color, setValue] = useState('rgb(0, 116, 224)')
+  const [color, setValue] = useLocalStorage('color', 'rgb(0, 116, 224)')
   const {
     opacity,
     opacityDocs,
