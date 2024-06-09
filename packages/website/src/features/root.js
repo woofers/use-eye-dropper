@@ -1,24 +1,15 @@
-import { Children, useEffect, useMemo, useState, useCallback } from 'react'
-import { bundleMDX } from 'mdx-bundler'
-import { getMDXComponent } from 'mdx-bundler/client'
+'use client'
+import { useEffect, useState, useCallback, memo } from 'react'
 import Head from 'next/head'
-import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { styled, globalCss } from 'stitches'
+import { useRouter } from 'next/navigation'
+import { globalCss } from 'stitches'
 import useEyeDropper from 'use-eye-dropper'
-import { Box, Inline, Flex } from 'components/box'
+import { Box, Flex } from 'components/box'
 import Logo from 'components/logo'
-import Typography from 'components/typography'
-import HoverLink from 'components/hover-link'
-import CodeBlock from 'components/code-block'
-import Button from 'components/button'
-import InstallBlock from 'components/install-block'
-import { List, ListItem, InnerList } from 'components/list'
 import Dropper from 'components/dropper'
 import AnchorHeading from 'components/anchor-heading'
 import TocHeading from 'components/toc-heading'
-import { getMarkdownFile } from 'data/local'
 import {
   toTitle,
   alpha,
@@ -29,7 +20,6 @@ import {
   getBackground,
   scrollTo,
   scrollToTop,
-  copyToClipboard,
   setBodyBackground
 } from 'utils'
 import {
@@ -38,106 +28,7 @@ import {
   useScroll,
   useMotionTemplate
 } from 'framer-motion'
-
-const sections = ['documentation', 'features', 'usage', 'methods']
-const pages = ['', ...sections]
-
-const components = {
-  img: () => null,
-  p: ({ children, ...rest }) => {
-    if (typeof children !== 'string' && children.type === 'strong') return null
-    const filtered =
-      typeof children === 'string'
-        ? children.replace(/(👀|🩸|🧫)/g, '')
-        : children
-    const single = Children.count(children) === 1
-    if (!single) {
-      const first = children[0]
-      if (typeof first !== 'string' && first.type.name === 'a') {
-        const url = first?.props?.href ?? ''
-        if (url.endsWith('use-eye-dropper/actions')) {
-          return null
-        }
-      }
-    }
-    return (
-      <Typography {...rest} type="body1">
-        {filtered}
-      </Typography>
-    )
-  },
-  a: props => (
-    <HoverLink
-      {...props}
-      type="primary"
-      target="_blank"
-      rel="noopener noreferrer"
-    />
-  ),
-  h1: props => null,
-  h2: ({ children, ...rest }) => {
-    const id = typeof children === 'string' ? children.toLowerCase() : ''
-    const props = id ? { id } : {}
-    if (id === 'installation') return null
-    return (
-      <AnchorHeading {...props} type="h4" as="h3" {...rest}>
-        {children}
-      </AnchorHeading>
-    )
-  },
-  h3: ({ children, ...rest }) => {
-    const id = (typeof children === 'string' ? children.toLowerCase() : '').replace(/\s/g, '-')
-    const props = id ? { id } : {}
-    return (
-      <AnchorHeading {...props} type="h5" as="h4" {...rest}>
-        {children}
-      </AnchorHeading>
-    )
-  },
-  ul: List,
-  li: ({ children, ...rest }) => {
-    const filtered = Children.map(children, item =>
-      item !== '\n' ? item : null
-    )
-    const single = Children.count(filtered) === 1
-    const first = filtered[0]
-    if (!single && typeof first !== 'string' && first.type.name === 'p') {
-      const text = Children.map(filtered, item => {
-        if (typeof item !== 'string' && item.type.name === 'p')
-          return <>{item.props.children}</>
-        return item
-      })
-      const content = Children.map(text, (item, i) => {
-        if (i <= 0 && typeof item === 'object')
-          return <>{item.props.children}</>
-        return <InnerList>{item}</InnerList>
-      })
-      return <ListItem {...rest}>{content}</ListItem>
-    }
-    return <ListItem {...rest}>{children}</ListItem>
-  },
-  pre: ({ children, ...rest }) => {
-    const single = Children.count(children) === 1
-    if (single) {
-      if (typeof children !== 'string' && children.type === 'code') {
-        const { children: content, ...rest } = children.props
-        if (typeof content === 'string') {
-          const reg = /language-(.*)/
-          const { className } = rest
-          const matches = reg.exec(className)
-          if (matches) {
-            const lang = matches[1]
-            if (['yarn', 'npm', 'pnpm'].indexOf(lang) >= 0)
-              return <InstallBlock type={lang}>{content}</InstallBlock>
-            if (lang === 'jsx')
-              return <CodeBlock lang={className}>{content}</CodeBlock>
-          }
-        }
-      }
-    }
-    return <pre {...rest}>{children}</pre>
-  }
-}
+import { sections } from 'utils/sections'
 
 const useBackground = globalCss({
   body: {
@@ -145,18 +36,20 @@ const useBackground = globalCss({
   }
 })
 
-const useScrollListItems = () => {
+const useScrollListItems = ({ section: path }) => {
   const router = useRouter()
-  const isReady = router.isReady
-  const path = router?.query?.section?.[0]
   useEffect(() => {
-    if (!isReady) return
     if (!path) {
       scrollToTop()
     } else {
       scrollTo(path)
     }
-  }, [path, isReady, router])
+  }, [path, router])
+  return null
+}
+
+export const Scroll = ({ section }) => {
+  useScrollListItems({ section })
   return null
 }
 
@@ -183,10 +76,14 @@ const useScrollValues = () => {
   return { opacity, opacityDocs, blur, scaleValue, nav, translateValue, events }
 }
 
-const Home = ({ code, frontmatter }) => {
-  const Component = useMemo(() => getMDXComponent(code), [code])
+const Home = memo(({ children }) => {
   useBackground()
-  useScrollListItems()
+  useEffect(() => {
+    console.log('m')
+    return () => {
+      console.log('unmouint')
+    }
+  })
   const [color, setValue] = useState('rgb(0, 116, 224)')
   const {
     opacity,
@@ -344,32 +241,12 @@ const Home = ({ code, frontmatter }) => {
           <AnchorHeading id="documentation" type="h3" as="h2">
             Documentation
           </AnchorHeading>
-          <Component components={components} />
+          {children}
         </Box>
       </Box>
     </>
   )
-}
-
-const getPaths = () =>
-  [...pages, 'usage-with-typescript'].map(path => {
-    const section = path ? [path] : []
-    return { params: { section } }
-  })
-
-export const getStaticPaths = async () => {
-  return {
-    paths: getPaths(),
-    fallback: false
-  }
-}
-
-export const getStaticProps = async () => {
-  const { content } = getMarkdownFile('../../../use-eye-dropper', 'README')
-  const { code, frontmatter } = await bundleMDX({ source: content, files: {} })
-  return {
-    props: { code, frontmatter }
-  }
-}
+})
+Home.displayName = 'Home'
 
 export default Home

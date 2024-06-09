@@ -1,5 +1,6 @@
+'use client'
 import React, { useEffect, useRef, useState } from 'react'
-import { styled, globalCss } from 'stitches'
+import { globalCss } from 'stitches'
 import useEyeDropper from 'use-eye-dropper'
 import Typography from 'components/typography'
 import { Box, Flex } from 'components/box'

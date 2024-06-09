@@ -26,15 +26,7 @@ const CodeBlock = ({ children, lang = 'language-jsx', ...rest }) => {
   useEffect(() => {
     setId(true)
   }, [setId])
-  return (
-    <Pre>
-      <Content
-        className={`hljs language-${shortLang}`}
-        as="code"
-        html={toHtml(lowlight.highlight(id ? shortLang : 'c', children))}
-      />
-    </Pre>
-  )
+  return <Pre></Pre>
 }
 
 export default CodeBlock
