@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import Link from 'components/client-link'
 import Typography from 'components/typography'
 import HoverLink from 'components/hover-link'
 
@@ -8,9 +8,9 @@ const TocHeading = ({ id, children, ...rest }) => (
     as="span"
     css={{ textTransform: 'lowercase', letterSpacing: '-0.5px' }}
   >
-    <Link href={`/${id}`} passHref scroll={false} legacyBehavior>
-      <HoverLink>{children}</HoverLink>
-    </Link>
+    <HoverLink href={`/${id}`} passHref scroll={false} shallow as={Link}>
+      {children}
+    </HoverLink>
   </Typography>
 )
 

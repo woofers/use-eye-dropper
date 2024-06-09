@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState, useCallback, memo } from 'react'
 import Head from 'next/head'
-import Link from 'next/link'
+import Link from 'components/client-link'
 import { useRouter } from 'next/navigation'
 import { globalCss } from 'stitches'
 import useEyeDropper from 'use-eye-dropper'
@@ -83,7 +83,7 @@ const Home = memo(({ children }) => {
     return () => {
       console.log('unmouint')
     }
-  })
+  }, [])
   const [color, setValue] = useState('rgb(0, 116, 224)')
   const {
     opacity,
@@ -161,25 +161,28 @@ const Home = memo(({ children }) => {
             pointerEvents: events
           }}
         >
-          <Link href="/" passHref scroll={false} legacyBehavior>
-            <Flex
-              css={{
-                pt: '$5',
-                pb: '$2',
-                px: '$5',
-                textDecoration: 'none',
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                height: 'max-content',
-                pointerEvents: 'all'
-              }}
-              as="a"
-              aria-label="Scroll to top"
-            >
-              <Logo size="small" as="div" />
-            </Flex>
-          </Link>
+          <Flex
+            css={{
+              pt: '$5',
+              pb: '$2',
+              px: '$5',
+              textDecoration: 'none',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              height: 'max-content',
+              pointerEvents: 'all'
+            }}
+            as={Link}
+            aria-label="Scroll to top"
+            href="/"
+            passHref
+            scroll={false}
+            shallow
+          >
+            <Logo size="small" as="div" />
+          </Flex>
+
           <Flex
             direction="column"
             css={{ gap: '$1 0', pt: '$5', pr: '$5', '@sm': { gap: '$2 0' } }}

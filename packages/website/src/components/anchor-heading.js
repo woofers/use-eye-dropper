@@ -1,10 +1,10 @@
 import Typography from 'components/typography'
 import HoverLink from 'components/hover-link'
-import Link from 'next/link'
+import Link from 'components/client-link'
 import { styled } from 'stitches'
 import { PaperclipIcon } from 'icons'
 
-const ClipLink = styled(HoverLink, {
+const ClipLink = styled(props => <HoverLink {...props} as={Link} />, {
   position: 'relative',
   div: {
     display: 'inline-block',
@@ -52,12 +52,10 @@ const ClipLink = styled(HoverLink, {
 
 const AnchorHeading = ({ type, as, id, children, ...rest }) => (
   <Typography as={as} type={type}>
-    <Link href={`/${id}`} passHref scroll={false} legacyBehavior>
-      <ClipLink {...rest} id={id}>
-        <PaperclipIcon aria-hidden />
-        <div>{children}</div>
-      </ClipLink>
-    </Link>
+    <ClipLink {...rest} id={id} href={`/${id}`} passHref scroll={false} shallow>
+      <PaperclipIcon aria-hidden />
+      <div>{children}</div>
+    </ClipLink>
   </Typography>
 )
 
