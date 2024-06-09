@@ -77,6 +77,17 @@ const useScrollValues = () => {
   return { opacity, opacityDocs, blur, scaleValue, nav, translateValue, events }
 }
 
+const Meta = ({ name, content }) => {
+  useEffect(() => {
+    if (typeof document === 'undefined') return
+    const meta = document.querySelector(`meta[name="${name}"]`)
+    if (meta) {
+      meta.setAttribute('content', content)
+    }
+  }, [name, content])
+  return null
+}
+
 const Home = memo(({ children }) => {
   const [color, setValue] = useLocalStorage('color', 'rgb(0, 116, 224)')
   const {
@@ -93,7 +104,7 @@ const Home = memo(({ children }) => {
     const color = value.replace('0)', '1)')
     setValue(color)
     setBodyBackground(color)
-  }, [])
+  }, [setValue])
   const colors = scale(color)
   const [backgroundColor, swap] = getBackground(colors)
   const accent = getAccent(colors)
@@ -115,12 +126,10 @@ const Home = memo(({ children }) => {
   }, [open, setColor])
   return (
     <>
-      <Head>
-        <meta name="theme-color" content={backgroundColor} />
-        <meta name="msapplication-navbutton-color" content={backgroundColor} />
-        <meta name="apple-mobile-web-app-status-bar-style" content={apple} />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-      </Head>
+      <Meta name="theme-color" content={backgroundColor} />
+      <Meta name="msapplication-navbutton-color" content={backgroundColor} />
+      <Meta name="apple-mobile-web-app-status-bar-style" content={apple} />
+      <Meta name="apple-mobile-web-app-capable" content="yes" />
       <Box
         css={{
           color: color,

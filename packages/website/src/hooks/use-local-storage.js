@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 
-const getItem = (key) => {
+const getItem = key => {
   if (typeof document === 'undefined') return undefined
   try {
     const item = window.localStorage.getItem(key)
@@ -18,7 +18,7 @@ const useLocalStorage = (key, initialValue) => {
     const item = getItem(key)
     return typeof item !== 'undefined' ? item : initialValue
   })
-  const setValue = useCallback((value) => {
+  const setValue = useCallback(value => {
     try {
       setStoredValue(value)
       if (typeof document !== 'undefined') {
@@ -27,7 +27,7 @@ const useLocalStorage = (key, initialValue) => {
     } catch (error) {
       // fall-through
     }
-  }, [])
+  }, [key])
   useEffect(() => {
     setMounted(true)
   }, [key])
