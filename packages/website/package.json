@@ -4,9 +4,9 @@
   "homepage": "http://woofers.github.io/use-eye-dropper",
   "license": "MIT",
   "scripts": {
-    "clean": "rimraf .next out build use-eye-dropper",
+    "clean": "rimraf .next out build use-eye-dropper public/chroma.js",
     "dev": "NODE_ENV=development next dev",
-    "build": "pnpm clean && next build && mv build use-eye-dropper && mkdir build && mv use-eye-dropper build",
+    "build": "pnpm clean && cp node_modules/chroma-js/chroma.min.js public/chroma.js && next build && mv build use-eye-dropper && mkdir build && mv use-eye-dropper build",
     "start": "pnpx serve@latest build",
     "lint": "next lint",
     "test": "playwright test",
