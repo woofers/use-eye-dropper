@@ -96,7 +96,7 @@ window.ued = ued
 document.addEventListener('DOMContentLoaded', () => {
   !(function () {
     try {
-      var e, s, f, v, o = document, c = o.cookie, qk = `; ${c}`.split('; color=')
+      var e, s, f, v, o = document, c = o.cookie, k = `; ${c}`.split('; color=')
       if (2 === k.length && (e = k.pop().split(';').shift())) {
         v = JSON.parse(e)
         if (
