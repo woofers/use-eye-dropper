@@ -13,7 +13,7 @@
     "test:ci": "xvfb-run --auto-servernum -- pnpm test:install",
     "test:install": "pnpm exec playwright install && pnpm test:skip",
     "test:skip": "SKIP_BUILD=true pnpm test",
-    "format": "prettier --write \"{tests,src}/**/*.{js,mjs}\""
+    "format": "prettier --write \"{tests,src,public}/**/*.{js,mjs}\""
   },
   "dependencies": {
     "@stitches/react": "^1.2.8",
