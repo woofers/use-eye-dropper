@@ -94,10 +94,13 @@ const Dropper = ({ colorText, onClick, supported }) => {
             type="h3"
             as="div"
             noMargin
-            css={{ textTransform: 'lowercase' }}
-          >
-            {colorText}
-          </Typography>
+            css={{
+              textTransform: 'lowercase',
+              '&::after': { content: 'attr(data-text)' }
+            }}
+            id="ued-color"
+            suppressHydrationWarning
+          ></Typography>
           <CopyIcon />
         </Button>
       </IconContainer>

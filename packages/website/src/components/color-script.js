@@ -1,0 +1,10 @@
+const themeScript =
+  '!function(){try{var e,v,p,o=document,d=o.documentElement,c=o.cookie,k=`; ${c}`.split("; color=");' +
+  'if(2===k.length&&(e=k.pop().split(";").shift())){v=JSON.parse(e);if(typeof v==="string"&&v.length===7&&!isNaN(Number("0x"+v.substring(1)))){' +
+  'window.UED_COLOR=v;' +
+  'document.addEventListener("DOMContentLoaded", function () { document.getElementById("ued-color").setAttribute("data-text", v) });' +
+  '}}}catch(_){}}()'
+
+export const ColorScript = () => (
+  <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+)

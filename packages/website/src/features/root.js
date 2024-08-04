@@ -1,27 +1,20 @@
 'use client'
-import { useEffect, useCallback, memo } from 'react'
-import Head from 'next/head'
+import {
+  useEffect,
+  useCallback,
+  memo,
+  useSyncExternalStore,
+  useMemo
+} from 'react'
 import Link from 'components/client-link'
 import { useRouter } from 'next/navigation'
-import { globalCss } from 'stitches'
 import useEyeDropper from 'use-eye-dropper'
 import { Box, Flex } from 'components/box'
 import Logo from 'components/logo'
 import Dropper from 'components/dropper'
 import AnchorHeading from 'components/anchor-heading'
 import TocHeading from 'components/toc-heading'
-import {
-  toTitle,
-  alpha,
-  toHex,
-  contrast,
-  scale,
-  getAccent,
-  getBackground,
-  scrollTo,
-  scrollToTop,
-  setBodyBackground
-} from 'utils'
+import { toTitle, scrollTo, scrollToTop } from 'utils'
 import {
   motion,
   useTransform,
@@ -29,13 +22,8 @@ import {
   useMotionTemplate
 } from 'framer-motion'
 import { sections } from 'utils/sections'
-import useLocalStorage from 'hooks/use-local-storage'
-
-const useBackground = globalCss({
-  body: {
-    backgroundColor: 'var(--body-background, rgb(0, 116, 224))'
-  }
-})
+import useCookie from 'hooks/use-cookie'
+import chroma from 'chroma-js'
 
 const useScrollListItems = ({ section: path }) => {
   const router = useRouter()
@@ -88,8 +76,22 @@ const Meta = ({ name, content }) => {
   return null
 }
 
+const defaultColor = '#0074e0'
+const subscribe = () => {}
+const getSnapshot = () => {
+  const element = document.body.children?.[0]
+  if (element) {
+    const computed = window.getComputedStyle(element)
+    const color = computed.getPropertyValue('--dropper-color')
+    if (color) return color
+  }
+  return defaultColor
+}
+const getServerSnapshop = () => defaultColor
+
 const Home = memo(({ children }) => {
-  const [color, setValue] = useLocalStorage('color', 'rgb(0, 116, 224)')
+  const color = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshop)
+  const [_, setValue] = useCookie('color', color)
   const {
     opacity,
     opacityDocs,
@@ -100,19 +102,17 @@ const Home = memo(({ children }) => {
     events
   } = useScrollValues()
   const { open, isSupported } = useEyeDropper()
-  const setColor = useCallback(value => {
-    const color = value.replace('0)', '1)')
-    setValue(color)
-    setBodyBackground(color)
-  }, [setValue])
-  const colors = scale(color)
-  const [backgroundColor, swap] = getBackground(colors)
-  const accent = getAccent(colors)
-  const lightText = swap ? color : accent
-  const text = !swap ? color : accent
-  const colorText = toHex(color)
-  const apple =
-    contrast('#FFF', backgroundColor) > 1.6 ? 'black-translucent' : 'default'
+  const setColor = useCallback(
+    value => {
+      const color = value.replace('0)', '1)')
+      setValue(color)
+      if (typeof window !== 'undefined' && window.ued) {
+        window.ued.setPropFromColor(color)
+      }
+    },
+    [setValue]
+  )
+
   const pickColor = useCallback(() => {
     const openPicker = async () => {
       try {
@@ -124,22 +124,26 @@ const Home = memo(({ children }) => {
     }
     openPicker()
   }, [open, setColor])
+  const colorText = chroma(color).hex()
   return (
     <>
-      <Meta name="theme-color" content={backgroundColor} />
-      <Meta name="msapplication-navbutton-color" content={backgroundColor} />
-      <Meta name="apple-mobile-web-app-status-bar-style" content={apple} />
+      <Meta name="theme-color" content="var(--dropper-background)" />
+      <Meta
+        name="msapplication-navbutton-color"
+        content="var(--dropper-background)"
+      />
+      <Meta name="apple-mobile-web-app-status-bar-style" content="default" />
       <Meta name="apple-mobile-web-app-capable" content="yes" />
       <Box
         css={{
-          color: color,
-          $$outline: accent,
-          $$background: backgroundColor,
-          $$background88: alpha(backgroundColor, 0.88),
-          $$background0: alpha(backgroundColor, 0),
+          $$outline: 'var(--dropper-outline)',
+          $$background: 'var(--dropper-background)',
+          $$background88: 'var(--dropper-background88)',
+          $$background0: 'var(--dropper-background0)',
+          $$lightText: 'var(--dropper-lightText)',
+          $$text: 'var(--dropper-text)',
+          color: 'var(--dropper-color)',
           backgroundColor: '$$background',
-          $$lightText: lightText,
-          $$text: text,
           minHeight: '100vh'
         }}
       >

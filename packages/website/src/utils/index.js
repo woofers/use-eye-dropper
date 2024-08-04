@@ -1,6 +1,5 @@
 export { copyToClipboard } from './clipboard'
 export { scrollToTop, scrollTo } from './scroll'
-export { setBodyBackground } from './style'
 export {
   alpha,
   toHex,
