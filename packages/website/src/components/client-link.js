@@ -2,10 +2,12 @@ import Link from 'next/link'
 
 const onClick = () => {
   if (typeof window !== 'undefined') {
-    const button = document.getElementById('ued-color')
-    if (button) {
-      button.setAttribute('data-text', window.UED_COLOR)
-    }
+    setTimeout(() => {
+      const button = document.getElementById('ued-color')
+      if (button) {
+        button.setAttribute('data-text', window.UED_COLOR)
+      }
+    }, 50)
   }
 }
 
