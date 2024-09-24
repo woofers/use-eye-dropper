@@ -17,10 +17,6 @@ import { useState, useCallback, useMemo, useEffect, useRef } from 'react'
 
 // https://github.com/whatwg/fetch/issues/905#issuecomment-491970649
 // AbortController.any polyfill
-/**
- * @param {AbortSignal[]} signals
- * @return {AbortSignal}
- */
 const anySignal = signals => {
   if ('any' in AbortSignal) return AbortSignal.any(signals)
   const controller = new AbortController()
@@ -53,22 +49,14 @@ const resolveError = () => {
   throw new Error(error)
 }
 
-/**
- * @param {EyeDropperProps} options
- */
 const createInstance = options => isSupported() && new EyeDropper(options)
 
-/**
- * @param {string} key
- * @param {EyeDropper} instance
- * @return {(options?: ColorSelectionOptions) => Promise<ColorSelectionResult>}
- */
 const bindFunc = (key, instance) => {
   if (!instance) return resolveError
   return EyeDropper.prototype[key].bind(instance)
 }
 
-/** @return {[React.MutableRefObject<boolean>, () => boolean]} */
+/** @return {[unknown, () => boolean]} */
 const useIsSupported = () => {
   const mounted = useRef()
   const [data, setData] = useState(false)
@@ -83,9 +71,6 @@ const useIsSupported = () => {
   return [mounted, supported]
 }
 
-/**
- * @param {EyeDropperProps} options
- */
 const createHelpers = options => {
   const dropper = createInstance(options)
   const open = bindFunc('open', dropper)
