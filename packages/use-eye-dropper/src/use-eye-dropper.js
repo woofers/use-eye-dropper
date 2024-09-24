@@ -1,7 +1,28 @@
 import { useState, useCallback, useMemo, useEffect, useRef } from 'react'
 
+/**
+ * Options passed to eye dropper hook
+ * @typedef {never} EyeDropperProps
+ */
+
+/**
+ * Options passed to open eye dropper
+ * @typedef {{ signal?: AbortSignal }} ColorSelectionOptions
+ */
+
+/**
+ * Result returned from eye dropper open
+ * @typedef {{ sRGBHex: string }} ColorSelectionResult
+ */
+
 // https://github.com/whatwg/fetch/issues/905#issuecomment-491970649
+// AbortController.any polyfill
+/**
+ * @param {AbortSignal[]} signals
+ * @return {AbortSignal}
+ */
 const anySignal = signals => {
+  if ('any' in AbortSignal) return AbortSignal.any(signals)
   const controller = new AbortController()
   const onAbort = () => {
     controller.abort()
@@ -32,13 +53,22 @@ const resolveError = () => {
   throw new Error(error)
 }
 
+/**
+ * @param {EyeDropperProps} options
+ */
 const createInstance = options => isSupported() && new EyeDropper(options)
 
+/**
+ * @param {string} key
+ * @param {EyeDropper} instance
+ * @return {(options?: ColorSelectionOptions) => Promise<ColorSelectionResult>}
+ */
 const bindFunc = (key, instance) => {
   if (!instance) return resolveError
   return EyeDropper.prototype[key].bind(instance)
 }
 
+/** @return {[React.MutableRefObject<boolean>, () => boolean]} */
 const useIsSupported = () => {
   const mounted = useRef()
   const [data, setData] = useState(false)
@@ -53,20 +83,28 @@ const useIsSupported = () => {
   return [mounted, supported]
 }
 
+/**
+ * @param {EyeDropperProps} options
+ */
 const createHelpers = options => {
   const dropper = createInstance(options)
   const open = bindFunc('open', dropper)
   return open
 }
 
+/**
+ * @param {EyeDropperProps} options
+ */
 export const useEyeDropper = options => {
   const openPicker = useMemo(() => createHelpers(options), [options])
   const [mounted, isSupported] = useIsSupported()
   const controller = useRef()
+  /** @type {() => void} */
   const close = useCallback(() => {
     if (typeof controller.current === 'undefined') return
     controller.current.abort()
   }, [controller])
+  /** @type {(options?: ColorSelectionOptions) => Promise<ColorSelectionResult} */
   const open = useCallback(
     async (options = {}) => {
       close()
