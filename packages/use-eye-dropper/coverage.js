@@ -1,5 +1,6 @@
 const coverage = require('./coverage/coverage-summary.json')
-const chalk = require('chalk')
+const pc = require('picocolors')
+
 
 const prop = key => value => value[key]
 const entries = Object.entries
@@ -17,11 +18,12 @@ pipe(
   filter(([key]) => cats.includes(key)),
   map(([key, value]) => [key, value['pct']]),
   reduce((status, [key, value]) => {
+    pc.green()
     if (value >= FAIL) {
-      console.log(chalk.green('✓') + chalk.dim(` Test coverage for '${key}' is at ${value}%`))
+      console.log(pc.green('✓') + pc.dim(` Test coverage for '${key}' is at ${value}%`))
       return status
     }
-    console.error(chalk.red('✕') + chalk.dim(` Test coverage for '${key}' is only at ${value}% but has goal of ${FAIL}%`))
+    console.error(pc.red('✕') + pc.dim(` Test coverage for '${key}' is only at ${value}% but has goal of ${FAIL}%`))
     return true
   }, false),
   failed => {

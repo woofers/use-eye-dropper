@@ -43,9 +43,6 @@ importers:
       babel-jest:
         specifier: ^29.7.0
         version: 29.7.0(@babel/core@7.26.0)
-      chalk:
-        specifier: ^4.1.2
-        version: 4.1.2
       jest:
         specifier: ^29.7.0
         version: 29.7.0(@types/node@22.8.6)(babel-plugin-macros@3.1.0)
@@ -55,6 +52,9 @@ importers:
       microbundle:
         specifier: ^0.15.1
         version: 0.15.1(patch_hash=ufdqapko4vaxtqiv6rshaozkdm)(@types/babel__core@7.20.5)
+      picocolors:
+        specifier: ^1.1.1
+        version: 1.1.1
       react:
         specifier: ^18.3.1
         version: 18.3.1
