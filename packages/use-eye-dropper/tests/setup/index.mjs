@@ -1,4 +1,4 @@
-import '@testing-library/jest-dom'
+import '@testing-library/jest-dom/vitest'
 import { TextEncoder, TextDecoder, format } from 'util'
 
 /* Replaces built-in functions */
@@ -22,3 +22,4 @@ replace(console, 'error', ([message, ...args], error) => {
 /* Set up text encoder/decode for jsdom */
 global.TextEncoder = TextEncoder
 global.TextDecoder = TextDecoder
+

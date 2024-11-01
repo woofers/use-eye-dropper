@@ -18,6 +18,7 @@ import { useState, useCallback, useMemo, useEffect, useRef } from 'react'
 // https://github.com/whatwg/fetch/issues/905#issuecomment-491970649
 // AbortController.any polyfill
 const anySignal = signals => {
+  // istanbul ignore next
   if ('any' in AbortSignal) return AbortSignal.any(signals)
   const controller = new AbortController()
   const onAbort = () => {

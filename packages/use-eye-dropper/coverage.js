@@ -1,7 +1,6 @@
 const coverage = require('./coverage/coverage-summary.json')
 const pc = require('picocolors')
 
-
 const prop = key => value => value[key]
 const entries = Object.entries
 const filter = func => value => value.filter(func)

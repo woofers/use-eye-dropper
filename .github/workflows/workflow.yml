@@ -23,7 +23,7 @@ jobs:
     - name: Test
       run: pnpm test
     - name: Upload Coverage
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: coverage
         path: packages/use-eye-dropper/coverage/*
@@ -39,7 +39,7 @@ jobs:
       with:
         build: false
     - name: Download Coverage
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v4
       with:
         name: coverage
         path: ./packages/use-eye-dropper/coverage
