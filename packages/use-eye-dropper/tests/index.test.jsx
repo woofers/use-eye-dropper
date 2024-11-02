@@ -12,14 +12,27 @@ import userEvent from '@testing-library/user-event'
 import { EyeDropper } from './mocks'
 import useEyeDropper from '../src'
 
+let setStateMock = vi.fn()
+
 beforeEach(() => {
+  vi.mock('react', async () => {
+    const actual = await vi.importActual('react')
+    return {
+      ...actual,
+      useState: value => {
+        const [state, update] = actual.useState(value)
+        return [state, setStateMock.mockImplementation(value => update(value))]
+      }
+    }
+  })
+
   global.window.EyeDropper = EyeDropper
   global.window.EyeDropper.isOpen = false
 })
 
 afterEach(() => {
   delete global.window.EyeDropper
-  vi.clearAllMocks()
+  vi.restoreAllMocks()
 })
 
 const Button = ({ onPick }) => {
@@ -115,12 +128,10 @@ describe('useEyeDropper', () => {
         expect(screen.getByText('Unsupported browser.')).toBeInTheDocument()
       )
     })
-    it.skip('open() prevents executing setState after unmount', async () => {
-      const setStateMock = vi.fn()
-      const useStateMock = value => [value, setStateMock]
-      const spy = vi.spyOn(React, 'useState').mockImplementation(useStateMock)
+    it('open() prevents executing setState after unmount', async () => {
       const { unmount } = render(<Button onPick={open => open()} />)
-      fireEvent.click(screen.getByText('Open'))
+      const user = userEvent.setup()
+      await user.click(screen.getByText('Open'))
       const removal = waitForElementToBeRemoved(() =>
         screen.queryByText('None')
       )
@@ -129,7 +140,6 @@ describe('useEyeDropper', () => {
       expect(screen.queryByText('EyeDropper')).not.toBeInTheDocument()
       expect(setStateMock).toBeCalledTimes(1)
       expect(setStateMock).toBeCalledWith(true)
-      spy.mockRestore()
     })
   })
   describe('close()', () => {
