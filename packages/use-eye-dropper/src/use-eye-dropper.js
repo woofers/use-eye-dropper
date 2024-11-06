@@ -70,17 +70,15 @@ const useIsSupported = () => {
   return [mounted, supported]
 }
 
-const createHelpers = options => {
-  const dropper = isSupported() && new EyeDropper(options)
-  const open = bindFunc('open', dropper)
-  return open
-}
-
 /**
  * @param {EyeDropperProps} options
  */
 export const useEyeDropper = options => {
-  const openPicker = useMemo(() => createHelpers(options), [options])
+  const openPicker = useMemo(() => {
+    const dropper = isSupported() && new EyeDropper(options)
+    const open = bindFunc('open', dropper)
+    return open
+  }, [options])
   const [mounted, isSupported] = useIsSupported()
   const controller = useRef()
   /** @type {() => void} */
