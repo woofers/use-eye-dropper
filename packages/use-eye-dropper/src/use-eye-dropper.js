@@ -50,8 +50,6 @@ const resolveError = () => {
   throw new Error(error)
 }
 
-const createInstance = options => isSupported() && new EyeDropper(options)
-
 const bindFunc = (key, instance) => {
   if (!instance) return resolveError
   return EyeDropper.prototype[key].bind(instance)
@@ -73,7 +71,7 @@ const useIsSupported = () => {
 }
 
 const createHelpers = options => {
-  const dropper = createInstance(options)
+  const dropper = isSupported() && new EyeDropper(options)
   const open = bindFunc('open', dropper)
   return open
 }
