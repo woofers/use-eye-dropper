@@ -37,7 +37,7 @@ const anySignal = signals => {
   return controller.signal
 }
 
-const isSupported = () =>
+const isDropperSupported = () =>
   typeof window !== 'undefined' && 'EyeDropper' in window
 
 const resolveError = () => {
@@ -61,7 +61,7 @@ const useIsSupported = () => {
   const [data, setData] = useState(false)
   useEffect(() => {
     mounted.current = true
-    setData(isSupported())
+    setData(isDropperSupported())
     return () => {
       mounted.current = false
     }
@@ -75,7 +75,7 @@ const useIsSupported = () => {
  */
 export const useEyeDropper = options => {
   const openPicker = useMemo(() => {
-    const dropper = isSupported() && new EyeDropper(options)
+    const dropper = isDropperSupported() && new EyeDropper(options)
     const open = bindFunc('open', dropper)
     return open
   }, [options])
