@@ -5,7 +5,6 @@ const path = require('path')
 module.exports = {
   output: 'export',
   distDir: 'build',
-  swcMinify: true,
   reactStrictMode: true,
   images: {
     loader: 'imgix',

@@ -22,7 +22,7 @@ const RootLayout = ({ children }) => {
         <script src={`${baseUrl}/chroma.js`}></script>
         <script src={`${baseUrl}/colors.js`}></script>
       </head>
-      <body className="light">
+      <body className="light" suppressHydrationWarning>
         <div
           id="__next"
           style={{

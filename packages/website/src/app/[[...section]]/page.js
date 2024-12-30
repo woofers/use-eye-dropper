@@ -32,14 +32,18 @@ export const metadata = {
       : new URL('http://localhost:3000/use-eye-dropper')
 }
 
-const PageNested = async ({ params }) => {
+/**
+ * @param {{ params: Promise<{ section: string[] }> }} props
+ */
+const PageNested = async (props) => {
+  const { section } = await props.params
   const { code } = await getMdxContent()
   return (
     <>
       <Root>
         <MdxContent code={code} />
       </Root>
-      <Scroll section={params.section?.[0] || ''} />
+      <Scroll section={section?.[0] || ''} />
     </>
   )
 }
