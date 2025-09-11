@@ -80,7 +80,7 @@ const App = () => {
 }
 ```
 
-### Usage with TypeScript
+### With TypeScript
 
 With TypeScript all of the types will be inferred where possible, however if you need to use error
 handling some type-guard functions can be used to narrow down the type of the
