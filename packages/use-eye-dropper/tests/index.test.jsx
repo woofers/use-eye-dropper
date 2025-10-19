@@ -227,4 +227,70 @@ describe('useEyeDropper', () => {
       expect(result.sRGBHex).toBe('rgba(255, 255, 255, 0)')
     })
   })
+  
+  describe('AbortSignal.any polyfill', () => {
+    let originalAbortSignalAny
+    
+    beforeEach(() => {
+      originalAbortSignalAny = AbortSignal.any
+      delete AbortSignal.any
+    })
+    
+    afterEach(() => {
+      if (originalAbortSignalAny) {
+        AbortSignal.any = originalAbortSignalAny
+      }
+    })
+    
+    it('Unmounting the component rejects works with AbortSignal.any polyfill', async () => {
+      let promise
+      const onPick = open => {
+        promise = open()
+        return promise
+      }
+      const { unmount } = render(<Button onPick={onPick} />)
+      fireEvent.click(screen.getByText('Open'))
+      expect(window.EyeDropper.isOpen).toBe(true)
+      unmount()
+      await expect(promise).rejects.toThrow('Color selection aborted.')
+      expect(window.EyeDropper.isOpen).toBe(false)
+    })
+    
+    it('Signal can be passed with AbortSignal.any polyfill', async () => {
+      const controller = new AbortController()
+      
+      render(<Button onPick={open => open({ signal: controller.signal })} />)
+      const user = userEvent.setup()
+      
+      await user.click(screen.getByText('Open'))
+      
+      controller.abort()
+      
+      await waitFor(() =>
+        expect(screen.getByText('Color selection aborted.')).toBeInTheDocument()
+      )
+    })
+    
+    it('Event listeners are cleaned up when signal is aborted', async () => {
+      const controller = new AbortController()
+      
+      const addEventListenerSpy = vi.spyOn(controller.signal, 'addEventListener')
+      const removeEventListenerSpy = vi.spyOn(controller.signal, 'removeEventListener')
+      
+      render(<Button onPick={open => open({ signal: controller.signal })} />)
+      const user = userEvent.setup()
+      await user.click(screen.getByText('Open'))
+      controller.abort()
+      
+      await waitFor(() =>
+        expect(screen.getByText('Color selection aborted.')).toBeInTheDocument()
+      )
+      
+      expect(addEventListenerSpy).toHaveBeenCalled()
+      expect(removeEventListenerSpy).toHaveBeenCalled()
+      
+      addEventListenerSpy.mockRestore()
+      removeEventListenerSpy.mockRestore()
+    })
+  })
 })
