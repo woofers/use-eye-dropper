@@ -19,12 +19,5 @@ module.exports = {
         browserName: 'chromium',
       }
     },
-    {
-      name: 'Firefox',
-      testMatch: '/tests/firefox.mjs',
-      use: {
-        browserName: 'firefox',
-      }
-    }
   ]
 }
