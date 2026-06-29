@@ -30,16 +30,8 @@
   },
   "homepage": "https://jaxs.onl/use-eye-dropper/",
   "devDependencies": {
-    "prettier": "^3.6.2",
-    "rimraf": "^6.0.1"
-  },
-  "pnpm": {
-    "patchedDependencies": {
-      "microbundle@0.15.1": "patches/microbundle@0.15.1.patch"
-    },
-    "onlyBuiltDependencies": [
-      "esbuild",
-      "sharp"
-    ]
+    "prettier": "^3.9.1",
+    "rimraf": "^6.1.3",
+    "typescript": "6.0.3"
   }
 }

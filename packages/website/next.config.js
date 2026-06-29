@@ -1,4 +1,3 @@
-const ESLintPlugin = require('eslint-webpack-plugin')
 const path = require('path')
 
 /** @type {import('next').NextConfig} */
@@ -11,7 +10,6 @@ module.exports = {
     path: 'https://example.com/myaccount/',
   },
   webpack(config, { isServer }) {
-    config.plugins.push(new ESLintPlugin())
     config.module.rules.push({
       test: /\.svg$/,
         use: [

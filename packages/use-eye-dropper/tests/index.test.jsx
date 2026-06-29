@@ -12,20 +12,23 @@ import userEvent from '@testing-library/user-event'
 import { EyeDropper } from './mocks'
 import useEyeDropper from '../src'
 
-let setStateMock = vi.fn()
+const { setStateMock } = vi.hoisted(() => ({
+  setStateMock: vi.fn()
+}))
+
+vi.mock('react', async () => {
+  const actual = await vi.importActual('react')
+  return {
+    ...actual,
+    useState: value => {
+      const [state, update] = actual.useState(value)
+      return [state, setStateMock.mockImplementation(value => update(value))]
+    }
+  }
+})
 
 beforeEach(() => {
-  vi.mock('react', async () => {
-    const actual = await vi.importActual('react')
-    return {
-      ...actual,
-      useState: value => {
-        const [state, update] = actual.useState(value)
-        return [state, setStateMock.mockImplementation(value => update(value))]
-      }
-    }
-  })
-
+  setStateMock.mockClear()
   global.window.EyeDropper = EyeDropper
   global.window.EyeDropper.isOpen = false
 })
