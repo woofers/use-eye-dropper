@@ -22,22 +22,22 @@ const RootLayout = ({ children }) => {
         <script src={`${baseUrl}/chroma.js`}></script>
         <script src={`${baseUrl}/colors.js`}></script>
       </head>
-      <body className="light" suppressHydrationWarning>
-        <div
-          id="__next"
-          style={{
-            '--dropper-color': '#0074e0',
-            '--dropper-outline': '#abbbf2',
-            '--dropper-background': '#003897',
-            '--dropper-background88': '#003897e0',
-            '--dropper-background0': '#00389700',
-            '--dropper-lightText': '#0074e0',
-            '--dropper-text': '#abbbf2',
-            '--dropper-colorText': '#0074e0',
-            '--dropper-apple': 'black-translucent'
-          }}
-          suppressHydrationWarning
-        >
+      <body
+        className="light"
+        style={{
+          '--dropper-color': '#0074e0',
+          '--dropper-outline': '#abbbf2',
+          '--dropper-background': '#003897',
+          '--dropper-background88': '#003897e0',
+          '--dropper-background0': '#00389700',
+          '--dropper-lightText': '#0074e0',
+          '--dropper-text': '#abbbf2',
+          '--dropper-colorText': '#0074e0',
+          '--dropper-apple': 'black-translucent'
+        }}
+        suppressHydrationWarning
+      >
+        <div id="__next">
           <ColorScript />
           <StitchesRegistry>
             <Providers>{children}</Providers>

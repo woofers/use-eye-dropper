@@ -79,7 +79,7 @@ const Meta = ({ name, content }) => {
 const defaultColor = '#0074e0'
 const subscribe = () => {}
 const getSnapshot = () => {
-  const element = document.body.children?.[0]
+  const element = document.body
   if (element) {
     const computed = window.getComputedStyle(element)
     const color = computed.getPropertyValue('--dropper-color')

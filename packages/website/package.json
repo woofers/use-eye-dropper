@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "rimraf .next out build use-eye-dropper public/chroma.js",
     "dev": "NODE_ENV=development next dev",
-    "build": "pnpm clean && cp node_modules/chroma-js/dist/chroma.min.cjs public/chroma.js && next build --webpack && mv build use-eye-dropper && mkdir build && mv use-eye-dropper build",
+    "build": "pnpm clean && cp node_modules/chroma-js/dist/chroma.min.cjs public/chroma.js && next build && mv build use-eye-dropper && mkdir build && mv use-eye-dropper build",
     "start": "pnpx serve@latest build",
     "lint": "eslint .",
     "test": "playwright test",
@@ -31,10 +31,8 @@
   },
   "devDependencies": {
     "@playwright/test": "1.21.1",
-    "@svgr/webpack": "^8.1.0",
     "eslint": "^9.39.4",
     "eslint-config-next": "^16.2.9",
-    "file-loader": "^6.2.0",
     "gh-pages": "^6.3.0",
     "prettier": "^3.9.1",
     "serve": "^14.2.6",

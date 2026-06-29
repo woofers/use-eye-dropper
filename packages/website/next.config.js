@@ -1,5 +1,3 @@
-const path = require('path')
-
 /** @type {import('next').NextConfig} */
 module.exports = {
   output: 'export',
@@ -7,26 +5,7 @@ module.exports = {
   reactStrictMode: true,
   images: {
     loader: 'imgix',
-    path: 'https://example.com/myaccount/',
-  },
-  webpack(config, { isServer }) {
-    config.module.rules.push({
-      test: /\.svg$/,
-        use: [
-          {
-            loader: '@svgr/webpack',
-            options: {
-              svgoConfig: {
-                plugins: {
-                  removeViewBox: false
-                }
-              }
-            }
-          },
-          'file-loader'
-        ],
-    })
-    return config
+    path: 'https://example.com/myaccount/'
   },
   basePath: '/use-eye-dropper',
   assetPrefix: '/use-eye-dropper/',

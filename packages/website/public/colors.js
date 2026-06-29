@@ -69,7 +69,7 @@ const getColorsFromBase = color => {
 
 const setPropFromColor = color => {
   const result = getColorsFromBase(color)
-  const element = document.body.children?.[0]
+  const element = document.body
   if (element) {
     Object.keys(result).forEach(key => {
       element.style.setProperty(`--dropper-${key}`, result[key])

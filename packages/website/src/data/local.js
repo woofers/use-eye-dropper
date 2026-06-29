@@ -1,4 +1,4 @@
-import fs from 'fs-extra'
+import fs from 'fs'
 import { parse, join } from 'path'
 
 const getTypeGlob = type => new RegExp(`.${type}?$`, '')
